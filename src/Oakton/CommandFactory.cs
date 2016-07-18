@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Baseline;
+using Oakton.Help;
+using Oakton.Parsing;
 
 namespace Oakton
 {
@@ -196,7 +198,7 @@ namespace Oakton
                 name = match.Groups["name"].Value;
             }
             
-            type.ForAttribute<CommandDescriptionAttribute>(att => name = att.Name ?? name);
+            type.ForAttribute<DescriptionAttribute>(att => name = att.Name ?? name);
 
             return name.ToLower();
         }
@@ -204,7 +206,7 @@ namespace Oakton
         public static string DescriptionFor(Type type)
         {
             var description = type.FullName;
-            type.ForAttribute<CommandDescriptionAttribute>(att => description = att.Description);
+            type.ForAttribute<DescriptionAttribute>(att => description = att.Description);
 
             return description;
         }

@@ -13,5 +13,7 @@ namespace Oakton
         {
             Description = description;
         }
+
+        public string Name { get; set; }
     }
 }

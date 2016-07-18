@@ -1,9 +1,9 @@
-﻿using Baseline;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using Baseline;
 using Baseline.Reflection;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public abstract class TokenHandlerBase : ITokenHandler
     {

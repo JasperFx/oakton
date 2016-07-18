@@ -1,7 +1,7 @@
-using Baseline;
 using System.Collections.Generic;
+using Baseline;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public static class StringTokenizer
     {

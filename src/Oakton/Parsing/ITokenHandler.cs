@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public interface ITokenHandler
     {

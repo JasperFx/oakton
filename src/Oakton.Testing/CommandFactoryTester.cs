@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Oakton.Help;
 using Shouldly;
 using Xunit;
 
@@ -234,7 +235,7 @@ namespace Oakton.Testing
 
     }
 
-    [CommandDescription("something")]
+    [Description("something")]
     public class My2Command : OaktonCommand<MyCommandInput>
     {
         public override bool Execute(MyCommandInput input)
@@ -243,7 +244,7 @@ namespace Oakton.Testing
         }
     }
 
-    [CommandDescription("this", Name = "this")]
+    [Description("this", Name = "this")]
     public class DecoratedCommand : OaktonCommand<MyCommandInput>
     {
         public override bool Execute(MyCommandInput input)

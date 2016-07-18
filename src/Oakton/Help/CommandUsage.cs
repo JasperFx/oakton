@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Baseline;
+using Oakton.Parsing;
+using Oakton.Reporting;
 
-namespace Oakton
+namespace Oakton.Help
 {
     public class CommandUsage
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Oakton.Help;
 using Shouldly;
 using Xunit;
 
@@ -96,7 +97,7 @@ namespace Oakton.Testing
         {
             var graph = new UsageGraph(typeof (SimpleCommand));
             var usage = graph.Usages.Single();
-            usage.Description.ShouldBe(typeof (SimpleCommand).GetAttribute<CommandDescriptionAttribute>().Description);
+            usage.Description.ShouldBe(typeof (SimpleCommand).GetAttribute<DescriptionAttribute>().Description);
             usage.Arguments.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("Arg1", "Arg2");
         }
     }
@@ -121,7 +122,7 @@ namespace Oakton.Testing
         public IEnumerable<string> HerpDerpFlag { get; set; }
     }
 
-    [CommandDescription("does complex thing")]
+    [Description("does complex thing")]
     public class ComplexCommand : OaktonCommand<ComplexInput>
     {
         public override bool Execute(ComplexInput input)
@@ -187,7 +188,7 @@ namespace Oakton.Testing
         public string[] Stuff { get; set; }
     }
 
-    [CommandDescription("Manage links", Name = "List the links")]
+    [Description("Manage links", Name = "List the links")]
     public class FakeLinkCommand : OaktonCommand<FakeLinkInput>
     {
         public FakeLinkCommand()
@@ -211,7 +212,7 @@ namespace Oakton.Testing
    
 
 
-    [CommandDescription("does simple thing")]
+    [Description("does simple thing")]
     public class SimpleCommand : OaktonCommand<SimpleInput>
     {
         public override bool Execute(SimpleInput input)

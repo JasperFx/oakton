@@ -7,7 +7,7 @@ using Baseline;
 using Baseline.Conversion;
 using Baseline.Reflection;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public static class InputParser
     {

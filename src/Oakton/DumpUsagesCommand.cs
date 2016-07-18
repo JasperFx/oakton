@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Baseline;
+using Oakton.Reporting;
 
 namespace Oakton
 {

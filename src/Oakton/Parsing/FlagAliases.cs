@@ -1,4 +1,4 @@
-﻿namespace Oakton
+﻿namespace Oakton.Parsing
 {
     public class FlagAliases
     {

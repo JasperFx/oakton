@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public class BooleanFlag : TokenHandlerBase
     {

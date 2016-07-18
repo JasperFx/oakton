@@ -4,7 +4,7 @@ using System.Reflection;
 using Baseline;
 using Baseline.Conversion;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public class Flag : TokenHandlerBase
     {

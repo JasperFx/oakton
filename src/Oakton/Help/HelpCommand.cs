@@ -2,9 +2,9 @@
 using System.Linq;
 using Baseline;
 
-namespace Oakton
+namespace Oakton.Help
 {
-    [CommandDescription("list all the available commands", Name = "help")]
+    [Description("list all the available commands", Name = "help")]
     public class HelpCommand : OaktonCommand<HelpInput>
     {
         public HelpCommand()

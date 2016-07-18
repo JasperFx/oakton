@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Baseline;
+using Oakton.Reporting;
 using Shouldly;
 using Xunit;
 
@@ -122,7 +123,7 @@ namespace Oakton.Testing
         public bool GreenFlag { get; set; }
     }
 
-    [CommandDescription("The crazy command", Name = "crazy")]
+    [Description("The crazy command", Name = "crazy")]
     public class CrazyCommand : OaktonCommand<CrazyInput>
     {
         public CrazyCommand()
@@ -138,7 +139,7 @@ namespace Oakton.Testing
         }
     }
 
-    [CommandDescription("The simple one")]
+    [Description("The simple one")]
     public class SingleCommand : OaktonCommand<CrazyInput>
     {
         public override bool Execute(CrazyInput input)

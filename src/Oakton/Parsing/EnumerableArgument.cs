@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +5,7 @@ using System.Reflection;
 using Baseline;
 using Baseline.Conversion;
 
-namespace Oakton
+namespace Oakton.Parsing
 {
     public class EnumerableArgument : Argument
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Oakton
+namespace Oakton.Help
 {
     public class HelpInput
     {

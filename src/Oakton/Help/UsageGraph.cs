@@ -1,12 +1,14 @@
-﻿using Baseline;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Baseline;
 using Baseline.Reflection;
+using Oakton.Parsing;
+using Oakton.Reporting;
 
-namespace Oakton
+namespace Oakton.Help
 {
     public class UsageGraph
     {
@@ -24,7 +26,7 @@ namespace Oakton
             _inputType = commandType.FindInterfaceThatCloses(typeof (IOaktonCommand<>)).GetTypeInfo().GetGenericArguments().First();
 
             _commandName = CommandFactory.CommandNameFor(commandType);
-            _commandType.ForAttribute<CommandDescriptionAttribute>(att => { _description = att.Description; });
+            _commandType.ForAttribute<DescriptionAttribute>(att => { _description = att.Description; });
 
             if (_description == null) _description = _commandType.Name;
 

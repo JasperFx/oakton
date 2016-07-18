@@ -2,24 +2,8 @@
 using System.Linq;
 using Baseline;
 
-namespace Oakton
+namespace Oakton.Reporting
 {
-    public class CommandLineApplicationReport
-    {
-        private readonly IList<CommandReport> _commands = new List<CommandReport>();
-
-        public string ApplicationName { get; set; }
-        public CommandReport[] Commands
-        {
-            get { return _commands.ToArray(); }
-            set
-            {
-                _commands.Clear();
-                _commands.AddRange(value);
-            }
-        }
-    }
-
     public class CommandReport
     {
         public string Name { get; set; }
@@ -59,33 +43,5 @@ namespace Oakton
                 _usages.AddRange(value);
             }
         }
-    }
-
-    public class UsageReport
-    {
-        public string Description { get; set; }
-        public string Usage { get; set; }
-    }
-
-    public class ArgumentReport
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class FlagReport
-    {
-        public FlagReport()
-        {
-        }
-
-        public FlagReport(ITokenHandler token)
-        {
-            UsageDescription = token.ToUsageDescription();
-            Description = token.Description;
-        }
-
-        public string UsageDescription { get; set; }
-        public string Description { get; set; }
     }
 }

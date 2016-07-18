@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using Baseline;
 using Baseline.Reflection;
 
-namespace Oakton
+namespace Oakton.Help
 {
     public class TwoLineReport
     {
