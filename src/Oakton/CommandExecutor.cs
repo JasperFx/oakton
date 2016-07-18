@@ -43,10 +43,7 @@ namespace Oakton
             
         }
 
-        public ICommandFactory Factory
-        {
-            get { return _factory; }
-        }
+        public ICommandFactory Factory => _factory;
 
         public bool Execute(string commandLine)
         {

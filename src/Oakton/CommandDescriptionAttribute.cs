@@ -5,17 +5,12 @@ namespace Oakton
     [AttributeUsage(AttributeTargets.Class)]
     public class CommandDescriptionAttribute : Attribute
     {
-        private readonly string _description;
-
         public CommandDescriptionAttribute(string description)
         {
-            _description = description;
+            Description = description;
         }
 
-        public string Description
-        {
-            get { return _description; }
-        }
+        public string Description { get; }
 
         public string Name { get; set; }
     }

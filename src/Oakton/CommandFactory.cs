@@ -50,12 +50,9 @@ namespace Oakton
                 return HelpRun(queue);
             }
 
-            if (_commandTypes.Has(commandName))
-            {
-                return buildRun(queue, commandName);
-            }
-
-            return InvalidCommandRun(commandName);
+            return _commandTypes.Has(commandName) 
+                ? buildRun(queue, commandName) 
+                : InvalidCommandRun(commandName);
         }
 
 

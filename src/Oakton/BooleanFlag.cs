@@ -14,15 +14,11 @@ namespace Oakton
 
         public override bool Handle(object input, Queue<string> tokens)
         {
-            if (tokens.NextIsFlagFor(_property))
-            {
-                tokens.Dequeue();
-                _property.SetValue(input, true, null);
+            if (!tokens.NextIsFlagFor(_property)) return false;
+            tokens.Dequeue();
+            _property.SetValue(input, true, null);
 
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         public override string ToUsageDescription()

@@ -52,11 +52,7 @@ namespace Oakton
                 return new BooleanFlag(property);
             }
             
-                //if for enumerable too
-
-                //else
-                return new Flag(property, _converter);
-                
+            return new Flag(property, _converter);
         }
 
         public static bool IsFlag(string token)

@@ -81,23 +81,12 @@ namespace Oakton
             return _validUsages.Value.Any(x => x.IsValidUsage(handlers));       
         }
 
-        public IEnumerable<ITokenHandler> Handlers
-        {
-            get { return _handlers; }
-        }
+        public IEnumerable<ITokenHandler> Handlers => _handlers;
 
-        public string CommandName
-        {
-            get { return _commandName; }
-        }
+        public string CommandName => _commandName;
 
-        public IEnumerable<Argument> Arguments
-        {
-            get
-            {
-                return _handlers.OfType<Argument>();
-            }
-        }
+        public IEnumerable<Argument> Arguments => _handlers.OfType<Argument>();
+
         public IEnumerable<ITokenHandler> Flags
         {
             get
@@ -106,15 +95,9 @@ namespace Oakton
             }
         }
 
-        public IEnumerable<CommandUsage> Usages
-        {
-            get { return _validUsages.Value; }
-        }
+        public IEnumerable<CommandUsage> Usages => _validUsages.Value;
 
-        public string Description
-        {
-            get { return _description; }
-        }
+        public string Description => _description;
 
         public void WriteUsages(string appName)
         {

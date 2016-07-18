@@ -25,7 +25,7 @@ namespace Oakton
             }
         }
 
-        public string PropertyName { get { return _property.Name; } }
+        public string PropertyName => _property.Name;
 
         public abstract bool Handle(object input, Queue<string> tokens);
         public abstract string ToUsageDescription();

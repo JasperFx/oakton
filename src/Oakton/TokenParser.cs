@@ -23,13 +23,7 @@ namespace Oakton
             _characters.Add(c);
         }
 
-        public IEnumerable<string> Tokens
-        {
-            get
-            {
-                return _tokens;
-            }
-        }
+        public IEnumerable<string> Tokens => _tokens;
 
         private void startToken(IMode mode)
         {
