@@ -12,22 +12,21 @@ namespace Oakton
         private readonly PropertyInfo _property;
 
         public EnumerableFlag(PropertyInfo property, Conversions conversions)
-            : base(property, conversions)
+            : base(property, property.PropertyType.DeriveElementType(), conversions)
         {
             _property = property;
         }
 
         public override bool Handle(object input, Queue<string> tokens)
         {
-            var elementType = _property.PropertyType.GetGenericArguments().First();
+            var elementType = _property.PropertyType.DeriveElementType();
             var list = typeof(List<>).CloseAndBuildAs<IList>(elementType);
 
             var wasHandled = false;
 
-            var flag = "";
             if (tokens.NextIsFlagFor(_property))
             {
-                flag = tokens.Dequeue();
+                var flag = tokens.Dequeue();
                 while (tokens.Count > 0 && !tokens.NextIsFlag())
                 {
                     var value = Converter(tokens.Dequeue());
@@ -41,6 +40,7 @@ namespace Oakton
                     throw new InvalidUsageException("No values specified for flag {0}.".ToFormat(flag));
                 }
 
+                // TODO -- make this one a little smarter
                 _property.SetValue(input, list, null);
             }
 

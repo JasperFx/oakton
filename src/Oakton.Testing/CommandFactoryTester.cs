@@ -205,25 +205,7 @@ namespace Oakton.Testing
             input.ThirdFlag.ShouldBeTrue();
         }
 
-        [Fact]
-        public void build_command_with_a_replacement_commandcreator()
-        {
-            throw new NotImplementedException("Redo.");
-            /*
-            var creator = MockRepository.GenerateMock<ICommandCreator>();
-            creator.Stub(c => c.Create(typeof (MyCommand)))
-                .Repeat.Once()
-                .Return(new MyCommand());
 
-            var factory = new CommandFactory(creator);
-            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
-
-            var cmd = factory.Build("my");
-
-            creator.VerifyAllExpectations();
-            cmd.ShouldBeOfType<MyCommand>();
-            */
-        }
     }
 
     public class RebuildAuthorizationCommand : OaktonCommand<MyCommandInput>
