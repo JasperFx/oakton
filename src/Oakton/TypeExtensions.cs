@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Baseline.Reflection;
 
@@ -20,6 +21,11 @@ namespace Oakton
         public static T GetAttribute<T>(this Type type) where T : Attribute
         {
             return type.GetTypeInfo().GetAttribute<T>();
+        }
+
+        public static Type DeriveElementType(this Type type)
+        {
+            return type.GetElementType() ?? type.GetGenericArguments().FirstOrDefault();
         }
     }
 }

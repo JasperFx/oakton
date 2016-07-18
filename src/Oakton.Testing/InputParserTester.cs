@@ -10,7 +10,7 @@ namespace Oakton.Testing
     
     public class InputParserTester
     {
-        private InputModel theInput = new InputModel();
+        private readonly InputModel theInput = new InputModel();
 
 
         private ITokenHandler handlerFor(Expression<Func<InputModel, object>> expression)

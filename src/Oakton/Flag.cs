@@ -44,11 +44,11 @@ namespace Oakton
             if (_property.PropertyType.GetTypeInfo().IsEnum)
             {
                 var enumValues = Enum.GetNames(_property.PropertyType).Join("|");
-                return "[{0} {1}]".ToFormat(flagAliases, enumValues);
+                return "$[{flagAliases} {enumValues}]";
             }
 
             
-            return "[{0} <{1}>]".ToFormat(flagAliases, _property.Name.ToLower().TrimEnd('f', 'l','a','g'));
+            return $"[{flagAliases} <{_property.Name.ToLower().TrimEnd('f', 'l','a','g')}>]";
         }
     }
 }

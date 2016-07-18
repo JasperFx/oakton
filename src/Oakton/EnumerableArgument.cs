@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace Oakton
         public EnumerableArgument(PropertyInfo property, Conversions conversions) : base(property, conversions)
         {
             _property = property;
-            _converter = conversions.FindConverter(property.PropertyType.GetElementType());
+
+            _converter = conversions.FindConverter(property.PropertyType.DeriveElementType());
         }
 
         public override bool Handle(object input, Queue<string> tokens)

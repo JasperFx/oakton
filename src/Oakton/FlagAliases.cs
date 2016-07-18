@@ -19,7 +19,7 @@
 
         public override string ToString()
         {
-            return "{ShortForm}, {LongForm}";
+            return $"{ShortForm}, {LongForm}";
         }
     }
 }
