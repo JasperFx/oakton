@@ -10,7 +10,7 @@ namespace Oakton.Parsing
             return InputParser.IsFlag(queue.Peek());
         }
 
-        public static bool NextIsFlagFor(this Queue<string> queue, PropertyInfo property)
+        public static bool NextIsFlagFor(this Queue<string> queue, MemberInfo property)
         {
             return InputParser.IsFlagFor(queue.Peek(), property);
         }

@@ -8,22 +8,22 @@ namespace Oakton.Parsing
 {
     public class EnumerableFlag : Flag
     {
-        private readonly PropertyInfo _property;
+        private readonly MemberInfo _member;
 
-        public EnumerableFlag(PropertyInfo property, Conversions conversions)
-            : base(property, property.PropertyType.DeriveElementType(), conversions)
+        public EnumerableFlag(MemberInfo member, Conversions conversions)
+            : base(member, member.GetMemberType().DeriveElementType(), conversions)
         {
-            _property = property;
+            _member = member;
         }
 
         public override bool Handle(object input, Queue<string> tokens)
         {
-            var elementType = _property.PropertyType.DeriveElementType();
+            var elementType = _member.GetMemberType().DeriveElementType();
             var list = typeof(List<>).CloseAndBuildAs<IList>(elementType);
 
             var wasHandled = false;
 
-            if (tokens.NextIsFlagFor(_property))
+            if (tokens.NextIsFlagFor(_member))
             {
                 var flag = tokens.Dequeue();
                 while (tokens.Count > 0 && !tokens.NextIsFlag())
@@ -47,9 +47,9 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            var flagAliases = InputParser.ToFlagAliases(_property);
+            var flagAliases = InputParser.ToFlagAliases(_member);
 
-            return "[{0} [<{1}1 {1}2 {1}3 ...>]]".ToFormat(flagAliases, _property.Name.ToLower().TrimEnd('f', 'l', 'a', 'g'));
+            return "[{0} [<{1}1 {1}2 {1}3 ...>]]".ToFormat(flagAliases, _member.Name.ToLower().TrimEnd('f', 'l', 'a', 'g'));
             
         }
     }

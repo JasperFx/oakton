@@ -35,37 +35,37 @@ namespace Oakton.Testing
         [Fact]
         public void has_the_arguments()
         {
-            theUsageGraph.Arguments.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("AppFolder", "PackageFolder", "Stuff");
+            theUsageGraph.Arguments.Select(x => x.MemberName).ShouldHaveTheSameElementsAs("AppFolder", "PackageFolder", "Stuff");
         }
 
         [Fact]
         public void has_the_flags()
         {
-            theUsageGraph.Flags.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("RemoveFlag", "CleanAllFlag", "CleanFlag", "NotepadFlag");
+            theUsageGraph.Flags.Select(x => x.MemberName).ShouldHaveTheSameElementsAs("RemoveFlag", "CleanAllFlag", "CleanFlag", "NotepadFlag");
         }
 
         [Fact]
         public void first_usage_has_all_the_right_mandatories()
         {
-            theUsageGraph.FindUsage("Link an application folder to a package folder").Arguments.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("AppFolder", "PackageFolder");
+            theUsageGraph.FindUsage("Link an application folder to a package folder").Arguments.Select(x => x.MemberName).ShouldHaveTheSameElementsAs("AppFolder", "PackageFolder");
         }
 
         [Fact]
         public void first_usage_has_all_the_right_flags()
         {
-            theUsageGraph.FindUsage("Link an application folder to a package folder").ValidFlags.Select(x => x.PropertyName).OrderBy(x => x).ShouldHaveTheSameElementsAs("CleanAllFlag", "CleanFlag", "RemoveFlag");
+            theUsageGraph.FindUsage("Link an application folder to a package folder").ValidFlags.Select(x => x.MemberName).OrderBy(x => x).ShouldHaveTheSameElementsAs("CleanAllFlag", "CleanFlag", "RemoveFlag");
         }
 
         [Fact]
         public void second_usage_has_all_the_right_mandatories()
         {
-            theUsageGraph.FindUsage("List the links").Arguments.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("AppFolder");
+            theUsageGraph.FindUsage("List the links").Arguments.Select(x => x.MemberName).ShouldHaveTheSameElementsAs("AppFolder");
         }
 
         [Fact]
         public void second_usage_has_all_the_right_flags()
         {
-            theUsageGraph.FindUsage("List the links").ValidFlags.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("RemoveFlag", "CleanAllFlag", "CleanFlag", "NotepadFlag");
+            theUsageGraph.FindUsage("List the links").ValidFlags.Select(x => x.MemberName).ShouldHaveTheSameElementsAs("RemoveFlag", "CleanAllFlag", "CleanFlag", "NotepadFlag");
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace Oakton.Testing
             var graph = new UsageGraph(typeof (SimpleCommand));
             var usage = graph.Usages.Single();
             usage.Description.ShouldBe(typeof (SimpleCommand).GetAttribute<DescriptionAttribute>().Description);
-            usage.Arguments.Select(x => x.PropertyName).ShouldHaveTheSameElementsAs("Arg1", "Arg2");
+            usage.Arguments.Select(x => x.MemberName).ShouldHaveTheSameElementsAs("Arg1", "Arg2");
         }
     }
 
@@ -140,7 +140,7 @@ namespace Oakton.Testing
 
         private bool isValidUsage(params string[] args)
         {
-            var handlers = theUsageGraph.Handlers.Where(x => args.Contains(x.PropertyName));
+            var handlers = theUsageGraph.Handlers.Where(x => args.Contains(x.MemberName));
             return theUsageGraph.IsValidUsage(handlers);
         }
 

@@ -29,30 +29,32 @@ namespace Oakton.Parsing
                 .Select(BuildHandler).ToList();
         }
 
-        public static ITokenHandler BuildHandler(PropertyInfo property)
+        public static ITokenHandler BuildHandler(MemberInfo member)
         {
-            if (!property.Name.EndsWith(FLAG_SUFFIX))
+            var memberType = member.GetMemberType();
+
+            if (!member.Name.EndsWith(FLAG_SUFFIX))
             {
-                if (property.PropertyType != typeof (string) && property.PropertyType.Closes(typeof (IEnumerable<>)))
+                if (memberType != typeof (string) && memberType.Closes(typeof (IEnumerable<>)))
                 {
-                    return new EnumerableArgument(property, _converter);
+                    return new EnumerableArgument(member, _converter);
                 }
 
-                return new Argument(property, _converter);
+                return new Argument(member, _converter);
             }
 
 
-            if (property.PropertyType != typeof(string) && property.PropertyType.Closes(typeof(IEnumerable<>)))
+            if (memberType != typeof(string) && memberType.Closes(typeof(IEnumerable<>)))
             {
-                return new EnumerableFlag(property, _converter);
+                return new EnumerableFlag(member, _converter);
             }
 
-            if (property.PropertyType == typeof(bool))
+            if (memberType == typeof(bool))
             {
-                return new BooleanFlag(property);
+                return new BooleanFlag(member);
             }
             
-            return new Flag(property, _converter);
+            return new Flag(member, _converter);
         }
 
         public static bool IsFlag(string token)
@@ -70,28 +72,29 @@ namespace Oakton.Parsing
             return LONG_FLAG_REGEX.IsMatch(token);
         }
 
-        public static bool IsFlagFor(string token, PropertyInfo property)
+        public static bool IsFlagFor(string token, MemberInfo property)
         {
             return ToFlagAliases(property).Matches(token);
         }
 
-        public static FlagAliases ToFlagAliases(PropertyInfo property)
+        public static FlagAliases ToFlagAliases(MemberInfo member)
         {
-            var name = property.Name;
+            var name = member.Name;
             if (name.EndsWith("Flag"))
             {
-                name = name.Substring(0, property.Name.Length - 4);
+                name = name.Substring(0, member.Name.Length - 4);
             }
 
             name = splitOnPascalCaseAndAddHyphens(name);
 
             var oneLetterName = name.ToLower()[0];
 
-            property.ForAttribute<FlagAliasAttribute>(att =>
-                                                          {
-                                                              name = att.LongAlias ?? name;
-                                                              oneLetterName = att.OneLetterAlias ?? oneLetterName;
-                                                          });
+            member.ForAttribute<FlagAliasAttribute>(att =>
+            {
+                name = att.LongAlias ?? name;
+                oneLetterName = att.OneLetterAlias ?? oneLetterName;
+            });
+
             return new FlagAliases
                        {
                            ShortForm = (SHORT_FLAG_PREFIX + oneLetterName),

@@ -5,16 +5,16 @@ namespace Oakton.Parsing
 {
     public class BooleanFlag : TokenHandlerBase
     {
-        private readonly PropertyInfo _property;
+        private readonly MemberInfo _member;
 
-        public BooleanFlag(PropertyInfo property) : base(property)
+        public BooleanFlag(MemberInfo member) : base(member)
         {
-            _property = property;
+            _member = member;
         }
 
         public override bool Handle(object input, Queue<string> tokens)
         {
-            if (!tokens.NextIsFlagFor(_property)) return false;
+            if (!tokens.NextIsFlagFor(_member)) return false;
             tokens.Dequeue();
             setValue(input, true);
 
@@ -23,7 +23,7 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            return $"[{InputParser.ToFlagAliases(_property)}]";
+            return $"[{InputParser.ToFlagAliases(_member)}]";
         }
     }
 }

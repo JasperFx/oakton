@@ -9,18 +9,18 @@ namespace Oakton.Parsing
 {
     public class EnumerableArgument : Argument
     {
-        private readonly PropertyInfo _property;
+        private readonly MemberInfo _member;
 
-        public EnumerableArgument(PropertyInfo property, Conversions conversions) : base(property, conversions)
+        public EnumerableArgument(MemberInfo member, Conversions conversions) : base(member, conversions)
         {
-            _property = property;
+            _member = member;
 
-            _converter = conversions.FindConverter(property.PropertyType.DeriveElementType());
+            _converter = conversions.FindConverter(member.GetMemberType().DeriveElementType());
         }
 
         public override bool Handle(object input, Queue<string> tokens)
         {
-            var elementType = _property.PropertyType.GetGenericArguments().First();
+            var elementType = _member.GetMemberType().GetGenericArguments().First();
             var list = typeof (List<>).CloseAndBuildAs<IList>(elementType);
 
             var wasHandled = false;
@@ -42,7 +42,7 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            return "[<{0}1 {0}2 {0}3 ...>]".ToFormat(_property.Name.ToLower());
+            return "[<{0}1 {0}2 {0}3 ...>]".ToFormat(_member.Name.ToLower());
         }
     }
 }

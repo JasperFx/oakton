@@ -8,6 +8,6 @@ namespace Oakton.Parsing
 
         string ToUsageDescription();
         string Description { get; }
-        string PropertyName { get; }
+        string MemberName { get; }
     }
 }

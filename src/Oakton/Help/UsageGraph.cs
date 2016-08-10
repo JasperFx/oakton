@@ -148,7 +148,7 @@ namespace Oakton.Help
         private void writeArguments()
         {
             var argumentReport = new TwoColumnReport("Arguments");
-            Arguments.Each(x => argumentReport.Add(x.PropertyName.ToLower(), x.Description));
+            Arguments.Each(x => argumentReport.Add(x.MemberName.ToLower(), x.Description));
             argumentReport.Write();
         }
 
@@ -193,7 +193,7 @@ namespace Oakton.Help
             {
                 _commandUsage.Arguments =
                     properties.Select(
-                        expr => _parent.Handlers.FirstOrDefault(x => x.PropertyName == expr.ToAccessor().Name)).OfType
+                        expr => _parent.Handlers.FirstOrDefault(x => x.MemberName == expr.ToAccessor().Name)).OfType
                         <Argument>();
 
                 return this;
@@ -208,7 +208,7 @@ namespace Oakton.Help
             {
                 _commandUsage.ValidFlags =
                     properties.Select(
-                        expr => _parent.Handlers.FirstOrDefault(x => x.PropertyName == expr.ToAccessor().Name)).ToArray();
+                        expr => _parent.Handlers.FirstOrDefault(x => x.MemberName == expr.ToAccessor().Name)).ToArray();
             }
         }
 

@@ -10,14 +10,14 @@ namespace Oakton
 {
     public class Argument : TokenHandlerBase
     {
-        private readonly PropertyInfo _property;
+        private readonly MemberInfo _member;
         private bool _isLatched;
         protected Func<string, object> _converter;
 
-        public Argument(PropertyInfo property, Conversions conversions) : base(property)
+        public Argument(MemberInfo member, Conversions conversions) : base(member)
         {
-            _property = property;
-            _converter = conversions.FindConverter(property.PropertyType);
+            _member = member;
+            _converter = conversions.FindConverter(member.GetMemberType());
         }
 
         public ArgumentReport ToReport()
@@ -25,7 +25,7 @@ namespace Oakton
             return new ArgumentReport
             {
                 Description = Description,
-                Name = _property.Name.ToLower()
+                Name = _member.Name.ToLower()
             };
         }
 
@@ -45,12 +45,13 @@ namespace Oakton
 
         public override string ToUsageDescription()
         {
-            if (_property.PropertyType.GetTypeInfo().IsEnum)
+            var memberType = _member.GetMemberType();
+            if (memberType.GetTypeInfo().IsEnum)
             {
-                return Enum.GetNames(_property.PropertyType).Join("|");
+                return Enum.GetNames(memberType).Join("|");
             }
 
-            return $"<{_property.Name.ToLower()}>";
+            return $"<{_member.Name.ToLower()}>";
         }
     }
 }

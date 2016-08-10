@@ -8,28 +8,28 @@ namespace Oakton.Parsing
 {
     public class Flag : TokenHandlerBase
     {
-        private readonly PropertyInfo _property;
+        private readonly MemberInfo _member;
         protected Func<string, object> Converter;
 
-        public Flag(PropertyInfo property, Conversions conversions) : this(property, property.PropertyType, conversions)
+        public Flag(MemberInfo member, Conversions conversions) : this(member, member.GetMemberType(), conversions)
         {
 
         }
 
-        public Flag(PropertyInfo property, Type propertyType, Conversions conversions) : base(property)
+        public Flag(MemberInfo member, Type propertyType, Conversions conversions) : base(member)
         {
-            _property = property;
+            _member = member;
             Converter = conversions.FindConverter(propertyType);
 
             if (Converter == null)
             {
-                throw new ArgumentOutOfRangeException($"Cannot derive a conversion for type {property.PropertyType} on property {property.Name}");
+                throw new ArgumentOutOfRangeException($"Cannot derive a conversion for type {member.GetMemberType()} on property {member.Name}");
             }
         }
 
         public override bool Handle(object input, Queue<string> tokens)
         {
-            if (tokens.NextIsFlagFor(_property))
+            if (tokens.NextIsFlagFor(_member))
             {
                 var flag = tokens.Dequeue();
 
@@ -49,16 +49,16 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            var flagAliases = InputParser.ToFlagAliases(_property);
+            var flagAliases = InputParser.ToFlagAliases(_member);
 
-            if (_property.PropertyType.GetTypeInfo().IsEnum)
+            if (_member.GetMemberType().GetTypeInfo().IsEnum)
             {
-                var enumValues = Enum.GetNames(_property.PropertyType).Join("|");
+                var enumValues = Enum.GetNames(_member.GetMemberType()).Join("|");
                 return $"[{flagAliases} {enumValues}]";
             }
 
             
-            return $"[{flagAliases} <{_property.Name.ToLower().TrimEnd('f', 'l','a','g')}>]";
+            return $"[{flagAliases} <{_member.Name.ToLower().TrimEnd('f', 'l','a','g')}>]";
         }
     }
 }

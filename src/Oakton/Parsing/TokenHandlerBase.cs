@@ -1,36 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using Baseline;
 using Baseline.Reflection;
 
 namespace Oakton.Parsing
 {
     public abstract class TokenHandlerBase : ITokenHandler
     {
-        private readonly PropertyInfo _property;
+        private readonly MemberInfo _member;
 
-        protected TokenHandlerBase(PropertyInfo property)
+        protected TokenHandlerBase(MemberInfo member)
         {
-            _property = property;
+            _member = member;
         }
 
         protected void setValue(object target, object value)
         {
-            _property.SetValue(target, value);
+            (_member as PropertyInfo)?.SetValue(target, value);
+            (_member as FieldInfo)?.SetValue(target, value);
         }
 
         public string Description
         {
             get
             {
-                var name = _property.Name;
-                _property.ForAttribute<DescriptionAttribute>(att => name = att.Description);
+                var name = _member.Name;
+                _member.ForAttribute<DescriptionAttribute>(att => name = att.Description);
 
                 return name;
             }
         }
 
-        public string PropertyName => _property.Name;
+        public string MemberName => _member.Name;
 
         public abstract bool Handle(object input, Queue<string> tokens);
         public abstract string ToUsageDescription();
@@ -39,7 +39,7 @@ namespace Oakton.Parsing
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other._property.PropertyMatches(_property);
+            return other._member.Equals(_member);
         }
 
         public override bool Equals(object obj)
@@ -52,7 +52,7 @@ namespace Oakton.Parsing
 
         public override int GetHashCode()
         {
-            return (_property != null ? _property.GetHashCode() : 0);
+            return (_member != null ? _member.GetHashCode() : 0);
         }
     }
 }
