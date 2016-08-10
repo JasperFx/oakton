@@ -4,6 +4,7 @@ using System.Linq;
 using Oakton.Help;
 using Shouldly;
 using Xunit;
+using System.Reflection;
 
 namespace Oakton.Testing
 {
