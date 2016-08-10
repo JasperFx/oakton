@@ -23,9 +23,13 @@ namespace Oakton.Parsing
 
         public static List<ITokenHandler> GetHandlers(Type inputType)
         {
-            return inputType.GetProperties()
-                .Where(prop => prop.CanWrite)
-                .Where(prop => !prop.HasAttribute<IgnoreOnCommandLineAttribute>())
+            var properties = inputType.GetProperties().Where(prop => prop.CanWrite);
+            var fields = inputType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            var members = properties.OfType<MemberInfo>().Concat(fields);
+
+            return members
+                .Where(member => !member.HasAttribute<IgnoreOnCommandLineAttribute>())
                 .Select(BuildHandler).ToList();
         }
 

@@ -191,9 +191,18 @@ namespace Oakton.Help
             /// <returns></returns>
             public UsageExpression<T> Arguments(params Expression<Func<T, object>>[] properties)
             {
+
+
                 _commandUsage.Arguments =
                     properties.Select(
-                        expr => _parent.Handlers.FirstOrDefault(x => x.MemberName == expr.ToAccessor().Name)).OfType
+                        expr =>
+                        {
+                            var finder = new Baseline.Expressions.FindMembers();
+                            finder.Visit(expr);
+                            var member = finder.Members.Last();
+
+                            return _parent.Handlers.FirstOrDefault(x => x.MemberName == member.Name);
+                        }).OfType
                         <Argument>();
 
                 return this;
@@ -208,8 +217,17 @@ namespace Oakton.Help
             {
                 _commandUsage.ValidFlags =
                     properties.Select(
-                        expr => _parent.Handlers.FirstOrDefault(x => x.MemberName == expr.ToAccessor().Name)).ToArray();
+                        expr =>
+                        {
+                            var finder = new Baseline.Expressions.FindMembers();
+                            finder.Visit(expr);
+                            var member = finder.Members.Last();
+
+                            return _parent.Handlers.FirstOrDefault(x => x.MemberName == member.Name);
+                        }).ToArray();
             }
+
+
         }
 
         public CommandUsage FindUsage(string description)

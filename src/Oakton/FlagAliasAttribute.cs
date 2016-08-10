@@ -2,7 +2,7 @@
 
 namespace Oakton
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class FlagAliasAttribute : Attribute
     {
         private readonly string _longAlias;
