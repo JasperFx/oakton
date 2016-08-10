@@ -38,7 +38,7 @@ namespace Oakton.Parsing
                 var rawValue = tokens.Dequeue();
                 var value = Converter(rawValue);
 
-                _property.SetValue(input, value, null);
+                setValue(input, value);
 
                 return true;
             }

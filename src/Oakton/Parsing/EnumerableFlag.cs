@@ -39,8 +39,7 @@ namespace Oakton.Parsing
                     throw new InvalidUsageException("No values specified for flag {0}.".ToFormat(flag));
                 }
 
-                // TODO -- make this one a little smarter
-                _property.SetValue(input, list, null);
+                setValue(input, list);
             }
 
             return wasHandled;

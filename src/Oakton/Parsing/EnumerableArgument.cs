@@ -34,7 +34,7 @@ namespace Oakton.Parsing
 
             if (wasHandled)
             {
-                _property.SetValue(input, list, null);
+                setValue(input, list);
             }
 
             return wasHandled;

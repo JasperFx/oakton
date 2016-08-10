@@ -36,7 +36,7 @@ namespace Oakton
             if (tokens.NextIsFlag()) return false;
 
             var value = _converter(tokens.Dequeue());
-            _property.SetValue(input, value, null);
+            setValue(input, value);
 
             _isLatched = true;
 

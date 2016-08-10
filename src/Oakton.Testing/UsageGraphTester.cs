@@ -5,6 +5,7 @@ using Oakton.Help;
 using Shouldly;
 using Xunit;
 using System.Reflection;
+using Baseline;
 
 namespace Oakton.Testing
 {

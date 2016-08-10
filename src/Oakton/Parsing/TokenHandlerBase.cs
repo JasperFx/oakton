@@ -14,6 +14,11 @@ namespace Oakton.Parsing
             _property = property;
         }
 
+        protected void setValue(object target, object value)
+        {
+            _property.SetValue(target, value);
+        }
+
         public string Description
         {
             get

@@ -16,7 +16,7 @@ namespace Oakton.Parsing
         {
             if (!tokens.NextIsFlagFor(_property)) return false;
             tokens.Dequeue();
-            _property.SetValue(input, true, null);
+            setValue(input, true);
 
             return true;
         }
