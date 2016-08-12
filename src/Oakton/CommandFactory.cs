@@ -85,7 +85,6 @@ namespace Oakton
             try
             {
 
-                // TODO -- change the signature to take in the app name when needed
                 var usageGraph = command.Usages;
                 var input = usageGraph.BuildInput(queue);
 
@@ -97,25 +96,21 @@ namespace Oakton
             }
             catch (InvalidUsageException e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Invalid usage");
+                ConsoleWriter.Write(ConsoleColor.Red, "Invalid usage");
+
 
                 if (e.Message.IsNotEmpty())
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(e.Message);
+                    ConsoleWriter.Write(ConsoleColor.Yellow, e.Message);
                 }
 
-                Console.ResetColor();
                 Console.WriteLine();
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Error parsing input");
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(e);
-                Console.ResetColor();
+                ConsoleWriter.Write(ConsoleColor.Red, "Error parsing input");
+                ConsoleWriter.Write(ConsoleColor.Yellow, e.ToString());
+                
                 Console.WriteLine();
             }
 
