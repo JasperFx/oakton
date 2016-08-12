@@ -11,6 +11,14 @@ namespace Oakton.Testing
     {
         private readonly StringWriter theOutput = new StringWriter();
 
+
+#if NET451
+        private string directory = AppDomain.CurrentDomain.BaseDirectory;
+#else
+        private string directory = AppContext.BaseDirectory;
+#endif
+
+
         public CommandExecutorTester()
         {
             Console.SetOut(theOutput);
@@ -98,7 +106,7 @@ namespace Oakton.Testing
                 _.RegisterCommands(GetType().GetTypeInfo().Assembly);
             });
 
-            var path = AppContext.BaseDirectory.AppendPath("good.opts");
+            var path = directory.AppendPath("good.opts");
             new FileSystem().WriteStringToFile(path, "say-name Klay Thompson");
 
             executor.OptionsFile = "good.opts";
@@ -117,7 +125,7 @@ namespace Oakton.Testing
                 _.RegisterCommands(GetType().GetTypeInfo().Assembly);
             });
 
-            var path = AppContext.BaseDirectory.AppendPath("override.opts");
+            var path = directory.AppendPath("override.opts");
             new FileSystem().WriteStringToFile(path, "option -b -n 1");
 
             executor.OptionsFile = "override.opts";

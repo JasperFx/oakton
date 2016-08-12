@@ -73,7 +73,11 @@ namespace Oakton
         {
             if (OptionsFile.IsEmpty()) return commandLine;
 
+#if NET451
+            var path = AppDomain.CurrentDomain.BaseDirectory.AppendPath(OptionsFile);
+#else
             var path = AppContext.BaseDirectory.AppendPath(OptionsFile);
+#endif
 
             if (File.Exists(path))
             {
@@ -89,7 +93,11 @@ namespace Oakton
         {
             if (OptionsFile.IsEmpty()) return new string[0];
 
+#if NET451
+            var path = AppDomain.CurrentDomain.BaseDirectory.AppendPath(OptionsFile);
+#else
             var path = AppContext.BaseDirectory.AppendPath(OptionsFile);
+#endif
 
             if (File.Exists(path))
             {

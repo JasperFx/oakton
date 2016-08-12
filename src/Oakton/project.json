@@ -16,6 +16,8 @@
         }
       },
       "imports": "dnxcore50"
+    },
+    "net451": {
     }
   }
 }
