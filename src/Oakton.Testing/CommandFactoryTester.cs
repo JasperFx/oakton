@@ -21,6 +21,7 @@ namespace Oakton.Testing
         {
             CommandFactory.CommandNameFor(typeof(Silly)).ShouldBe("silly");
         }
+
         [Fact]
         public void get_the_command_name_for_a_class_that_has_a_longer_name()
         {
@@ -206,7 +207,82 @@ namespace Oakton.Testing
             input.ThirdFlag.ShouldBeTrue();
         }
 
+        [Fact]
+        public void no_default_command_by_default()
+        {
+            var factory = new CommandFactory();
+            factory.DefaultCommand.ShouldBeNull();
 
+        }
+
+        [Fact]
+        public void default_command_is_derived_as_the_only_one()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommand<RebuildAuthorizationCommand>();
+
+            factory.DefaultCommand.ShouldBe(typeof(RebuildAuthorizationCommand));
+        }
+
+        [Fact]
+        public void explicit_default_command()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(RebuildAuthorizationCommand);
+
+            factory.DefaultCommand.ShouldBe(typeof(RebuildAuthorizationCommand));
+        }
+
+
+        [Fact]
+        public void build_command_with_default_command_and_empty()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(NoArgCommand);
+
+            factory.BuildRun("").Command.ShouldBeOfType<NoArgCommand>();
+        }
+
+        [Fact]
+        public void still_use_help_with_default_command()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(RebuildAuthorizationCommand);
+
+            factory.BuildRun("help").Command.ShouldBeOfType<HelpCommand>();
+        }
+
+        [Fact]
+        public void build_the_default_command_using_arguments()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(RebuildAuthorizationCommand);
+
+            factory.BuildRun("Hank").Input
+                .ShouldBeOfType<MyCommandInput>()
+                .Name.ShouldBe("Hank");
+        }
+    }
+
+    public class NulloInput
+    {
+        
+    }
+
+    public class NoArgCommand : OaktonCommand<NulloInput>
+    {
+        public override bool Execute(NulloInput input)
+        {
+            return true;
+        }
     }
 
     public class RebuildAuthorizationCommand : OaktonCommand<MyCommandInput>

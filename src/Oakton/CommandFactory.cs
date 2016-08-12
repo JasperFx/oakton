@@ -34,27 +34,51 @@ namespace Oakton
 
         public CommandRun BuildRun(IEnumerable<string> args)
         {
-            if (!args.Any()) return HelpRun(new Queue<string>());
+
+            if (!args.Any())
+            {
+                if (DefaultCommand == null)
+                {
+                    return HelpRun(new Queue<string>());
+                }
+            }
 
             args = ArgPreprocessor.Process(args);
 
             var queue = new Queue<string>(args);
-            var commandName = queue.Dequeue().ToLowerInvariant();
+
+            if (queue.Count == 0 && DefaultCommand != null)
+            {
+                return buildRun(queue, CommandNameFor(DefaultCommand));
+            }
+
+            var commandName = queue.Peek().ToLowerInvariant();
 
             if (commandName == "dump-usages")
             {
+                queue.Dequeue();
                 return dumpUsagesRun(queue);
             }
 
-            // TEMPORARY
             if (_helpCommands.Contains(commandName))
             {
+                queue.Dequeue();
                 return HelpRun(queue);
             }
 
-            return _commandTypes.Has(commandName) 
-                ? buildRun(queue, commandName) 
-                : InvalidCommandRun(commandName);
+            if (_commandTypes.Has(commandName))
+            {
+                queue.Dequeue();
+                return buildRun(queue, commandName);
+            }
+            if (DefaultCommand != null)
+            {
+                return buildRun(queue, CommandNameFor(DefaultCommand));
+            }
+            else
+            {
+                return InvalidCommandRun(commandName);
+            }
         }
 
 
@@ -117,6 +141,10 @@ namespace Oakton
             return HelpRun(commandName);
         }
 
+        public void RegisterCommand<T>()
+        {
+            _commandTypes[CommandNameFor(typeof(T))] = typeof(T);
+        }
 
 
         public void RegisterCommands(Assembly assembly)
@@ -125,6 +153,18 @@ namespace Oakton
                 .GetExportedTypes()
                 .Where(x => x.Closes(typeof(OaktonCommand<>)) && x.IsConcrete())
                 .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
+        }
+
+        private Type _defaultCommand = null;
+
+        public Type DefaultCommand
+        {
+            get { return _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null); }
+            set
+            {
+                _defaultCommand = value;
+                if (value != null) _commandTypes[CommandNameFor(value)] = value;
+            }
         }
 
         public IEnumerable<IOaktonCommand> BuildAllCommands()

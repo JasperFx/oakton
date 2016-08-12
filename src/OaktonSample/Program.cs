@@ -8,7 +8,11 @@ namespace OaktonSample
     {
         public static void Main(string[] args)
         {
-            var executor = CommandExecutor.For(_ => { _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly); });
+            var executor = CommandExecutor.For(_ =>
+            {
+                _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);
+                _.DefaultCommand = typeof(ColorCommand);
+            });
 
             executor.Execute(args);
         }
