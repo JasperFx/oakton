@@ -2,36 +2,31 @@
 
 namespace Oakton
 {
+    /// <summary>
+    /// Use to override the long and/or short flag keys of a property or field
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class FlagAliasAttribute : Attribute
     {
-        private readonly string _longAlias;
-        private readonly char? _oneLetterAlias;
-
         public FlagAliasAttribute(string longAlias, char oneLetterAlias)
         {
-            _longAlias = longAlias;
-            _oneLetterAlias = oneLetterAlias;
+            LongAlias = longAlias;
+            OneLetterAlias = oneLetterAlias;
         }
 
         public FlagAliasAttribute(char oneLetterAlias)
         {
-            _oneLetterAlias = oneLetterAlias;
+            OneLetterAlias = oneLetterAlias;
         }
 
         public FlagAliasAttribute(string longAlias)
         {
-            _longAlias = longAlias;
+            LongAlias = longAlias;
         }
 
-        public string LongAlias
-        {
-            get { return _longAlias; }
-        }
+        public string LongAlias { get; }
 
-        public char? OneLetterAlias
-        {
-            get { return _oneLetterAlias; }
-        }
+
+        public char? OneLetterAlias { get; }
     }
 }

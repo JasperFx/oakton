@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +7,9 @@ using Oakton.Parsing;
 
 namespace Oakton
 {
+    /// <summary>
+    /// The main entry class for Oakton command line applications
+    /// </summary>
     public class CommandExecutor
     {
         private readonly ICommandFactory _factory;
@@ -36,15 +38,34 @@ namespace Oakton
             return success ? 0 : 1;
         }
 
-        public static int ExecuteInConsole<T>(string[] args) where T : CommandExecutor, new()
+        /// <summary>
+        /// Execute an instance of the "T" command class with the current arguments and an optional
+        /// opts file
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="args"></param>
+        /// <param name="optsFile">If chosen, Oakton will look at this file location for options and apply any found to the command line arguments</param>
+        /// <returns></returns>
+        public static int ExecuteCommand<T>(string[] args, string optsFile = null) where T : IOaktonCommand
         {
-            return execute(() =>
+            var factory = new CommandFactory();
+            factory.RegisterCommand<T>();
+
+            var executor =  new CommandExecutor(factory)
             {
-                var executor = new T();
-                return executor.Execute(args) == 0; // hokey. 
-            });
+                OptionsFile = optsFile
+            };
+
+            return executor.Execute(args);
         }
 
+        /// <summary>
+        /// Build a configured executor. You would generally choose this option if you have multiple commands
+        /// within the application
+        /// </summary>
+        /// <param name="configure"></param>
+        /// <param name="creator"></param>
+        /// <returns></returns>
         public static CommandExecutor For(Action<CommandFactory> configure, ICommandCreator creator = null)
         {
             var factory = new CommandFactory(creator ?? new ActivatorCommandCreator());
@@ -64,6 +85,9 @@ namespace Oakton
             
         }
 
+        /// <summary>
+        /// Directs Oakton to look for an options file at this location. 
+        /// </summary>
         public string OptionsFile { get; set; }
 
 
@@ -111,6 +135,11 @@ namespace Oakton
             }
         }
 
+        /// <summary>
+        /// Execute with the command line arguments. Useful for testing Oakton applications
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns></returns>
         public int Execute(string commandLine)
         {
             commandLine = applyOptions(commandLine);
@@ -123,6 +152,11 @@ namespace Oakton
 
         }
 
+        /// <summary>
+        /// Execute with the command line arguments. 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public int Execute(string[] args)
         {
             return execute(() =>

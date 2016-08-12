@@ -3,6 +3,10 @@ using Oakton.Help;
 
 namespace Oakton
 {
+    /// <summary>
+    /// Base class for all Oakton commands
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class OaktonCommand<T> : IOaktonCommand<T>
     {
         protected OaktonCommand()
@@ -26,11 +30,17 @@ namespace Oakton
 
         public Type InputType => typeof (T);
 
-        public bool Execute(object input)
+        bool IOaktonCommand.Execute(object input)
         {
             return Execute((T)input);
         }
 
+        /// <summary>
+        /// The actual execution of the command. Return "false" to denote failures 
+        /// or "true" for successes
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public abstract bool Execute(T input);
     }
 }

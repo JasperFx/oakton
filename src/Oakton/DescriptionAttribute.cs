@@ -3,8 +3,9 @@
 namespace Oakton
 {
     /// <summary>
-    /// Adds a textual description to arguments or flags on an Oakton input class
+    /// Adds a textual description to arguments or flags on input classes, or on a command class
     /// </summary>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Property)]
     public class DescriptionAttribute : Attribute
     {
         public string Description { get; set; }

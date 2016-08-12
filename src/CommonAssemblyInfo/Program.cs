@@ -6,11 +6,7 @@ namespace CommonAssemblyInfo
     {
         public static int Main(string[] args)
         {
-            var executor = CommandExecutor.For(_ => { _.RegisterCommand<AssemblyInfoCommand>(); });
-
-            executor.OptionsFile = "assemblyinfo.opts";
-
-            return executor.Execute(args);
+            return CommandExecutor.ExecuteCommand<AssemblyInfoCommand>(args, "assemblyinfo.opts");
         }
     }
 }

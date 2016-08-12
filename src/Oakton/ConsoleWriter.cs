@@ -31,10 +31,7 @@ namespace Oakton
             HL = new string('-', _consoleWidth);
         }
 
-        public static int ConsoleBufferWidth
-        {
-            get { return _consoleWidth; } 
-        }
+        public static int ConsoleBufferWidth => _consoleWidth;
 
         public static void Line()
         {
