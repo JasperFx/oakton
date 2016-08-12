@@ -4,6 +4,23 @@
     "debugType": "portable",
     "emitEntryPoint": false
   },
+  "title": "Oakton",
+  "description": "Command Line Parsing and Execution",
+  "language": "en-US",
+  "authors": [
+    "Jeremy D. Miller"
+  ],
+  "packOptions": {
+    "projectUrl": "http://jasperfx.github.io/oakton",
+    "tags": [
+      "IoC"
+    ],
+    "licenseUrl": "https://github.com/jasperfx/oakton/raw/master/LICENSE.TXT",
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/jasperfx/oakton"
+    }
+  },
   "dependencies": {
     "Baseline": "1.1.0"
   },
