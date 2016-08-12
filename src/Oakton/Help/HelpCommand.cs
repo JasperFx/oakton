@@ -36,6 +36,12 @@ namespace Oakton.Help
 
         private void listAllCommands(HelpInput input)
         {
+            if (!input.CommandTypes.Any())
+            {
+                Console.WriteLine("There are no known commands in this executable!");
+                return;
+            }
+
             var report = new TwoColumnReport("Available commands:");
             input.CommandTypes.OrderBy(CommandFactory.CommandNameFor).Each(type =>
             {
@@ -49,7 +55,7 @@ namespace Oakton.Help
         {
             ConsoleWriter.Line();
             Console.ForegroundColor = ConsoleColor.Red;
-            ConsoleWriter.Write("fubu:  '{0}' is not a command.  See available commands.", commandName);
+            ConsoleWriter.Write("'{0}' is not a command.  See available commands.", commandName);
             Console.ResetColor();
             ConsoleWriter.Line();
             ConsoleWriter.Line();

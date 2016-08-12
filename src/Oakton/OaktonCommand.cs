@@ -5,11 +5,9 @@ namespace Oakton
 {
     public abstract class OaktonCommand<T> : IOaktonCommand<T>
     {
-        private readonly UsageGraph _usages;
-
         protected OaktonCommand()
         {
-            _usages = new UsageGraph(GetType());
+            Usages = new UsageGraph(GetType());
         }
 
         /// <summary>
@@ -21,21 +19,12 @@ namespace Oakton
         /// <returns></returns>
         public UsageGraph.UsageExpression<T> Usage(string description)
         {
-            return _usages.AddUsage<T>(description);
+            return Usages.AddUsage<T>(description);
         }
 
-        public UsageGraph Usages
-        {
-            get { return _usages; }
-        }
+        public UsageGraph Usages { get; }
 
-        public Type InputType
-        {
-            get
-            {
-                return typeof (T);
-            }
-        }
+        public Type InputType => typeof (T);
 
         public bool Execute(object input)
         {

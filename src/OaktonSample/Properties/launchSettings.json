@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OaktonSample": {
+      "commandName": "Project",
+      "commandLineArgs": "help"
+    }
+  }
+}

@@ -6,31 +6,46 @@ namespace Oakton
     {
         private readonly ICommandFactory _factory;
 
-        public static int ExecuteInConsole<T>(string[] args) where T : CommandExecutor, new()
+        private static int execute(Func<bool> execute)
         {
             bool success;
 
             try
             {
-                var executor = new T();
-                success = executor.Execute(args);
+                success = execute();
             }
             catch (CommandFailureException e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: " + e.Message);
-                Console.ResetColor();
+                ConsoleWriter.Write(ConsoleColor.Red, "ERROR: " + e.Message);
+
                 return 1;
             }
             catch (Exception ex)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: " + ex);
-                Console.ResetColor();
+                ConsoleWriter.Write(ConsoleColor.Red, "ERROR: " + ex);
+
                 return 1;
             }
 
             return success ? 0 : 1;
+        }
+
+        public static int ExecuteInConsole<T>(string[] args) where T : CommandExecutor, new()
+        {
+            return execute(() =>
+            {
+                var executor = new T();
+                return executor.Execute(args) == 0; // hokey. 
+            });
+        }
+
+        public static CommandExecutor For(Action<CommandFactory> configure, ICommandCreator creator = null)
+        {
+            var factory = new CommandFactory(creator ?? new ActivatorCommandCreator());
+
+            configure(factory);
+
+            return new CommandExecutor(factory);
         }
 
         public CommandExecutor(ICommandFactory factory)
@@ -43,18 +58,27 @@ namespace Oakton
             
         }
 
+
+
         public ICommandFactory Factory => _factory;
 
-        public bool Execute(string commandLine)
+        public int Execute(string commandLine)
         {
-            var run = _factory.BuildRun(commandLine);
-            return run.Execute();
+            return execute(() =>
+            {
+                var run = _factory.BuildRun(commandLine);
+                return run.Execute();
+            });
+
         }
 
-        public bool Execute(string[] args)
+        public int Execute(string[] args)
         {
-            var run = _factory.BuildRun(args);
-            return run.Execute();
+            return execute(() =>
+            {
+                var run = _factory.BuildRun(args);
+                return run.Execute();
+            });
         }
     }
 }
