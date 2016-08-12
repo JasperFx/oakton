@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Baseline;
+using Oakton.Parsing;
 
 namespace Oakton
 {
@@ -58,12 +64,49 @@ namespace Oakton
             
         }
 
+        public string OptionsFile { get; set; }
 
 
         public ICommandFactory Factory => _factory;
 
+        private string applyOptions(string commandLine)
+        {
+            if (OptionsFile.IsEmpty()) return commandLine;
+
+            var path = AppContext.BaseDirectory.AppendPath(OptionsFile);
+
+            if (File.Exists(path))
+            {
+                return $"{OptionReader.Read(path)} {commandLine}";
+            }
+            else
+            {
+                return commandLine;
+            }
+        }
+
+        private IEnumerable<string> readOptions()
+        {
+            if (OptionsFile.IsEmpty()) return new string[0];
+
+            var path = AppContext.BaseDirectory.AppendPath(OptionsFile);
+
+            if (File.Exists(path))
+            {
+                var options = OptionReader.Read(path);
+
+                return StringTokenizer.Tokenize(options);
+            }
+            else
+            {
+                return new string[0];
+            }
+        }
+
         public int Execute(string commandLine)
         {
+            commandLine = applyOptions(commandLine);
+
             return execute(() =>
             {
                 var run = _factory.BuildRun(commandLine);
@@ -76,7 +119,7 @@ namespace Oakton
         {
             return execute(() =>
             {
-                var run = _factory.BuildRun(args);
+                var run = _factory.BuildRun(readOptions().Concat(args));
                 return run.Execute();
             });
         }
