@@ -12,7 +12,7 @@ namespace Oakton
     public class CommandFactory : ICommandFactory
     {
         private static readonly string[] _helpCommands = new []{"help", "?"}; 
-        private readonly Cache<string, Type> _commandTypes = new Cache<string, Type>();
+        private readonly LightweightCache<string, Type> _commandTypes = new LightweightCache<string, Type>();
         private readonly ICommandCreator _commandCreator;
         private string _appName;
 

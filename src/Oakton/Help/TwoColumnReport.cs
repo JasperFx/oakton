@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Baseline;
@@ -9,7 +10,7 @@ namespace Oakton.Help
     public class TwoColumnReport
     {
         private readonly string _title;
-        private readonly Cache<string, string> _data = new Cache<string,string>();
+        private readonly LightweightCache<string, string> _data = new LightweightCache<string,string>();
 
         public TwoColumnReport(string title)
         {
@@ -32,9 +33,12 @@ namespace Oakton.Help
 
         public void Write()
         {
-            //this needs to take into account that the default console is only 80 char wide
 
-            var firstLength = _data.GetAllKeys().Max(x => x.Length);
+            // TODO -- really need to go add this in Baseline.
+            var keys = new List<string>();
+            _data.Each((key, value) => keys.Add(key));
+
+            var firstLength = keys.Max(x => x.Length);
 
             Console.WriteLine();
 

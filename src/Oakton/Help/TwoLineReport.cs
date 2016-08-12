@@ -8,7 +8,7 @@ namespace Oakton.Help
     public class TwoLineReport
     {
         private readonly string _title;
-        private readonly Cache<string, string> _data = new Cache<string, string>();
+        private readonly LightweightCache<string, string> _data = new LightweightCache<string, string>();
 
         public TwoLineReport(string title)
         {
