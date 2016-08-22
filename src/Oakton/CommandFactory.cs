@@ -26,6 +26,11 @@ namespace Oakton
             _commandCreator = creator;
         }
 
+        /// <summary>
+        /// Alter the input object or the command object just befor executing the command
+        /// </summary>
+        public Action<CommandRun> ConfigureRun = run => { };
+
         public CommandRun BuildRun(string commandLine)
         {
             var args = StringTokenizer.Tokenize(commandLine);
@@ -112,11 +117,15 @@ namespace Oakton
                 var usageGraph = command.Usages;
                 var input = usageGraph.BuildInput(queue);
 
-                return new CommandRun
+                var run = new CommandRun
                        {
                            Command = command,
                            Input = input
                        };
+
+                ConfigureRun(run);
+
+                return run;
             }
             catch (InvalidUsageException e)
             {
@@ -141,12 +150,19 @@ namespace Oakton
             return HelpRun(commandName);
         }
 
+        /// <summary>
+        /// Add a single command type to the command runner
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public void RegisterCommand<T>()
         {
             _commandTypes[CommandNameFor(typeof(T))] = typeof(T);
         }
 
-
+        /// <summary>
+        /// Add all the IOaktonCommand classes in the given assembly to the command runner
+        /// </summary>
+        /// <param name="assembly"></param>
         public void RegisterCommands(Assembly assembly)
         {
             assembly
@@ -157,6 +173,9 @@ namespace Oakton
 
         private Type _defaultCommand = null;
 
+        /// <summary>
+        /// Optionally designates the default command type. Useful if your console app only has one command
+        /// </summary>
         public Type DefaultCommand
         {
             get { return _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null); }

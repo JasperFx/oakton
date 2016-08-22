@@ -123,6 +123,27 @@ namespace Oakton.Testing
         }
 
         [Fact]
+        public void call_through_the_configure_run()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            object input = null;
+            object cmd = null;
+
+            factory.ConfigureRun = r =>
+            {
+                cmd = r.Command;
+                input = r.Input;
+            };
+
+            var run = factory.BuildRun("my Jeremy --force");
+
+            cmd.ShouldBe(run.Command);
+            input.ShouldBe(run.Input);
+        }
+
+        [Fact]
         public void fetch_the_help_command_run()
         {
             var factory = new CommandFactory();
