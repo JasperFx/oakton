@@ -235,4 +235,18 @@ namespace Oakton.Help
             return _usages.FirstOrDefault(x => x.Description == description);
         }
     }
+
+#if !NET451
+    public static class ReflectionExtensions
+    {
+        public static Type[] GetGenericArguments(this TypeInfo typeInfo)
+        {
+            var arguments = typeInfo.IsGenericTypeDefinition
+                ? typeInfo.GenericTypeParameters
+                : typeInfo.GenericTypeArguments;
+
+            return arguments.ToArray();
+        }
+    }
+#endif
 }
