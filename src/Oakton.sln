@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Oakton", "Oakton\Oakton.xproj", "{1FED9C1C-DBA8-4A7C-A236-0CF2227189F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oakton", "Oakton\Oakton.csproj", "{1FED9C1C-DBA8-4A7C-A236-0CF2227189F9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Oakton.Testing", "Oakton.Testing\Oakton.Testing.xproj", "{660B3929-5AB5-43E3-BD43-43C81744C4C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oakton.Testing", "Oakton.Testing\Oakton.Testing.csproj", "{660B3929-5AB5-43E3-BD43-43C81744C4C4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OaktonSample", "OaktonSample\OaktonSample.xproj", "{80F4387A-D8DD-473B-915A-79E78CBE4C56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OaktonSample", "OaktonSample\OaktonSample.csproj", "{80F4387A-D8DD-473B-915A-79E78CBE4C56}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CommonAssemblyInfo", "CommonAssemblyInfo\CommonAssemblyInfo.xproj", "{CA795399-209A-4987-94CE-FFDB811B87A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAssemblyInfo", "CommonAssemblyInfo\CommonAssemblyInfo.csproj", "{CA795399-209A-4987-94CE-FFDB811B87A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

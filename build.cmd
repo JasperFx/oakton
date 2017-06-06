@@ -1,1 +1,1 @@
-dotnet test src/Oakton.Testing
+dotnet test src/Oakton.Testing/Oakton.Testing.csproj
