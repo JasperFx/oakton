@@ -12,14 +12,9 @@ environment:
 
 before_build:
   - dotnet --info
+  - dotnet restore .\src\OaktonSample\OaktonSample.csproj
+  - dotnet restore .\src\CommonAssemblyInfo\CommonAssemblyInfo.csproj
   - dotnet restore .\src\Oakton.Testing\Oakton.Testing.csproj
-
-assembly_info:
-  patch: true
-  file: '**\CommonAssemblyInfo.cs'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
 
 after_build:
   - dotnet pack .\src\Oakton -o artifacts --configuration Release /p:Version=%APPVEYOR_BUILD_VERSION%
