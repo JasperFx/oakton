@@ -21,9 +21,6 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
-build_script:
-  - dotnet build .\src\Oakton.sln --configuration Release
-
 after_build:
   - dotnet pack .\src\Oakton -o artifacts --configuration Release /p:Version=%APPVEYOR_BUILD_VERSION%
 
