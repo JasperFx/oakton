@@ -12,7 +12,7 @@ environment:
 
 before_build:
   - dotnet --info
-  - dotnet restore .\src\Oakton.sln
+  - dotnet restore .\src\Oakton.Testing\Oakton.Testing.csproj
 
 assembly_info:
   patch: true
