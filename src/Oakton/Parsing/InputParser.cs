@@ -39,6 +39,11 @@ namespace Oakton.Parsing
 
             if (!member.Name.EndsWith(FLAG_SUFFIX))
             {
+                if (memberType.CanBeCastTo<IDictionary<string, string>>())
+                {
+                    throw new ArgumentOutOfRangeException("Dictionaries are only supported as 'Flag' members");
+                }
+                
                 if (memberType != typeof (string) && memberType.Closes(typeof (IEnumerable<>)))
                 {
                     return new EnumerableArgument(member, _converter);
@@ -47,7 +52,12 @@ namespace Oakton.Parsing
                 return new Argument(member, _converter);
             }
 
-
+            // Gotta check this before enumerable!
+            if (memberType.CanBeCastTo<IDictionary<string, string>>())
+            {
+                return new DictionaryFlag(member);
+            }
+            
             if (memberType != typeof(string) && memberType.Closes(typeof(IEnumerable<>)))
             {
                 return new EnumerableFlag(member, _converter);
@@ -57,6 +67,8 @@ namespace Oakton.Parsing
             {
                 return new BooleanFlag(member);
             }
+
+
             
             return new Flag(member, _converter);
         }

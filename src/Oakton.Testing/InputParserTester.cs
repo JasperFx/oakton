@@ -370,6 +370,12 @@ namespace Oakton.Testing
         {
             new UsageGraph(typeof(InputCommand)).WriteUsages("fubu");
         }
+
+        [Fact]
+        public void use_dictionary_flag_for_dict()
+        {
+            handlerFor(x => x.PropsFlag).ShouldBeOfType<DictionaryFlag>();
+        }
       
     }
 
@@ -403,6 +409,9 @@ namespace Oakton.Testing
 
         [FlagAlias("aliased", 'a')]
         public string AliasedFlag { get; set; }
+        
+        public Dictionary<string, string> PropsFlag { get; set; } = new Dictionary<string, string>();
+        
     }
 
     public class InputCommand : OaktonCommand<InputModel>

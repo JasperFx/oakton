@@ -6,31 +6,37 @@ namespace Oakton.Parsing
 {
     public abstract class TokenHandlerBase : ITokenHandler
     {
-        private readonly MemberInfo _member;
-
         protected TokenHandlerBase(MemberInfo member)
         {
-            _member = member;
+            Member = member;
         }
 
         protected void setValue(object target, object value)
         {
-            (_member as PropertyInfo)?.SetValue(target, value);
-            (_member as FieldInfo)?.SetValue(target, value);
+            (Member as PropertyInfo)?.SetValue(target, value);
+            (Member as FieldInfo)?.SetValue(target, value);
+        }
+        
+        protected object getValue(object target)
+        {
+            return (Member as PropertyInfo)?.GetValue(target)
+                ?? (Member as FieldInfo)?.GetValue(target);
         }
 
         public string Description
         {
             get
             {
-                var name = _member.Name;
-                _member.ForAttribute<DescriptionAttribute>(att => name = att.Description);
+                var name = Member.Name;
+                Member.ForAttribute<DescriptionAttribute>(att => name = att.Description);
 
                 return name;
             }
         }
 
-        public string MemberName => _member.Name;
+        public MemberInfo Member { get; }
+
+        public string MemberName => Member.Name;
 
         public abstract bool Handle(object input, Queue<string> tokens);
         public abstract string ToUsageDescription();
@@ -39,7 +45,7 @@ namespace Oakton.Parsing
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return other._member.Equals(_member);
+            return other.Member.Equals(Member);
         }
 
         public override bool Equals(object obj)
@@ -52,7 +58,7 @@ namespace Oakton.Parsing
 
         public override int GetHashCode()
         {
-            return (_member != null ? _member.GetHashCode() : 0);
+            return (Member != null ? Member.GetHashCode() : 0);
         }
     }
 }
