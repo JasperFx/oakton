@@ -56,33 +56,36 @@ namespace Oakton
             {
                 return buildRun(queue, CommandNameFor(DefaultCommand));
             }
+            
+            
 
-            var commandName = queue.Peek().ToLowerInvariant();
+            var firstArg = queue.Peek().ToLowerInvariant();
 
-            if (commandName == "dump-usages")
+            if (firstArg == "dump-usages")
             {
                 queue.Dequeue();
                 return dumpUsagesRun(queue);
             }
 
-            if (_helpCommands.Contains(commandName))
+            if (_helpCommands.Contains(firstArg))
             {
                 queue.Dequeue();
                 return HelpRun(queue);
             }
 
-            if (_commandTypes.Has(commandName))
+            if (_commandTypes.Has(firstArg))
             {
                 queue.Dequeue();
-                return buildRun(queue, commandName);
+                return buildRun(queue, firstArg);
             }
+            
             if (DefaultCommand != null)
             {
                 return buildRun(queue, CommandNameFor(DefaultCommand));
             }
             else
             {
-                return InvalidCommandRun(commandName);
+                return InvalidCommandRun(firstArg);
             }
         }
 
@@ -178,7 +181,7 @@ namespace Oakton
         /// </summary>
         public Type DefaultCommand
         {
-            get { return _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null); }
+            get => _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null);
             set
             {
                 _defaultCommand = value;

@@ -5,7 +5,7 @@
     <AssemblyTitle>Oakton</AssemblyTitle>
     <VersionPrefix>1.2.0</VersionPrefix>
     <Authors>Jeremy D. Miller</Authors>
-    <TargetFrameworks>netstandard1.3;net451</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;net451;net46</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>Oakton</AssemblyName>
     <OutputType>Library</OutputType>

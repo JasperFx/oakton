@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using Oakton.Help;
 using Shouldly;
 using Xunit;
@@ -19,7 +20,7 @@ namespace Oakton.Testing
         [Fact]
         public void get_the_command_name_for_a_class_not_ending_in_command()
         {
-            CommandFactory.CommandNameFor(typeof(Silly)).ShouldBe("silly");
+            CommandFactory.CommandNameFor(typeof(SillyCommand)).ShouldBe("silly");
         }
 
         [Fact]
@@ -269,6 +270,48 @@ namespace Oakton.Testing
         }
 
         [Fact]
+        public void build_command_with_default_command_and_first_arg_is_flag()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(OnlyFlagsCommand);
+
+            var commandRun = factory.BuildRun("--verbose");
+            commandRun.Command.ShouldBeOfType<OnlyFlagsCommand>();
+            commandRun.Input.ShouldBeOfType<OnlyFlagsInput>()
+                .VerboseFlag.ShouldBeTrue();
+        }
+        
+        [Fact]
+        public void build_command_with_default_command_and_first_arg_is_flag_that_is_not_valid()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(OnlyFlagsCommand);
+
+            var commandRun = factory.BuildRun("--wrong");
+            commandRun.Command.ShouldBeOfType<HelpCommand>();
+            commandRun.Input.ShouldBeOfType<HelpInput>()
+                .Name.ShouldBe("onlyflags");
+        }
+        
+        [Fact]
+        public void build_command_with_default_command_and_first_arg_for_the_default_command()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+
+            factory.DefaultCommand = typeof(SillyCommand);
+
+            var commandRun = factory.BuildRun("blue");
+            commandRun.Command.ShouldBeOfType<SillyCommand>();
+            commandRun.Input.ShouldBeOfType<MyCommandInput>()
+                .Name.ShouldBe("blue");
+        }
+        
+        [Fact]
         public void still_use_help_with_default_command()
         {
             var factory = new CommandFactory();
@@ -314,7 +357,7 @@ namespace Oakton.Testing
         }
     }
 
-    public class Silly : OaktonCommand<MyCommandInput>
+    public class SillyCommand : OaktonCommand<MyCommandInput>
     {
         public override bool Execute(MyCommandInput input)
         {
@@ -330,6 +373,20 @@ namespace Oakton.Testing
         }
 
 
+    }
+
+
+    public class OnlyFlagsInput
+    {
+        public bool VerboseFlag { get; set; }
+    }
+    
+    public class OnlyFlagsCommand : OaktonCommand<OnlyFlagsInput>
+    {
+        public override bool Execute(OnlyFlagsInput input)
+        {
+            return true;
+        }
     }
 
     [Description("something")]
