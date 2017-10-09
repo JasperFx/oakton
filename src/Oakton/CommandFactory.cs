@@ -70,6 +70,7 @@ namespace Oakton
             if (_helpCommands.Contains(firstArg))
             {
                 queue.Dequeue();
+
                 return HelpRun(queue);
             }
 
@@ -212,6 +213,12 @@ namespace Oakton
             var input = (HelpInput) (new HelpCommand().Usages.BuildInput(queue));
             input.CommandTypes = _commandTypes.GetAll();
 
+            // Little hokey, but show the detailed help for the default command
+            if (DefaultCommand != null && input.CommandTypes.Count() == 1)
+            {
+                input.Name = CommandNameFor(DefaultCommand);
+            }
+
 
             if (input.Name.IsNotEmpty())
             {
@@ -220,7 +227,10 @@ namespace Oakton
                 _commandTypes.WithValue(input.Name, type =>
                 {
                     input.InvalidCommandName = false;
-                    input.Usage = new UsageGraph(type);
+
+                    var cmd = Activator.CreateInstance(type).As<IOaktonCommand>();
+                    
+                    input.Usage = cmd.Usages;
                 });
             }
 

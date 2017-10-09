@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OaktonSample", "OaktonSampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAssemblyInfo", "CommonAssemblyInfo\CommonAssemblyInfo.csproj", "{CA795399-209A-4987-94CE-FFDB811B87A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quickstart", "quickstart\quickstart.csproj", "{5B9270F2-D136-4515-A233-EBF5707D77FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleCommands", "MultipleCommands\MultipleCommands.csproj", "{481ABB0E-11DF-4E16-AD7C-B23009C7521D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{CA795399-209A-4987-94CE-FFDB811B87A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA795399-209A-4987-94CE-FFDB811B87A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA795399-209A-4987-94CE-FFDB811B87A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B9270F2-D136-4515-A233-EBF5707D77FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B9270F2-D136-4515-A233-EBF5707D77FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B9270F2-D136-4515-A233-EBF5707D77FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B9270F2-D136-4515-A233-EBF5707D77FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

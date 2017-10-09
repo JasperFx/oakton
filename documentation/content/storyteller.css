@@ -177,3 +177,9 @@ pre.text-display{
   transition: all 350ms ease-in;
   max-height: 0px !important;
 }
+
+pre {
+  overflow: scroll !important;
+  word-break: normal !important;
+  word-wrap: none !important;
+}
