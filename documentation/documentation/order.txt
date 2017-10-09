@@ -1,5 +1,6 @@
 getting_started
 commands
+bootstrapping
 arguments
 flags
 help
