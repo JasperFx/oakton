@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <AssemblyName>OaktonSample</AssemblyName>
@@ -11,9 +10,10 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Oakton\Oakton.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="StructureMap" Version="4.5.2" />
+  </ItemGroup>
 </Project>
