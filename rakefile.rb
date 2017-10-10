@@ -25,25 +25,31 @@ task :docs => [:prepare_docs] do
 end
 
 "Exports the documentation to jasperfx.github.io/oakton - requires Git access to that repo though!"
-task :publish => [:prepare_docs] do
-	if Dir.exists? 'doc-target'
-		FileUtils.rm_rf 'doc-target'
+task :publish do
+	FileUtils.remove_dir('doc-target') if Dir.exists?('doc-target')
+
+	if !Dir.exists? 'doc-target' 
+		Dir.mkdir 'doc-target'
+		sh "git clone -b gh-pages https://github.com/jasperfx/oakton.git doc-target"
+	else
+		Dir.chdir "doc-target" do
+			sh "git checkout --force"
+			sh "git clean -xfd"
+			sh "git pull origin master"
+		end
 	end
-
-	Dir.mkdir 'doc-target'
-	sh "git clone https://github.com/jasperfx/jasperfx.github.io.git doc-target"
-
-
+	
+	sh "dotnet restore"
 	sh "dotnet stdocs export doc-target ProjectWebsite --version #{BUILD_VERSION} --project oakton"
-
+	
 	Dir.chdir "doc-target" do
 		sh "git add --all"
 		sh "git commit -a -m \"Documentation Update for #{BUILD_VERSION}\" --allow-empty"
-		sh "git push origin master"
+		sh "git push origin gh-pages"
 	end
+	
 
-
-
+	
 
 end
 
