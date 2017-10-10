@@ -1,17 +1,46 @@
-require 'json'
-
-APIKEY = ENV['api_key'].nil? ? '' : ENV['api_key']
-
 COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
-RESULTS_DIR = "artifacts"
+RESULTS_DIR = "results"
 BUILD_VERSION = '1.3.0'
 
-tc_build_number = ENV["APPVEYOR_BUILD_NUMBER"]
+tc_build_number = ENV["BUILD_NUMBER"]
 build_revision = tc_build_number || Time.new.strftime('5%H%M')
 build_number = "#{BUILD_VERSION}.#{build_revision}"
 BUILD_NUMBER = build_number
 
-CI = ENV["CI"].nil? ? false : true
+task :ci => [:default, :pack]
+
+task :default => [:test]
+
+desc "Prepares the working directory for a new build"
+task :clean do
+	#TODO: do any other tasks required to clean/prepare the working directory
+	FileUtils.rm_rf RESULTS_DIR
+	FileUtils.rm_rf 'artifacts'
+
+end
+
+desc 'Compile the code'
+task :compile => [:clean] do
+	sh "dotnet restore src/Oakton.sln"
+	sh "dotnet build src/Oakton.Testing/Oakton.Testing.csproj"
+end
+
+desc 'Run the unit tests'
+task :test => [:compile] do
+	Dir.mkdir RESULTS_DIR
+
+	sh "dotnet test src/Oakton.Testing/Oakton.Testing.csproj"
+end
+
+desc "Pack up the nupkg file"
+task :pack => [:compile] do
+	sh "dotnet pack src/Oakton/Oakton.csproj -o ./../../artifacts --configuration Release"
+end
+
+desc "Launches VS to the Oakton solution file"
+task :sln do
+	sh "start src/Oakton.sln"
+end
 
 
 "Gets the documentation assets ready"
