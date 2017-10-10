@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel=icon href=/content/images/favicon.ico>
+		<title>Oakton - Arguments</title>
+		<link href="/oakton/content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/prism.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/theme.css" rel="stylesheet" type="text/css" />
+
+
+
+
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+        <!-- CSS code from Bootply.com editor -->
+        <link href="/oakton/content/affix.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <!-- HTML code from Bootply.com editor -->
+
+    <body  >
+
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+		  <div class="container">
+		    <div class="navbar-header">
+		      <a href="/oakton" class="navbar-brand">Oakton</a>
+		    </div>
+		    <nav class="collapse navbar-collapse" role="navigation">
+		      <ul class="nav navbar-nav pull-right">
+		        <li>
+		          <a href="/oakton/documentation/getting_started">Getting Started</a>
+		        </li>
+		        <li>
+		          <a href="/oakton/documentation">Documentation</a>
+		        </li>
+		        <li>
+		        <li>
+<a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
+		        </li>
+		      	<li><a href="/oakton/documentation/bootstrapping" title="Bootstrapping">Previous</a></li>
+		      	<li><a href="/oakton/documentation/flags" title="Optional Flags">Next</a></li>
+		      </ul>
+		      <div class="navbar-form navbar-left" role="search">
+		        <div class="form-group">
+		          <input id="search" type="search" class="form-control" placeholder="Search">
+		        </div>
+		      </div>
+
+		    </nav>
+
+		  </div>
+		</nav>
+
+		  <div class="container">
+		  	<nav class="navbar-inverse">
+		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li class="active">Arguments</li></ol>
+		  	</nav>
+		  </div>
+
+		<!--main-->
+		<div class="container">
+			<div class="row">
+		      <!--left-->
+
+		      <div class="col-md-3" id="leftCol">
+		      	<h3>Oakton 1.3.0</h3>
+		      	<br />
+
+				<ul class="nav nav-stacked affix" id="sidebar">
+
+		        </ul>
+
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/flags">Optional Flags</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/bootstrapping">Bootstrapping</a></p>
+
+		        </ul>
+		      </div><!--/left-->
+
+		      <!--right-->
+		      <div class="col-md-9">
+			      	<h1>Arguments<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/arguments.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
+
+			      	<hr />
+
+			      	<div id="main-pane">
+			      		<!--title:Arguments-->
+<p>An argument is any public field or settable property on the input class that is not suffixed with &quot;Flag&quot; or marked
+with the <code>[IgnoreOnCommandLine]</code>. Below is a sample:</p>
+<pre><code class="language-csharp">&#xA;public class NameInput&#xA;{&#xA;    // Arguments can be settable properties&#xA;    public string First { get; set; }&#xA;    &#xA;    // Arguments can be public fields&#xA;    public string Last;&#xA;&#xA;    // Read only properties are ignored&#xA;    public string Fullname =&gt; $&quot;{First} {Last}&quot;;&#xA;    &#xA;    // You can explicitly ignore public fields or &#xA;    // properties that should not be captured at&#xA;    // the command line&#xA;    [IgnoreOnCommandLine]&#xA;    public string Nickname;&#xA;    &#xA;    // This would be considered to be a flag,&#xA;    // not an argument&#xA;    public bool VerboseFlag { get; set; }&#xA;}&#xA;</code></pre>
+<h2 id="valid-argument-types">Valid Argument Types</h2>
+<p>Argument values can be of type:</p>
+<ul>
+<li>String -- wrap a string with spaces in quotes like <code>&quot;Kareem Abdul Jabbar&quot;</code></li>
+<li>Number -- but you'll need to wrap data in parantheses for negative numbers like <code>&quot;-1&quot;</code> so Jasper doesn't treat it like a flag</li>
+<li>Enumeration</li>
+<li>Guid</li>
+<li>DateTime -- in <a href="https://en.wikipedia.org/wiki/ISO_8601">Iso8601</a> format, or it falls back to <code>DateTime.Parse()</code>. Relative dates can be expressed like <code>TODAY</code> or <code>TODAY-3</code> or <code>TODAY+3</code> for today, 3 days ago, and 3 days from now respectively</li>
+<li>Any concrete type that has a constructor with a single string argument like <code>new Dimensions(&quot;2 x 4&quot;)</code></li>
+<li>Arrays of any of the types above in comma delimited form, but you would have to wrap the logical array values in parantheses like <code>&quot;1,2,3,4&quot;</code></li>
+<li>TimeSpan -- express as a time in 24 hour time like <code>1200</code> or <code>12:30</code>. See the <a href="https://github.com/JasperFx/baseline/blob/master/src/Baseline.Testing/Conversion/TimeSpanConverterTester.cs">unit tests for TimeSpan conversions</a> for more examples.</li>
+</ul>
+<p>The conversions are done via the <a href="https://github.com/JasperFx/baseline">Baseline</a> library.</p>
+<h2 id="array-or-enumerable-arguments">Array or Enumerable Arguments</h2>
+<p>You <em>can</em> use array or enumerable arguments as shown on this input type:</p>
+<pre><code class="language-csharp">&#xA;public class EnumerableArgumentInput&#xA;{&#xA;    public IEnumerable&lt;string&gt; Names { get; set; }&#xA;&#xA;    public IEnumerable&lt;string&gt; OptionalFlag { get; set; }&#xA;        &#xA;    public IEnumerable&lt;TargetEnum&gt; Enums { get; set; }&#xA;&#xA;    [Description(&quot;ages of target&quot;)]&#xA;    public IEnumerable&lt;int&gt; Ages { get; set; }&#xA;&#xA;}&#xA;</code></pre>
+<p>There's one huge caveat though, <strong>an enumerable or array variable will need to be the very last argument</strong> in your command line usage.</p>
+<p>The usage would be:</p>
+<pre><code>executable command value1 value2 value3 --flag --flag2
+</code></pre>
+<h2 id="valid-argument-patterns">Valid Argument Patterns</h2>
+<p>Look at the input class from the <a href="/oakton/documentation/getting_started">Getting Started</a> tutorial:</p>
+<pre><code class="language-csharp">&#xA;public class NameInput&#xA;{&#xA;    [Description(&quot;The name to be printed to the console output&quot;)]&#xA;    public string Name { get; set; }&#xA;    &#xA;    [Description(&quot;The color of the text. Default is black&quot;)]&#xA;    public ConsoleColor Color { get; set; } = ConsoleColor.Black;&#xA;    &#xA;    [Description(&quot;Optional title preceeding the name&quot;)]&#xA;    public string TitleFlag { get; set; }&#xA;}&#xA;</code></pre>
+<p>In this particular case, I want users to be able to enter either the <code>Name</code> argument or both the <code>Name</code> and
+<code>Color</code> arguments. In the matching command class for this input, I specify two <code>Usages</code> patterns for this command:</p>
+<pre><code class="language-csharp">&#xA;[Description(&quot;Print somebody&#x27;s name&quot;)]&#xA;public class NameCommand : OaktonCommand&lt;NameInput&gt;&#xA;{&#xA;    public NameCommand()&#xA;    {&#xA;        // The usage pattern definition here is completely&#xA;        // optional&#xA;        Usage(&quot;Default Color&quot;).Arguments(x =&gt; x.Name);&#xA;        Usage(&quot;Print name with specified color&quot;).Arguments(x =&gt; x.Name, x =&gt; x.Color);&#xA;    }&#xA;&#xA;    public override bool Execute(NameInput input)&#xA;    {&#xA;        var text = input.Name;&#xA;        if (!string.IsNullOrEmpty(input.TitleFlag))&#xA;        {&#xA;            text = input.TitleFlag &#x2B; &quot; &quot; &#x2B; text;&#xA;        }&#xA;        &#xA;        // This is a little helper in Oakton for getting&#xA;        // cute with colors in the console output&#xA;        ConsoleWriter.Write(input.Color, text);&#xA;&#xA;&#xA;        // Just telling the OS that the command&#xA;        // finished up okay&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
+<p>The call to <code>Usage</code> in the constructor function specifies the valid argument patterns for the command. If that explicit
+<code>Usage</code> configuration was omitted, Oakton assumes that every argument is always mandatory and appears in the order of the
+properties or fields in the input class.</p>
+
+			      	</div>
+
+			      	<hr />
+
+			      	<nav>
+				        <span>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/bootstrapping">Bootstrapping</a>
+
+				        </span>
+				        <span class="pull-right">
+
+				        	<strong>Next: </strong><a href="/oakton/documentation/flags">Optional Flags</a>
+
+				        </span>
+			      	</nav>
+
+		      </div><!--/right-->
+		  	</div><!--/row-->
+		</div><!--/container-->
+
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$('#search').keyup(function(e){
+  if(e.keyCode == 13) {
+    var search = $('#search').val();
+
+    var url = 'https://www.google.com/#q=site:http://jasperfx.github.io/oakton ' + search;
+    url = encodeURI(url);
+
+    //alert(url);
+
+    window.location.href = url;
+
+    e.stopPropagation();
+    if (e.cancelBubble!=null) e.cancelBubble = true;
+    return false;
+  }
+
+
+
+});
+
+</script>
+    </body>
+
+
+    <foot>
+        <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/oakton/content/embed.js"></script>
+        <script type="text/javascript" src="/oakton/content/prism.js"></script>
+        <script type="text/javascript" src="/oakton/content/sidebar.js"></script>
+        <script type="text/javascript" src="/oakton/content/affix.js"></script>
+    </foot>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel=icon href=/content/images/favicon.ico>
+		<title>Oakton - Optional Flags</title>
+		<link href="/oakton/content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/prism.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/theme.css" rel="stylesheet" type="text/css" />
+
+
+
+
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+        <!-- CSS code from Bootply.com editor -->
+        <link href="/oakton/content/affix.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <!-- HTML code from Bootply.com editor -->
+
+    <body  >
+
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+		  <div class="container">
+		    <div class="navbar-header">
+		      <a href="/oakton" class="navbar-brand">Oakton</a>
+		    </div>
+		    <nav class="collapse navbar-collapse" role="navigation">
+		      <ul class="nav navbar-nav pull-right">
+		        <li>
+		          <a href="/oakton/documentation/getting_started">Getting Started</a>
+		        </li>
+		        <li>
+		          <a href="/oakton/documentation">Documentation</a>
+		        </li>
+		        <li>
+		        <li>
+<a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
+		        </li>
+		      	<li><a href="/oakton/documentation/arguments" title="Arguments">Previous</a></li>
+		      	<li><a href="/oakton/documentation/flags/boolean" title="Boolean Flags">Next</a></li>
+		      </ul>
+		      <div class="navbar-form navbar-left" role="search">
+		        <div class="form-group">
+		          <input id="search" type="search" class="form-control" placeholder="Search">
+		        </div>
+		      </div>
+
+		    </nav>
+
+		  </div>
+		</nav>
+
+		  <div class="container">
+		  	<nav class="navbar-inverse">
+		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li class="active">Optional Flags</li></ol>
+		  	</nav>
+		  </div>
+
+		<!--main-->
+		<div class="container">
+			<div class="row">
+		      <!--left-->
+
+		      <div class="col-md-3" id="leftCol">
+		      	<h3>Oakton 1.3.0</h3>
+		      	<br />
+
+				<ul class="nav nav-stacked affix" id="sidebar">
+
+		        </ul>
+
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/flags/boolean">Boolean Flags</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/arguments">Arguments</a></p>
+
+		        </ul>
+		      </div><!--/left-->
+
+		      <!--right-->
+		      <div class="col-md-9">
+			      	<h1>Optional Flags<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/flags/index.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
+
+			      	<hr />
+
+			      	<div id="main-pane">
+			      		<!--title:Optional Flags-->
+<p>Flags are any public settable property or public field on the input class that are suffixed with
+<em>Flag</em>. Below is an example of several flags:</p>
+<pre><code class="language-csharp">&#xA;public class CleanInput&#xA;{&#xA;    [Description(&quot;Do it now!&quot;)]&#xA;    public bool ForceFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;d&#x27;)]&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;x&#x27;)]&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xA;}&#xA;</code></pre>
+<h2 id="setting-flag-values">Setting Flag Values</h2>
+<p>Let's say you're trying to recreate the command line options for the <code>git checkout</code> command with this input:</p>
+<pre><code class="language-csharp">&#xA;public class CheckoutInput&#xA;{&#xA;    [FlagAlias(&quot;create-branch&quot;,&#x27;b&#x27;)]&#xA;    public string c { get; set; }&#xA;    &#xA;    public bool DetachFlag { get; set; }&#xA;    &#xA;    public bool ForceFlag { get; set; }&#xA;}&#xA;</code></pre>
+<p>To specify the name of a newly created branch using the <code>CreateBranchFlag</code> property, I can either use:</p>
+<pre><code>git checkout -b working
+</code></pre>
+<p>to create a new &quot;working&quot; branch, or use the long form:</p>
+<pre><code>git checkout --create-branch working
+</code></pre>
+<p>When Oakton encounters a recognized flag that accepts a value, it assumes that the next string value should be converted
+to that named value and bound to the proper field or property.</p>
+<h2 id="flag-alias">Flag Alias</h2>
+<p>Oakton follows the Unix idiom of command line flags being identified as either two dashes and a word for
+the long form, or by a single dash and a letter as a shorthand. By default, a flag in the command line is derived from the property or field name by omitting the <em>Flag</em> suffix for the long form and taking the first letter for the short hand.</p>
+<p>By that logic, the property named <code>ForceFlag</code> from the example above would be used like this (assuming that the executable is named 'git'):</p>
+<pre><code>git clean --force
+</code></pre>
+<p>or</p>
+<pre><code>git clean -f
+</code></pre>
+<p>There is some logic to deal with bigger property names by splitting based on <a href="http://wiki.c2.com/?PascalCase">Pascal casing rules</a>. So
+a property named <code>FirstNameFlag</code> would be parsed at the command line as either <code>-f</code> or <code>--first-name-flag</code>.</p>
+<p>You can of course override the flag alias in either long or short form by using the <code>[FlagAlias]</code> attribute as shown in the <code>CleanInput</code>
+example above.</p>
+<p>Just like <a href="/oakton/documentation/arguments">Arguments</a>, Flags can be any type that Oakton knows how to convert, with a few special types shown in the subsequent sections:</p>
+<ul class="table-of-contents"><li><a href="/oakton/documentation/flags/boolean">Boolean Flags</a></li><li><a href="/oakton/documentation/flags/enumerable">Enumerable Flags</a></li><li><a href="/oakton/documentation/flags/dictionary">Key/Value Flags</a></li></ul>
+
+			      	</div>
+
+			      	<hr />
+
+			      	<nav>
+				        <span>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/arguments">Arguments</a>
+
+				        </span>
+				        <span class="pull-right">
+
+				        	<strong>Next: </strong><a href="/oakton/documentation/flags/boolean">Boolean Flags</a>
+
+				        </span>
+			      	</nav>
+
+		      </div><!--/right-->
+		  	</div><!--/row-->
+		</div><!--/container-->
+
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$('#search').keyup(function(e){
+  if(e.keyCode == 13) {
+    var search = $('#search').val();
+
+    var url = 'https://www.google.com/#q=site:http://jasperfx.github.io/oakton ' + search;
+    url = encodeURI(url);
+
+    //alert(url);
+
+    window.location.href = url;
+
+    e.stopPropagation();
+    if (e.cancelBubble!=null) e.cancelBubble = true;
+    return false;
+  }
+
+
+
+});
+
+</script>
+    </body>
+
+
+    <foot>
+        <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/oakton/content/embed.js"></script>
+        <script type="text/javascript" src="/oakton/content/prism.js"></script>
+        <script type="text/javascript" src="/oakton/content/sidebar.js"></script>
+        <script type="text/javascript" src="/oakton/content/affix.js"></script>
+    </foot>
+</html>

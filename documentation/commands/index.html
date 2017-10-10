@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel=icon href=/content/images/favicon.ico>
+		<title>Oakton - Commands</title>
+		<link href="/oakton/content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/prism.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/theme.css" rel="stylesheet" type="text/css" />
+
+
+
+
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+        <!-- CSS code from Bootply.com editor -->
+        <link href="/oakton/content/affix.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <!-- HTML code from Bootply.com editor -->
+
+    <body  >
+
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+		  <div class="container">
+		    <div class="navbar-header">
+		      <a href="/oakton" class="navbar-brand">Oakton</a>
+		    </div>
+		    <nav class="collapse navbar-collapse" role="navigation">
+		      <ul class="nav navbar-nav pull-right">
+		        <li>
+		          <a href="/oakton/documentation/getting_started">Getting Started</a>
+		        </li>
+		        <li>
+		          <a href="/oakton/documentation">Documentation</a>
+		        </li>
+		        <li>
+		        <li>
+<a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
+		        </li>
+		      	<li><a href="/oakton/documentation/getting_started" title="Getting Started">Previous</a></li>
+		      	<li><a href="/oakton/documentation/bootstrapping" title="Bootstrapping">Next</a></li>
+		      </ul>
+		      <div class="navbar-form navbar-left" role="search">
+		        <div class="form-group">
+		          <input id="search" type="search" class="form-control" placeholder="Search">
+		        </div>
+		      </div>
+
+		    </nav>
+
+		  </div>
+		</nav>
+
+		  <div class="container">
+		  	<nav class="navbar-inverse">
+		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li class="active">Commands</li></ol>
+		  	</nav>
+		  </div>
+
+		<!--main-->
+		<div class="container">
+			<div class="row">
+		      <!--left-->
+
+		      <div class="col-md-3" id="leftCol">
+		      	<h3>Oakton 1.3.0</h3>
+		      	<br />
+
+				<ul class="nav nav-stacked affix" id="sidebar">
+
+		        </ul>
+
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/bootstrapping">Bootstrapping</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/getting_started">Getting Started</a></p>
+
+		        </ul>
+		      </div><!--/left-->
+
+		      <!--right-->
+		      <div class="col-md-9">
+			      	<h1>Commands<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/commands.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
+
+			      	<hr />
+
+			      	<div id="main-pane">
+			      		<!--Building Commands-->
+<div class="alert-info alert"><p><strong>Note!</strong>
+It is perfectly legal to use the same input class across multiple commands</p>
+</div>
+<p>Oakton commands consist of two parts:</p>
+<ol>
+<li>A concrete input class that holds all the argument and flag data inputs</li>
+<li>A concrete class that inherits from <code>OaktonCommand&lt;T&gt;</code> where the &quot;T&quot; is the input class in the first bullet point</li>
+</ol>
+<p>Looking again at the <code>NameCommand</code> from the <a href="/oakton/documentation/getting_started">Getting Started</a> topic:</p>
+<pre><code class="language-csharp">&#xA;[Description(&quot;Print somebody&#x27;s name&quot;)]&#xA;public class NameCommand : OaktonCommand&lt;NameInput&gt;&#xA;{&#xA;    public NameCommand()&#xA;    {&#xA;        // The usage pattern definition here is completely&#xA;        // optional&#xA;        Usage(&quot;Default Color&quot;).Arguments(x =&gt; x.Name);&#xA;        Usage(&quot;Print name with specified color&quot;).Arguments(x =&gt; x.Name, x =&gt; x.Color);&#xA;    }&#xA;&#xA;    public override bool Execute(NameInput input)&#xA;    {&#xA;        var text = input.Name;&#xA;        if (!string.IsNullOrEmpty(input.TitleFlag))&#xA;        {&#xA;            text = input.TitleFlag &#x2B; &quot; &quot; &#x2B; text;&#xA;        }&#xA;        &#xA;        // This is a little helper in Oakton for getting&#xA;        // cute with colors in the console output&#xA;        ConsoleWriter.Write(input.Color, text);&#xA;&#xA;&#xA;        // Just telling the OS that the command&#xA;        // finished up okay&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
+<p>There's only a couple things to note about a command class:</p>
+<ul>
+<li>The only entry point is the <code>Execute()</code> method</li>
+<li>The boolean return from the <code>Execute()</code> method simply denotes whether or not the command completed successfully. This
+will be important for any kind of console application that you'll want to use in automated builds to prevent false positive
+results</li>
+<li>The <code>Usages</code> syntax in the constructor is explained in a section below</li>
+<li>The <code>[Description]</code> attribute on the class is strictly for the purpose of providing help text and is not mandatory</li>
+</ul>
+<h2 id="argument-usages">Argument Usages</h2>
+<p>As shown in the <code>NameCommand</code> in the section above, you can specify the valid combinations of arguments and the order
+in which they should follow in the command line usage by modifying the <code>Usages</code> property in the constructor function
+of a command:</p>
+<pre><code class="language-csharp">&#xA;public OtherNameCommand()&#xA;{&#xA;    // You can specify multiple usages&#xA;    Usage(&quot;describe what is different about this usage&quot;)&#xA;        // Specify which arguments are part of this usage&#xA;        // and in what order they should be expressed&#xA;        // by the user&#xA;        .Arguments(x =&gt; x.Name, x =&gt; x.Color)&#xA;        &#xA;        // Optionally, you can provide a white list of valid&#xA;        // flags in this usage&#xA;        .ValidFlags(x =&gt; x.TitleFlag);&#xA;}&#xA;</code></pre>
+<p>If you do not explicitly specify usages, Oakton will assume that all arguments are mandatory and in the order in which
+they appear within the input class.</p>
+<h2 id="specifying-command-names">Specifying Command Names</h2>
+<p>By default, Oakton determines the command name for a command class by taking the class name, removing the &quot;Command&quot; suffix, and then using the all lower case remainder of the string. For an example, a command class called <code>CleanCommand</code> would have the command name
+<em>clean</em>. To override that behavior, you can use the <code>Alias</code> property on Oakton's <code>[Description]</code> attribute as shown below:</p>
+<pre><code class="language-csharp">&#xA;[Description(&quot;Say my name differently&quot;, Name = &quot;different-name&quot;)]&#xA;public class AliasedCommand : OaktonCommand&lt;NameInput&gt;&#xA;</code></pre>
+
+			      	</div>
+
+			      	<hr />
+
+			      	<nav>
+				        <span>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/getting_started">Getting Started</a>
+
+				        </span>
+				        <span class="pull-right">
+
+				        	<strong>Next: </strong><a href="/oakton/documentation/bootstrapping">Bootstrapping</a>
+
+				        </span>
+			      	</nav>
+
+		      </div><!--/right-->
+		  	</div><!--/row-->
+		</div><!--/container-->
+
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$('#search').keyup(function(e){
+  if(e.keyCode == 13) {
+    var search = $('#search').val();
+
+    var url = 'https://www.google.com/#q=site:http://jasperfx.github.io/oakton ' + search;
+    url = encodeURI(url);
+
+    //alert(url);
+
+    window.location.href = url;
+
+    e.stopPropagation();
+    if (e.cancelBubble!=null) e.cancelBubble = true;
+    return false;
+  }
+
+
+
+});
+
+</script>
+    </body>
+
+
+    <foot>
+        <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/oakton/content/embed.js"></script>
+        <script type="text/javascript" src="/oakton/content/prism.js"></script>
+        <script type="text/javascript" src="/oakton/content/sidebar.js"></script>
+        <script type="text/javascript" src="/oakton/content/affix.js"></script>
+    </foot>
+</html>
