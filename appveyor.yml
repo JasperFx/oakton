@@ -12,8 +12,6 @@ environment:
 
 before_build:
   - dotnet --info
-  - dotnet restore .\src\OaktonSample\OaktonSample.csproj
-  - dotnet restore .\src\CommonAssemblyInfo\CommonAssemblyInfo.csproj
   - dotnet restore .\src\Oakton.Testing\Oakton.Testing.csproj
 
 after_build:
