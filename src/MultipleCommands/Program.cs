@@ -42,15 +42,17 @@ namespace MultipleCommands
     }
     // ENDSAMPLE
 
+    // SAMPLE: CheckoutInput
     public class CheckoutInput
     {
-        [FlagAlias('b')]
-        public string CreateBranchFlag { get; set; }
+        [FlagAlias("create-branch",'b')]
+        public string c { get; set; }
         
         public bool DetachFlag { get; set; }
         
         public bool ForceFlag { get; set; }
     }
+    // ENDSAMPLE
 
 
     // SAMPLE: CleanInput

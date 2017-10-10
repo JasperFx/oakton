@@ -12,7 +12,7 @@ namespace Oakton.Testing
     
     public class EnumerableArgumentTester
     {
-        private EnumerableArgument argFor(Expression<Func<EnumerableArgumentTarget, object>> property)
+        private EnumerableArgument argFor(Expression<Func<EnumerableArgumentInput, object>> property)
         {
             return new EnumerableArgument(property.ToAccessor().InnerProperty, new Conversions());
         }
@@ -46,7 +46,7 @@ namespace Oakton.Testing
         [Fact]
         public void handle()
         {
-            var target = new EnumerableArgumentTarget();
+            var target = new EnumerableArgumentInput();
             var queue = new Queue<string>();
             queue.Enqueue("a");
             queue.Enqueue("b");
@@ -59,8 +59,8 @@ namespace Oakton.Testing
 
     }
 
-    
-    public class EnumerableArgumentTarget
+    // SAMPLE: EnumerableArguments
+    public class EnumerableArgumentInput
     {
         public IEnumerable<string> Names { get; set; }
 
@@ -72,4 +72,5 @@ namespace Oakton.Testing
         public IEnumerable<int> Ages { get; set; }
 
     }
+    // ENDSAMPLE
 }

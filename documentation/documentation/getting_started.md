@@ -1,6 +1,6 @@
 <!--title: Getting Started-->
 
-Oakton originated out of the defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net
+Oakton originated in the now defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net
 development team to build robust console line utilities with these attributes:
 
 * Make it easy to embed and expose command help for user friendliness
@@ -87,6 +87,12 @@ itself, you will not need the "--" separator.
 <[/info]>
 
 To print the name in blue, we can type `dotnet run -- "Alex Smith" Blue`. To add a title, we can use the signature `dotnet run -- "Alex Smith" --title Mr` or `dotnet run -- "Alex Smith" --t Mr` to get the output "Mr Alex Smith."
+
+## How it Works
+
+Oakton is attempting to take the tokenized values in the command line input and apply the values to the matching fields or properties
+on the input class objects before passing that object into the proper command's `Execute()` method. Oakton also validates that the
+signature and flag usage matches the known command syntax.
 
 ## Multiple Commands in One Tool
 

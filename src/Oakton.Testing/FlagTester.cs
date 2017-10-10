@@ -103,4 +103,13 @@ namespace Oakton.Testing
 
         public IEnumerable<string> HerpDerpFlag { get; set; }
     }
+
+    // SAMPLE: FileInput
+    public class FileInput
+    {
+        public string[] FilesFlag;
+
+        public string[] DirectoriesFlag;
+    }
+    // ENDSAMPLE
 }

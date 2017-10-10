@@ -41,10 +41,12 @@ namespace Oakton.Testing
         }
     }
 
+    // SAMPLE: DictInput
     public class DictInput
     {
         public Dictionary<string, string> PropFlag = new Dictionary<string, string>();
     }
+    // ENDSAMPLE
 
     public class DictCommand : OaktonCommand<DictInput>
     {
