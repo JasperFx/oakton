@@ -12,13 +12,13 @@ environment:
 
 before_build:
   - dotnet --info
-  - dotnet restore .\src\Oakton.sln
+  - dotnet restore src/Oakton.sln
 
 after_build:
-  - dotnet pack .\src\Oakton\Oakton.csproj -o artifacts --configuration Release /p:Version=%APPVEYOR_BUILD_VERSION%
+  - dotnet pack src/Oakton/Oakton.csproj -o artifacts --configuration Release /p:Version=%APPVEYOR_BUILD_VERSION%
 
 test_script:
-  - dotnet test .\src\Oakton.Testing\Oakton.Testing.csproj --framework netcoreapp1.1 --configuration Release
+  - dotnet test src/Oakton.Testing/Oakton.Testing.csproj --framework netcoreapp1.1 --configuration Release
 
 artifacts:
-  - path: '**\Oakton.*.nupkg' # find all NuGet packages recursively
+  - path: '**/Oakton.*.nupkg' # find all NuGet packages recursively
