@@ -129,4 +129,30 @@ namespace OaktonSample
             return true;
         }
     }
+
+    // SAMPLE: sample-arguments
+    public class NameInput
+    {
+        // Arguments can be settable properties
+        public string First { get; set; }
+        
+        // Arguments can be public fields
+        public string Last;
+
+        // Read only properties are ignored
+        public string Fullname => $"{First} {Last}";
+        
+        // You can explicitly ignore public fields or 
+        // properties that should not be captured at
+        // the command line
+        [IgnoreOnCommandLine]
+        public string Nickname;
+        
+        // This would be considered to be a flag,
+        // not an argument
+        public bool VerboseFlag { get; set; }
+    }
+    // ENDSAMPLE
+    
+    
 }
