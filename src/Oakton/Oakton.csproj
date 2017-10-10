@@ -9,7 +9,7 @@
     <AssemblyName>Oakton</AssemblyName>
     <OutputType>Library</OutputType>
     <PackageId>Oakton</PackageId>
-    <PackageTags>IoC</PackageTags>
+    <PackageTags>Command Line Parsing</PackageTags>
     <PackageProjectUrl>http://jasperfx.github.io/oakton</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/jasperfx/oakton/raw/master/LICENSE.TXT</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
