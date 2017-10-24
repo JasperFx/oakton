@@ -8,6 +8,7 @@ namespace Oakton
     /// </summary>
     public interface ICommandCreator
     {
-        IOaktonCommand Create(Type commandType);
+        IOaktonCommand CreateCommand(Type commandType);
+        object CreateModel(Type modelType);
     }
 }

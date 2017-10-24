@@ -5,9 +5,14 @@ namespace Oakton
 {
     public class ActivatorCommandCreator : ICommandCreator
     {
-        public IOaktonCommand Create(Type commandType)
+        public IOaktonCommand CreateCommand(Type commandType)
         {
             return Activator.CreateInstance(commandType).As<IOaktonCommand>();
+        }
+
+        public object CreateModel(Type modelType)
+        {
+            return Activator.CreateInstance(modelType);
         }
     }
 }

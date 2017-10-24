@@ -188,8 +188,9 @@ namespace Oakton.Testing
         {
             var queue = new Queue<string>(tokens);
             var graph = new InputCommand().Usages;
+            var creator = new ActivatorCommandCreator();
 
-            return (InputModel) graph.BuildInput(queue);
+            return (InputModel) graph.BuildInput(queue, creator);
         }
 
         [Fact]

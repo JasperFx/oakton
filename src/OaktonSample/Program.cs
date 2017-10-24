@@ -70,9 +70,14 @@ namespace OaktonSample
             _container = container;
         }
 
-        public IOaktonCommand Create(Type commandType)
+        public IOaktonCommand CreateCommand(Type commandType)
         {
             return (IOaktonCommand)_container.GetInstance(commandType);
+        }
+
+        public object CreateModel(Type modelType)
+        {
+            return _container.GetInstance(modelType);
         }
     }
     // ENDSAMPLE

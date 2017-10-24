@@ -10,7 +10,7 @@ namespace Oakton.Testing
         public void builds_an_instance_with_no_ctor_parameters()
         {
             var creator = new ActivatorCommandCreator();
-            var instance = creator.Create(typeof (NoParamsCommand));
+            var instance = creator.CreateCommand(typeof (NoParamsCommand));
 
             instance.ShouldBeOfType<NoParamsCommand>();
         }
@@ -20,7 +20,7 @@ namespace Oakton.Testing
         {
             var creator = new ActivatorCommandCreator();
 
-            Assert.Throws<MissingMethodException>(() => creator.Create(typeof (ParamsCommand)));
+            Assert.Throws<MissingMethodException>(() => creator.CreateCommand(typeof (ParamsCommand)));
         }
 
         public class FakeModel
