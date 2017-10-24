@@ -51,8 +51,9 @@ namespace Oakton.Testing
         {
             var queue = new Queue<string>(tokens);
             var graph = new FieldCommand().Usages;
+            var creator = new ActivatorCommandCreator();
 
-            return (FieldModel)graph.BuildInput(queue);
+            return (FieldModel)graph.BuildInput(queue, creator);
         }
 
         public class FieldModel

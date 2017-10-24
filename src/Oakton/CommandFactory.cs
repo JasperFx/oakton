@@ -119,7 +119,7 @@ namespace Oakton
             {
 
                 var usageGraph = command.Usages;
-                var input = usageGraph.BuildInput(queue);
+                var input = usageGraph.BuildInput(queue, _commandCreator);
 
                 var run = new CommandRun
                        {
@@ -192,13 +192,13 @@ namespace Oakton
 
         public IEnumerable<IOaktonCommand> BuildAllCommands()
         {
-            return _commandTypes.Select(x => _commandCreator.Create(x));
+            return _commandTypes.Select(x => _commandCreator.CreateCommand(x));
         }
 
 
         public IOaktonCommand Build(string commandName)
         {
-            return _commandCreator.Create(_commandTypes[commandName.ToLower()]);
+            return _commandCreator.CreateCommand(_commandTypes[commandName.ToLower()]);
         }
 
 
@@ -210,7 +210,7 @@ namespace Oakton
 
         public virtual CommandRun HelpRun(Queue<string> queue)
         {
-            var input = (HelpInput) (new HelpCommand().Usages.BuildInput(queue));
+            var input = (HelpInput) (new HelpCommand().Usages.BuildInput(queue, _commandCreator));
             input.CommandTypes = _commandTypes.GetAll();
 
             // Little hokey, but show the detailed help for the default command
@@ -228,7 +228,7 @@ namespace Oakton
                 {
                     input.InvalidCommandName = false;
 
-                    var cmd = Activator.CreateInstance(type).As<IOaktonCommand>();
+                    var cmd = _commandCreator.CreateCommand(type);
                     
                     input.Usage = cmd.Usages;
                 });
@@ -243,7 +243,7 @@ namespace Oakton
         private CommandRun dumpUsagesRun(Queue<string> queue)
         {
             var command = new DumpUsagesCommand();
-            var input = command.Usages.BuildInput(queue).As<DumpUsagesInput>();
+            var input = command.Usages.BuildInput(queue, _commandCreator).As<DumpUsagesInput>();
             input.Commands = this;
             
             return new CommandRun

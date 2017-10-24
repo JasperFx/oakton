@@ -58,9 +58,9 @@ namespace Oakton.Help
             };
         }
 
-        public object BuildInput(Queue<string> tokens)
+        public object BuildInput(Queue<string> tokens, ICommandCreator creator)
         {
-            var model = Activator.CreateInstance(_inputType);
+            var model = creator.CreateModel(_inputType);
             var responding = new List<ITokenHandler>();
 
             while (tokens.Any())
