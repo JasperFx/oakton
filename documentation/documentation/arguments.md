@@ -10,7 +10,7 @@ with the `[IgnoreOnCommandLine]`. Below is a sample:
 Argument values can be of type:
 
 * String -- wrap a string with spaces in quotes like `"Kareem Abdul Jabbar"`
-* Number -- but you'll need to wrap data in parantheses for negative numbers like `"-1"` so Jasper doesn't treat it like a flag
+* Number -- but you'll need to wrap data in parantheses for negative numbers like `"-1"` so Oakton doesn't treat it like a flag
 * Enumeration
 * Guid
 * DateTime -- in [Iso8601](https://en.wikipedia.org/wiki/ISO_8601) format, or it falls back to `DateTime.Parse()`. Relative dates can be expressed like `TODAY` or `TODAY-3` or `TODAY+3` for today, 3 days ago, and 3 days from now respectively
