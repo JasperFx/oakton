@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Oakton;
 
 namespace quickstart
@@ -20,15 +21,15 @@ namespace quickstart
     {
         [Description("The name to be printed to the console output")]
         public string Name { get; set; }
-        
+
         [Description("The color of the text. Default is black")]
         public ConsoleColor Color { get; set; } = ConsoleColor.Black;
-        
+
         [Description("Optional title preceeding the name")]
         public string TitleFlag { get; set; }
     }
     // ENDSAMPLE
-    
+
     // SAMPLE: NameCommand
     [Description("Print somebody's name")]
     public class NameCommand : OaktonCommand<NameInput>
@@ -48,7 +49,7 @@ namespace quickstart
             {
                 text = input.TitleFlag + " " + text;
             }
-            
+
             // This is a little helper in Oakton for getting
             // cute with colors in the console output
             ConsoleWriter.Write(input.Color, text);
@@ -73,7 +74,7 @@ namespace quickstart
                 // and in what order they should be expressed
                 // by the user
                 .Arguments(x => x.Name, x => x.Color)
-                
+
                 // Optionally, you can provide a white list of valid
                 // flags in this usage
                 .ValidFlags(x => x.TitleFlag);
@@ -85,7 +86,7 @@ namespace quickstart
             return true;
         }
     }
-    
+
     // SAMPLE: command-alias
     [Description("Say my name differently", Name = "different-name")]
     public class AliasedCommand : OaktonCommand<NameInput>
@@ -96,4 +97,18 @@ namespace quickstart
             throw new NotImplementedException();
         }
     }
+
+    // SAMPLE: async-command
+    public class DoNameThingsCommand : OaktonAsyncCommand<NameInput>
+    {
+        public override async Task<bool> Execute(NameInput input)
+        {
+            ConsoleWriter.Write(input.Color, "Starting...");
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
+            ConsoleWriter.Write(input.Color, $"Done! Hello {input.Name}");
+            return true;
+        }
+    }
+    // ENDSAMPLE
 }
