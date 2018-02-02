@@ -1,11 +1,12 @@
 using System;
+using System.Threading.Tasks;
 using Oakton.Help;
 
 namespace Oakton
 {
     public interface IOaktonCommand
     {
-        bool Execute(object input);
+        Task<bool> Execute(object input);
         Type InputType { get; }
         UsageGraph Usages { get; }
     }
