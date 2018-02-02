@@ -7,7 +7,7 @@ It is perfectly legal to use the same input class across multiple commands
 Oakton commands consist of two parts:
 
 1. A concrete input class that holds all the argument and flag data inputs
-1. A concrete class that inherits from `OaktonCommand<T>` where the "T" is the input class in the first bullet point
+1. A concrete class that inherits from `OaktonCommand<T>` or `OaktonAsyncCommand<T>` where the "T" is the input class in the first bullet point
 
 Looking again at the `NameCommand` from the <[linkto:documentation/getting_started]> topic:
 
@@ -21,6 +21,10 @@ There's only a couple things to note about a command class:
   results
 * The `Usages` syntax in the constructor is explained in a section below
 * The `[Description]` attribute on the class is strictly for the purpose of providing help text and is not mandatory
+
+If you want to make use of `async/await`, you can inherit from `OaktonAsyncCommand<T>` instead.  The only difference is signature of the `Execute()` method:
+
+<[sample:async-command]>
 
 
 ## Argument Usages

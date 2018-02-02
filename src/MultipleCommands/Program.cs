@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
 using Oakton;
 
 namespace MultipleCommands
@@ -24,10 +25,11 @@ namespace MultipleCommands
     
     // SAMPLE: git-commands
     [Description("Switch branches or restore working tree files")]
-    public class CheckoutCommand : OaktonCommand<CheckoutInput>
+    public class CheckoutCommand : OaktonAsyncCommand<CheckoutInput>
     {
-        public override bool Execute(CheckoutInput input)
+        public override async Task<bool> Execute(CheckoutInput input)
         {
+            await Task.CompletedTask;
             return true;
         }
     }
