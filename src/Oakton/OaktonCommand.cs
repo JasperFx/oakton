@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Oakton.Help;
 
 namespace Oakton
@@ -30,9 +31,9 @@ namespace Oakton
 
         public Type InputType => typeof (T);
 
-        bool IOaktonCommand.Execute(object input)
+        Task<bool> IOaktonCommand.Execute(object input)
         {
-            return Execute((T)input);
+            return Task.FromResult(Execute((T)input));
         }
 
         /// <summary>

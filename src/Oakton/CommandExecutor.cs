@@ -147,7 +147,7 @@ namespace Oakton
             return execute(() =>
             {
                 var run = _factory.BuildRun(commandLine);
-                return run.Execute();
+                return run.Execute().Result;
             });
 
         }
@@ -162,7 +162,7 @@ namespace Oakton
             return execute(() =>
             {
                 var run = _factory.BuildRun(readOptions().Concat(args));
-                return run.Execute();
+                return run.Execute().Result;
             });
         }
     }
