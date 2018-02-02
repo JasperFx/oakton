@@ -171,7 +171,7 @@ namespace Oakton
         {
             assembly
                 .GetExportedTypes()
-                .Where(x => x.Closes(typeof(OaktonCommand<>)) && x.IsConcrete())
+                .Where(x => (x.Closes(typeof(OaktonCommand<>)) || x.Closes(typeof(OaktonAsyncCommand<>))) && x.IsConcrete())
                 .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
         }
 
