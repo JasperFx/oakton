@@ -72,7 +72,7 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 1.3.0</h3>
+		      	<h3>Oakton 1.4.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
@@ -99,10 +99,10 @@ their tools much easier to use at the command line</p>
 </div>
 <p>As a contrived example (that probably violates all kind of security best practices), let's say that your console application exposes several commands, but all of the commands may need
 an optional user name and password flag. You might start with a base class for your command inputs like this:</p>
-<pre><code class="language-csharp">&#xA;public class SecuredInput&#xA;{&#xA;    public string UserName { get; set; }&#xA;    public string Password { get; set; }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public class SecuredInput&#xD;&#xA;{&#xD;&#xA;    public string UserName { get; set; }&#xD;&#xA;    public string Password { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <p>To make the tool easier to use, we can take advantage of the &quot;opts&quot; file option by making Oakton look for the presence of an optional text file in the same directory as the command execution with a certain name to pick up default command usages.</p>
 <p>We can set that up by declaring the name of the opts file like this:</p>
-<pre><code class="language-csharp">&#xA;var executor = CommandExecutor.For(_ =&gt;&#xA;{&#xA;    // configure the command discovery&#xA;});&#xA;&#xA;executor.OptionsFile = &quot;mytool.opts&quot;;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;var executor = CommandExecutor.For(_ =&gt;&#xD;&#xA;{&#xD;&#xA;    // configure the command discovery&#xD;&#xA;});&#xD;&#xA;&#xD;&#xA;executor.OptionsFile = &quot;mytool.opts&quot;;&#xD;&#xA;</code></pre>
 <p>Now, we could have add a file named <code>mytool.opts</code> to the directory where we run the command with this sample content:</p>
 <pre><code>-u MyUserName
 -p ~~HeMan2345

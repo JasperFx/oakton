@@ -72,7 +72,7 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 1.3.0</h3>
+		      	<h3>Oakton 1.4.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
@@ -95,9 +95,9 @@
 			      		<!--title:Help Text-->
 <p>Oakton comes with its own <code>[Description]</code> attribute that can be applied to fields or properties on
 the input class to provide help information on usage like this:</p>
-<pre><code class="language-csharp">&#xA;public class NameInput&#xA;{&#xA;    [Description(&quot;The name to be printed to the console output&quot;)]&#xA;    public string Name { get; set; }&#xA;    &#xA;    [Description(&quot;The color of the text. Default is black&quot;)]&#xA;    public ConsoleColor Color { get; set; } = ConsoleColor.Black;&#xA;    &#xA;    [Description(&quot;Optional title preceeding the name&quot;)]&#xA;    public string TitleFlag { get; set; }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public class NameInput&#xD;&#xA;{&#xD;&#xA;    [Description(&quot;The name to be printed to the console output&quot;)]&#xD;&#xA;    public string Name { get; set; }&#xD;&#xA;&#xD;&#xA;    [Description(&quot;The color of the text. Default is black&quot;)]&#xD;&#xA;    public ConsoleColor Color { get; set; } = ConsoleColor.Black;&#xD;&#xA;&#xD;&#xA;    [Description(&quot;Optional title preceeding the name&quot;)]&#xD;&#xA;    public string TitleFlag { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <p>or on the command class itself:</p>
-<pre><code class="language-csharp">&#xA;[Description(&quot;Print somebody&#x27;s name&quot;)]&#xA;public class NameCommand : OaktonCommand&lt;NameInput&gt;&#xA;{&#xA;    public NameCommand()&#xA;    {&#xA;        // The usage pattern definition here is completely&#xA;        // optional&#xA;        Usage(&quot;Default Color&quot;).Arguments(x =&gt; x.Name);&#xA;        Usage(&quot;Print name with specified color&quot;).Arguments(x =&gt; x.Name, x =&gt; x.Color);&#xA;    }&#xA;&#xA;    public override bool Execute(NameInput input)&#xA;    {&#xA;        var text = input.Name;&#xA;        if (!string.IsNullOrEmpty(input.TitleFlag))&#xA;        {&#xA;            text = input.TitleFlag &#x2B; &quot; &quot; &#x2B; text;&#xA;        }&#xA;        &#xA;        // This is a little helper in Oakton for getting&#xA;        // cute with colors in the console output&#xA;        ConsoleWriter.Write(input.Color, text);&#xA;&#xA;&#xA;        // Just telling the OS that the command&#xA;        // finished up okay&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;[Description(&quot;Print somebody&#x27;s name&quot;)]&#xD;&#xA;public class NameCommand : OaktonCommand&lt;NameInput&gt;&#xD;&#xA;{&#xD;&#xA;    public NameCommand()&#xD;&#xA;    {&#xD;&#xA;        // The usage pattern definition here is completely&#xD;&#xA;        // optional&#xD;&#xA;        Usage(&quot;Default Color&quot;).Arguments(x =&gt; x.Name);&#xD;&#xA;        Usage(&quot;Print name with specified color&quot;).Arguments(x =&gt; x.Name, x =&gt; x.Color);&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    public override bool Execute(NameInput input)&#xD;&#xA;    {&#xD;&#xA;        var text = input.Name;&#xD;&#xA;        if (!string.IsNullOrEmpty(input.TitleFlag))&#xD;&#xA;        {&#xD;&#xA;            text = input.TitleFlag &#x2B; &quot; &quot; &#x2B; text;&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        // This is a little helper in Oakton for getting&#xD;&#xA;        // cute with colors in the console output&#xD;&#xA;        ConsoleWriter.Write(input.Color, text);&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;        // Just telling the OS that the command&#xD;&#xA;        // finished up okay&#xD;&#xA;        return true;&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <p>Also note the explanatory text in the <code>Usage()</code> method above in the case of a command that has multiple valid
 argument patterns.</p>
 <p>To display a list of all the available commands, you can type either:</p>

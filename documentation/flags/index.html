@@ -72,7 +72,7 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 1.3.0</h3>
+		      	<h3>Oakton 1.4.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
@@ -95,10 +95,10 @@
 			      		<!--title:Optional Flags-->
 <p>Flags are any public settable property or public field on the input class that are suffixed with
 <em>Flag</em>. Below is an example of several flags:</p>
-<pre><code class="language-csharp">&#xA;public class CleanInput&#xA;{&#xA;    [Description(&quot;Do it now!&quot;)]&#xA;    public bool ForceFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;d&#x27;)]&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;x&#x27;)]&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public class CleanInput&#xD;&#xA;{&#xD;&#xA;    [Description(&quot;Do it now!&quot;)]&#xD;&#xA;    public bool ForceFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    [FlagAlias(&#x27;d&#x27;)]&#xD;&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xD;&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    [FlagAlias(&#x27;x&#x27;)]&#xD;&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xD;&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <h2 id="setting-flag-values">Setting Flag Values</h2>
 <p>Let's say you're trying to recreate the command line options for the <code>git checkout</code> command with this input:</p>
-<pre><code class="language-csharp">&#xA;public class CheckoutInput&#xA;{&#xA;    [FlagAlias(&quot;create-branch&quot;,&#x27;b&#x27;)]&#xA;    public string c { get; set; }&#xA;    &#xA;    public bool DetachFlag { get; set; }&#xA;    &#xA;    public bool ForceFlag { get; set; }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public class CheckoutInput&#xD;&#xA;{&#xD;&#xA;    [FlagAlias(&quot;create-branch&quot;,&#x27;b&#x27;)]&#xD;&#xA;    public string c { get; set; }&#xD;&#xA;    &#xD;&#xA;    public bool DetachFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    public bool ForceFlag { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <p>To specify the name of a newly created branch using the <code>CreateBranchFlag</code> property, I can either use:</p>
 <pre><code>git checkout -b working
 </code></pre>

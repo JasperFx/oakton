@@ -46,7 +46,7 @@
 		        <li>
 <a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
 		        </li>
-		      	<li><a href="/oakton/documentation/commands" title="Commands">Previous</a></li>
+		      	<li><a href="/oakton/documentation/async" title="Asynchronous Execution">Previous</a></li>
 		      	<li><a href="/oakton/documentation/arguments" title="Arguments">Next</a></li>
 		      </ul>
 		      <div class="navbar-form navbar-left" role="search">
@@ -72,7 +72,7 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 1.3.0</h3>
+		      	<h3>Oakton 1.4.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
@@ -80,7 +80,7 @@
 		        </ul>
 
 		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/arguments">Arguments</a></p>
-		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/commands">Commands</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/async">Asynchronous Execution</a></p>
 
 		        </ul>
 		      </div><!--/left-->
@@ -98,11 +98,11 @@ options to preprocess commands, automatic command discovery, <a href="/oakton/do
 command object builders.</p>
 <h2 id="single-command">Single Command</h2>
 <p>If all you have is a single command in your project, the bootstrapping can be as simple as this:</p>
-<pre><code class="language-csharp">&#xA;class Program&#xA;{&#xA;    static int Main(string[] args)&#xA;    {&#xA;        // As long as this doesn&#x27;t blow up, we&#x27;re good to go&#xA;        return CommandExecutor.ExecuteCommand&lt;NameCommand&gt;(args);&#xA;    }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;class Program&#xD;&#xA;{&#xD;&#xA;    static int Main(string[] args)&#xD;&#xA;    {&#xD;&#xA;        // As long as this doesn&#x27;t blow up, we&#x27;re good to go&#xD;&#xA;        return CommandExecutor.ExecuteCommand&lt;NameCommand&gt;(args);&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <h2 id="multiple-commands">Multiple Commands</h2>
 <p>For more complex applications with multiple commands, you need to interact a little more with the <code>CommandFactory</code>
 configuration as shown below:</p>
-<pre><code class="language-csharp">&#xA;public static int Main(string[] args)&#xA;{&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xA;    {&#xA;        // Automatically discover and register&#xA;        // all OaktonCommand&#x27;s in this assembly&#xA;        _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);&#xA;        &#xA;        // You can also add commands explicitly from&#xA;        // any assembly&#xA;        _.RegisterCommand&lt;HelloCommand&gt;();&#xA;        &#xA;        // In the absence of a recognized command name,&#xA;        // this is the default command to try to &#xA;        // fit to the arguments provided&#xA;        _.DefaultCommand = typeof(ColorCommand);&#xA;&#xA;        &#xA;        _.ConfigureRun = run =&gt;&#xA;        {&#xA;            // you can use this to alter the values&#xA;            // of the inputs or actual command objects&#xA;            // just before the command is executed&#xA;        };&#xA;        &#xA;        // This is strictly for the as yet undocumented&#xA;        // feature in stdocs to generate and embed usage information&#xA;        // about console tools built with Oakton into&#xA;        // stdocs generated documentation websites&#xA;        _.SetAppName(&quot;MyApp&quot;);&#xA;    });&#xA;&#xA;    // See the page on Opts files&#xA;    executor.OptionsFile = &quot;myapp.opts&quot;;&#xA;&#xA;    return executor.Execute(args);&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public static int Main(string[] args)&#xD;&#xA;{&#xD;&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xD;&#xA;    {&#xD;&#xA;        // Automatically discover and register&#xD;&#xA;        // all OaktonCommand&#x27;s in this assembly&#xD;&#xA;        _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);&#xD;&#xA;        &#xD;&#xA;        // You can also add commands explicitly from&#xD;&#xA;        // any assembly&#xD;&#xA;        _.RegisterCommand&lt;HelloCommand&gt;();&#xD;&#xA;        &#xD;&#xA;        // In the absence of a recognized command name,&#xD;&#xA;        // this is the default command to try to &#xD;&#xA;        // fit to the arguments provided&#xD;&#xA;        _.DefaultCommand = typeof(ColorCommand);&#xD;&#xA;&#xD;&#xA;        &#xD;&#xA;        _.ConfigureRun = run =&gt;&#xD;&#xA;        {&#xD;&#xA;            // you can use this to alter the values&#xD;&#xA;            // of the inputs or actual command objects&#xD;&#xA;            // just before the command is executed&#xD;&#xA;        };&#xD;&#xA;        &#xD;&#xA;        // This is strictly for the as yet undocumented&#xD;&#xA;        // feature in stdocs to generate and embed usage information&#xD;&#xA;        // about console tools built with Oakton into&#xD;&#xA;        // stdocs generated documentation websites&#xD;&#xA;        _.SetAppName(&quot;MyApp&quot;);&#xD;&#xA;    });&#xD;&#xA;&#xD;&#xA;    // See the page on Opts files&#xD;&#xA;    executor.OptionsFile = &quot;myapp.opts&quot;;&#xD;&#xA;&#xD;&#xA;    return executor.Execute(args);&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <p>Note the usage of <code>ConfigureRun</code>. See the <a href="https://github.com/JasperFx/marten/blob/master/src/Marten.CommandLine/MartenCommands.cs#L16-L21">Marten.CommandLine</a> usage of this extension point as an example.</p>
 <h2 id="custom-command-creators">Custom Command Creators</h2>
 <div class="alert-info alert"><p><strong>Note!</strong>
@@ -112,9 +112,9 @@ focus on building fast console tools without the extra complexity of IoC set up<
 <p>By default, Oakton just tries to create command objects by calling an expected default, no arg constructor
 with <code>Activator.CreateInstance()</code>. However, if you want to do something different like use an IoC container, you
 can provide a custom <code>ICommandCreator</code> like this one using <a href="http://structuremap.github.io">StructureMap</a>:</p>
-<pre><code class="language-csharp">&#xA;public class StructureMapCommandCreator : ICommandCreator&#xA;{&#xA;    private readonly IContainer _container;&#xA;&#xA;    public StructureMapCommandCreator(IContainer container)&#xA;    {&#xA;        _container = container;&#xA;    }&#xA;&#xA;    public IOaktonCommand Create(Type commandType)&#xA;    {&#xA;        return (IOaktonCommand)_container.GetInstance(commandType);&#xA;    }&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public class StructureMapCommandCreator : ICommandCreator&#xD;&#xA;{&#xD;&#xA;    private readonly IContainer _container;&#xD;&#xA;&#xD;&#xA;    public StructureMapCommandCreator(IContainer container)&#xD;&#xA;    {&#xD;&#xA;        _container = container;&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    public IOaktonCommand CreateCommand(Type commandType)&#xD;&#xA;    {&#xD;&#xA;        return (IOaktonCommand)_container.GetInstance(commandType);&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    public object CreateModel(Type modelType)&#xD;&#xA;    {&#xD;&#xA;        return _container.GetInstance(modelType);&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;</code></pre>
 <p>To use this custom command creator, just tell <code>CommandExecutor</code> about it like this:</p>
-<pre><code class="language-csharp">&#xA;public static void Bootstrapping(IContainer container)&#xA;{&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xA;    {&#xA;        // do the other configuration of the CommandFactory&#xA;    }, new StructureMapCommandCreator(container));&#xA;}&#xA;</code></pre>
+<pre><code class="language-csharp">&#xD;&#xA;public static void Bootstrapping(IContainer container)&#xD;&#xA;{&#xD;&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xD;&#xA;    {&#xD;&#xA;        // do the other configuration of the CommandFactory&#xD;&#xA;    }, new StructureMapCommandCreator(container));&#xD;&#xA;}&#xD;&#xA;</code></pre>
 
 			      	</div>
 
@@ -122,7 +122,7 @@ can provide a custom <code>ICommandCreator</code> like this one using <a href="h
 
 			      	<nav>
 				        <span>
-				        	<strong>Previous: </strong><a href="/oakton/documentation/commands">Commands</a>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/async">Asynchronous Execution</a>
 
 				        </span>
 				        <span class="pull-right">
