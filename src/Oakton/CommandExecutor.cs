@@ -14,13 +14,14 @@ namespace Oakton
     {
         private readonly ICommandFactory _factory;
 
-        private static int execute(Func<bool> execute)
+        private static int execute(CommandRun run)
         {
             bool success;
 
             try
             {
-                success = execute();
+                // TODO -- TEMPORARY
+                success = run.Execute().GetAwaiter().GetResult();
             }
             catch (CommandFailureException e)
             {
@@ -143,12 +144,9 @@ namespace Oakton
         public int Execute(string commandLine)
         {
             commandLine = applyOptions(commandLine);
+            var run = _factory.BuildRun(commandLine);
 
-            return execute(() =>
-            {
-                var run = _factory.BuildRun(commandLine);
-                return run.Execute().Result;
-            });
+            return execute(run);
 
         }
 
@@ -159,11 +157,9 @@ namespace Oakton
         /// <returns></returns>
         public int Execute(string[] args)
         {
-            return execute(() =>
-            {
-                var run = _factory.BuildRun(readOptions().Concat(args));
-                return run.Execute().Result;
-            });
+            var run = _factory.BuildRun(readOptions().Concat(args));
+
+            return execute(run);
         }
     }
 }
