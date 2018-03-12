@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Baseline;
 using Oakton.Parsing;
 
@@ -14,14 +15,13 @@ namespace Oakton
     {
         private readonly ICommandFactory _factory;
 
-        private static int execute(CommandRun run)
+        private static async Task<int> execute(CommandRun run)
         {
             bool success;
 
             try
             {
-                // TODO -- TEMPORARY
-                success = run.Execute().GetAwaiter().GetResult();
+                success = await run.Execute();
             }
             catch (CommandFailureException e)
             {
@@ -143,10 +143,7 @@ namespace Oakton
         /// <returns></returns>
         public int Execute(string commandLine)
         {
-            commandLine = applyOptions(commandLine);
-            var run = _factory.BuildRun(commandLine);
-
-            return execute(run);
+            return ExecuteAsync(commandLine).GetAwaiter().GetResult();
 
         }
 
@@ -156,6 +153,30 @@ namespace Oakton
         /// <param name="args"></param>
         /// <returns></returns>
         public int Execute(string[] args)
+        {
+            return ExecuteAsync(args).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Execute asynchronously with the command line arguments. Useful for testing Oakton applications
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns></returns>
+        public Task<int> ExecuteAsync(string commandLine)
+        {
+            commandLine = applyOptions(commandLine);
+            var run = _factory.BuildRun(commandLine);
+
+            return execute(run);
+
+        }
+
+        /// <summary>
+        /// Execute asynchronously with the command line arguments. 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public Task<int> ExecuteAsync(string[] args)
         {
             var run = _factory.BuildRun(readOptions().Concat(args));
 
