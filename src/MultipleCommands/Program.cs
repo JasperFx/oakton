@@ -21,8 +21,24 @@ namespace MultipleCommands
             return executor.Execute(args);
         }
         // ENDSAMPLE
+
+            /*
+        // SAMPLE: MultipleCommands.Program.Main.Async
+        static Task<int> Main(string[] args)
+        {
+            var executor = CommandExecutor.For(_ =>
+            {
+                // Find and apply all command classes discovered
+                // in this assembly
+                _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);
+            });
+
+            return executor.ExecuteAsync(args);
+        }
+        // ENDSAMPLE
+        */
     }
-    
+
     // SAMPLE: git-commands
     [Description("Switch branches or restore working tree files")]
     public class CheckoutCommand : OaktonAsyncCommand<CheckoutInput>

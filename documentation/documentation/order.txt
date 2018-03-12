@@ -1,7 +1,14 @@
 getting_started
+
 commands
+
+async
 bootstrapping
+
 arguments
+
 flags
+
 help
+
 opts

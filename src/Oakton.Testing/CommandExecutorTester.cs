@@ -178,6 +178,7 @@ namespace Oakton.Testing
         }
     }
 
+    // SAMPLE: async-command-sample
     [Description("Say my name", Name = "say-async-name")]
     public class AsyncSayNameCommand : OaktonAsyncCommand<SayName>
     {
@@ -188,14 +189,12 @@ namespace Oakton.Testing
 
         public override async Task<bool> Execute(SayName input)
         {
-            await Task.Run(() =>
-            {
-                Console.WriteLine($"{input.FirstName} {input.LastName}");
-            });
+            await Console.Out.WriteLineAsync($"{input.FirstName} {input.LastName}");
 
             return true;
         }
     }
+    // ENDSAMPLE
 
     public class ThrowUp
     {
@@ -216,4 +215,7 @@ namespace Oakton.Testing
             throw new DivideByZeroException("I threw up!");
         }
     }
+
+
+
 }
