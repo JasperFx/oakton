@@ -31,6 +31,7 @@ namespace Oakton.Testing
             });
         }
 
+
         [Fact]
         public void execute_happy_path()
         {
@@ -118,6 +119,24 @@ namespace Oakton.Testing
             executor.Execute("--number 5").ShouldBe(0);
 
             theOutput.ToString().ShouldContain("Big is true, Number is 5");
+        }
+
+        [Fact]
+        public void execute_single_command_synchronously()
+        {
+            CommandExecutor.ExecuteCommand<OptionCommand>(new[] {"--big", "--number", "6"})
+                .ShouldBe(0);
+
+            theOutput.ToString().Trim().ShouldBe("Big is True, Number is 6");
+        }
+
+        [Fact]
+        public async Task execute_single_command_asynchronously()
+        {
+            (await CommandExecutor.ExecuteCommandAsync<OptionCommand>(new[] { "--big", "--number", "7" }))
+                .ShouldBe(0);
+
+            theOutput.ToString().Trim().ShouldBe("Big is True, Number is 7");
         }
     }
 

@@ -61,6 +61,27 @@ namespace Oakton
         }
 
         /// <summary>
+        /// Execute an instance of the "T" command class with the current arguments and an optional
+        /// opts file
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="args"></param>
+        /// <param name="optsFile">If chosen, Oakton will look at this file location for options and apply any found to the command line arguments</param>
+        /// <returns></returns>
+        public static Task<int> ExecuteCommandAsync<T>(string[] args, string optsFile = null) where T : IOaktonCommand
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommand<T>();
+
+            var executor = new CommandExecutor(factory)
+            {
+                OptionsFile = optsFile
+            };
+
+            return executor.ExecuteAsync(args);
+        }
+
+        /// <summary>
         /// Build a configured executor. You would generally choose this option if you have multiple commands
         /// within the application
         /// </summary>
