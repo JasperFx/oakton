@@ -49,6 +49,8 @@ a property named `FirstNameFlag` would be parsed at the command line as either `
 You can of course override the flag alias in either long or short form by using the `[FlagAlias]` attribute as shown in the `CleanInput`
 example above.
 
+Lastly, if only the long form alias is desired, `[FlagAlias]` provides the constructor `FlagAliasAttribute(string longAlias, bool longAliasOnly)`.
+
 Just like <[linkto:documentation/arguments]>, Flags can be any type that Oakton knows how to convert, with a few special types shown in the subsequent sections:
 
 

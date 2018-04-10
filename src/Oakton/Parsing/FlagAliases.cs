@@ -5,9 +5,11 @@
         public string LongForm { get; set; }
         public string ShortForm { get; set; }
 
+        public bool LongFormOnly { get; set; }
+
         public bool Matches(string token)
         {
-            if(InputParser.IsShortFlag(token))
+            if(!LongFormOnly && InputParser.IsShortFlag(token))
             {
                 return token == ShortForm;
             }
@@ -19,7 +21,7 @@
 
         public override string ToString()
         {
-            return $"{ShortForm}, {LongForm}";
+            return LongFormOnly ? $"{LongForm}" : $"{ShortForm}, {LongForm}";
         }
     }
 }

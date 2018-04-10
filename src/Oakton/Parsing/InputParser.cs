@@ -104,17 +104,20 @@ namespace Oakton.Parsing
             name = splitOnPascalCaseAndAddHyphens(name);
 
             var oneLetterName = name.ToLower()[0];
+            var longFormOnly = false;
 
             member.ForAttribute<FlagAliasAttribute>(att =>
             {
                 name = att.LongAlias ?? name;
                 oneLetterName = att.OneLetterAlias ?? oneLetterName;
+                longFormOnly = att.LongAliasOnly;
             });
 
             return new FlagAliases
                        {
                            ShortForm = (SHORT_FLAG_PREFIX + oneLetterName),
-                           LongForm = LONG_FLAG_PREFIX + name.ToLower()
+                           LongForm = LONG_FLAG_PREFIX + name.ToLower(),
+                           LongFormOnly = longFormOnly
                        };
         }
 

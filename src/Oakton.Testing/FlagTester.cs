@@ -72,6 +72,20 @@ namespace Oakton.Testing
         }
 
         [Fact]
+        public void to_usage_description_for_a_simple_aliased_field_with_longform_only()
+        {
+            forProp(x => x.LongFormAliasFlag).ToUsageDescription().ShouldBe("[--longformaliased <longformalias>]");
+        }
+
+
+        [Fact]
+        public void should_ignore_default_shortform_for_longform_only_alias()
+        {            
+            forProp(x => x.LongFormAliasFlag).Handle(new FlagTarget(), new Queue<string>(new[] { "-l" })).ShouldBe(false);
+        }
+
+
+        [Fact]
         public void to_usage_description_for_a_simple_non_aliased_field()
         {
             forProp(x => x.NameFlag).ToUsageDescription().ShouldBe("[-n, --name <name>]");
@@ -100,6 +114,10 @@ namespace Oakton.Testing
 
         [FlagAlias("aliased", 'a')]
         public string AliasFlag { get; set; }
+
+
+        [FlagAlias("longformaliased", true)]
+        public string LongFormAliasFlag { get; set; }
 
         public IEnumerable<string> HerpDerpFlag { get; set; }
     }
