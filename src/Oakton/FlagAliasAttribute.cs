@@ -21,12 +21,20 @@ namespace Oakton
 
         public FlagAliasAttribute(string longAlias)
         {
+            LongAlias = longAlias;            
+        }
+
+        public FlagAliasAttribute(string longAlias, bool longAliasOnly)
+        {
             LongAlias = longAlias;
+            LongAliasOnly = longAliasOnly;
         }
 
         public string LongAlias { get; }
-
+        
 
         public char? OneLetterAlias { get; }
+
+        public bool LongAliasOnly { get; }
     }
 }
