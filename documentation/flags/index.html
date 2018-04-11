@@ -95,10 +95,10 @@
 			      		<!--title:Optional Flags-->
 <p>Flags are any public settable property or public field on the input class that are suffixed with
 <em>Flag</em>. Below is an example of several flags:</p>
-<pre><code class="language-csharp">&#xD;&#xA;public class CleanInput&#xD;&#xA;{&#xD;&#xA;    [Description(&quot;Do it now!&quot;)]&#xD;&#xA;    public bool ForceFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    [FlagAlias(&#x27;d&#x27;)]&#xD;&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xD;&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    [FlagAlias(&#x27;x&#x27;)]&#xD;&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xD;&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;public class CleanInput&#xA;{&#xA;    [Description(&quot;Do it now!&quot;)]&#xA;    public bool ForceFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;d&#x27;)]&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;x&#x27;)]&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xA;}&#xA;</code></pre>
 <h2 id="setting-flag-values">Setting Flag Values</h2>
 <p>Let's say you're trying to recreate the command line options for the <code>git checkout</code> command with this input:</p>
-<pre><code class="language-csharp">&#xD;&#xA;public class CheckoutInput&#xD;&#xA;{&#xD;&#xA;    [FlagAlias(&quot;create-branch&quot;,&#x27;b&#x27;)]&#xD;&#xA;    public string c { get; set; }&#xD;&#xA;    &#xD;&#xA;    public bool DetachFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    public bool ForceFlag { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;public class CheckoutInput&#xA;{&#xA;    [FlagAlias(&quot;create-branch&quot;,&#x27;b&#x27;)]&#xA;    public string c { get; set; }&#xA;    &#xA;    public bool DetachFlag { get; set; }&#xA;    &#xA;    public bool ForceFlag { get; set; }&#xA;}&#xA;</code></pre>
 <p>To specify the name of a newly created branch using the <code>CreateBranchFlag</code> property, I can either use:</p>
 <pre><code>git checkout -b working
 </code></pre>
@@ -120,6 +120,7 @@ the long form, or by a single dash and a letter as a shorthand. By default, a fl
 a property named <code>FirstNameFlag</code> would be parsed at the command line as either <code>-f</code> or <code>--first-name-flag</code>.</p>
 <p>You can of course override the flag alias in either long or short form by using the <code>[FlagAlias]</code> attribute as shown in the <code>CleanInput</code>
 example above.</p>
+<p>Lastly, if only the long form alias is desired, <code>[FlagAlias]</code> provides the constructor <code>FlagAliasAttribute(string longAlias, bool longAliasOnly)</code>.</p>
 <p>Just like <a href="/oakton/documentation/arguments">Arguments</a>, Flags can be any type that Oakton knows how to convert, with a few special types shown in the subsequent sections:</p>
 <ul class="table-of-contents"><li><a href="/oakton/documentation/flags/boolean">Boolean Flags</a></li><li><a href="/oakton/documentation/flags/enumerable">Enumerable Flags</a></li><li><a href="/oakton/documentation/flags/dictionary">Key/Value Flags</a></li></ul>
 

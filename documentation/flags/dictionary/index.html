@@ -98,7 +98,7 @@ Key/Value flags have to be of type <code>Dictionary&lt;string, string&gt;</code>
 </div>
 <p>New to Oakton 1.3 is the ability to <strong>finally</strong> express key/value pairs as a special kind of flag. Let's say that we want
 to capture extensible key/value pairs on our input class like this:</p>
-<pre><code class="language-csharp">&#xD;&#xA;public class DictInput&#xD;&#xA;{&#xD;&#xA;    public Dictionary&lt;string, string&gt; PropFlag = new Dictionary&lt;string, string&gt;();&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;public class DictInput&#xA;{&#xA;    public Dictionary&lt;string, string&gt; PropFlag = new Dictionary&lt;string, string&gt;();&#xA;}&#xA;</code></pre>
 <p>In usage at the command line, the flag is used like this:</p>
 <pre><code>executable command --prop:color Red --prop:direction North
 </code></pre>

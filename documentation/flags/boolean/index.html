@@ -96,7 +96,7 @@
 <p>Boolean flags are just a little bit different because there's no value necessary. If the flag appears in the command line arguments,
 the field or property is set to <code>true</code>.</p>
 <p>Consider our recreation of the <code>git clean</code> command:</p>
-<pre><code class="language-csharp">&#xD;&#xA;public class CleanInput&#xD;&#xA;{&#xD;&#xA;    [Description(&quot;Do it now!&quot;)]&#xD;&#xA;    public bool ForceFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    [FlagAlias(&#x27;d&#x27;)]&#xD;&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xD;&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xD;&#xA;    &#xD;&#xA;    [FlagAlias(&#x27;x&#x27;)]&#xD;&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xD;&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;public class CleanInput&#xA;{&#xA;    [Description(&quot;Do it now!&quot;)]&#xA;    public bool ForceFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;d&#x27;)]&#xA;    [Description(&quot;Remove untracked directories in addition to untracked files&quot;)]&#xA;    public bool RemoveUntrackedDirectoriesFlag { get; set; }&#xA;    &#xA;    [FlagAlias(&#x27;x&#x27;)]&#xA;    [Description(&quot;Remove only files ignored by Git&quot;)]&#xA;    public bool DoNoUseStandardIgnoreRulesFlag { get; set; }&#xA;}&#xA;</code></pre>
 <p>From the command line, I can use these boolean flags like this with the long form for <code>ForceFlag</code>:</p>
 <pre><code>git clean -x -d --force 
 </code></pre>

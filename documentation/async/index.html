@@ -97,10 +97,10 @@
 the ability to use asynchronous <code>Program.Main()</code> method signatures in recent versions of .Net.</p>
 <p>To write an asynchronous command, use the <code>OaktonAsyncCommand&lt;T&gt;</code> type as your base class for your
 command as shown below:</p>
-<pre><code class="language-csharp">&#xD;&#xA;[Description(&quot;Say my name&quot;, Name = &quot;say-async-name&quot;)]&#xD;&#xA;public class AsyncSayNameCommand : OaktonAsyncCommand&lt;SayName&gt;&#xD;&#xA;{&#xD;&#xA;    public AsyncSayNameCommand()&#xD;&#xA;    {&#xD;&#xA;        Usage(&quot;Capture the users name&quot;).Arguments(x =&gt; x.FirstName, x =&gt; x.LastName);&#xD;&#xA;    }&#xD;&#xA;&#xD;&#xA;    public override async Task&lt;bool&gt; Execute(SayName input)&#xD;&#xA;    {&#xD;&#xA;        await Console.Out.WriteLineAsync($&quot;{input.FirstName} {input.LastName}&quot;);&#xD;&#xA;&#xD;&#xA;        return true;&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;[Description(&quot;Say my name&quot;, Name = &quot;say-async-name&quot;)]&#xA;public class AsyncSayNameCommand : OaktonAsyncCommand&lt;SayName&gt;&#xA;{&#xA;    public AsyncSayNameCommand()&#xA;    {&#xA;        Usage(&quot;Capture the users name&quot;).Arguments(x =&gt; x.FirstName, x =&gt; x.LastName);&#xA;    }&#xA;&#xA;    public override async Task&lt;bool&gt; Execute(SayName input)&#xA;    {&#xA;        await Console.Out.WriteLineAsync($&quot;{input.FirstName} {input.LastName}&quot;);&#xA;&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
 <p>Likewise, to execute asynchronously from <code>Program.Main()</code>, there are new overloads on
 <code>CommandExecutor</code> for async:</p>
-<pre><code class="language-csharp">&#xD;&#xA;static Task&lt;int&gt; Main(string[] args)&#xD;&#xA;{&#xD;&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xD;&#xA;    {&#xD;&#xA;        // Find and apply all command classes discovered&#xD;&#xA;        // in this assembly&#xD;&#xA;        _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);&#xD;&#xA;    });&#xD;&#xA;&#xD;&#xA;    return executor.ExecuteAsync(args);&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;static Task&lt;int&gt; Main(string[] args)&#xA;{&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xA;    {&#xA;        // Find and apply all command classes discovered&#xA;        // in this assembly&#xA;        _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);&#xA;    });&#xA;&#xA;    return executor.ExecuteAsync(args);&#xA;}&#xA;</code></pre>
 
 			      	</div>
 

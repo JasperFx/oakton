@@ -97,7 +97,7 @@
 more forgiving in this usage than arguments because Oakton can rely on the start of another flag to &quot;know&quot; when we've finished collecting
 values for that array.</p>
 <p>Let's say we have this input:</p>
-<pre><code class="language-csharp">&#xD;&#xA;public class FileInput&#xD;&#xA;{&#xD;&#xA;    public string[] FilesFlag;&#xD;&#xA;&#xD;&#xA;    public string[] DirectoriesFlag;&#xD;&#xA;}&#xD;&#xA;</code></pre>
+<pre><code class="language-csharp">&#xA;public class FileInput&#xA;{&#xA;    public string[] FilesFlag;&#xA;&#xA;    public string[] DirectoriesFlag;&#xA;}&#xA;</code></pre>
 <p>In usage, the flags could be used like:</p>
 <pre><code>executable command --files one.txt two.txt &quot;c:\folder\file.txt&quot; --directories c:\folder1 c:\folder2
 </code></pre>
