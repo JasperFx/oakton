@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq.Expressions;
 using Baseline.Reflection;
 using Oakton.Help;
@@ -377,9 +379,15 @@ namespace Oakton.Testing
         {
             handlerFor(x => x.PropsFlag).ShouldBeOfType<DictionaryFlag>();
         }
-      
-    }
 
+        [Fact]
+        public void type_converters_can_be_used()
+        {
+            handle(x => x.Converted, "1234").ShouldBeTrue();
+
+            theInput.Converted.Value.ShouldBe(1234);
+        }
+    }
 
     public enum Color
     {
@@ -410,9 +418,10 @@ namespace Oakton.Testing
 
         [FlagAlias("aliased", 'a')]
         public string AliasedFlag { get; set; }
-        
+
         public Dictionary<string, string> PropsFlag { get; set; } = new Dictionary<string, string>();
-        
+
+        public CustomID Converted { get; set; }
     }
 
     public class InputCommand : OaktonCommand<InputModel>
@@ -426,6 +435,44 @@ namespace Oakton.Testing
         public override bool Execute(InputModel input)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    [TypeConverter(typeof(CustomIDConverter))]
+    public struct CustomID : IEquatable<CustomID>
+    {
+        public int Value { get; }
+
+        public CustomID(int value)
+        {
+            Value = value;
+        }
+
+        public bool Equals(CustomID other) => Value == other.Value;
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is CustomID && Equals((CustomID)obj);
+        }
+
+        public override int GetHashCode() => Value;
+        public override string ToString() => Value.ToString();
+    }
+
+    public class CustomIDConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            if (value is string == false)
+                return base.ConvertFrom(context, culture, value);
+
+            return new CustomID(int.Parse((string)value));
         }
     }
 }
