@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -18,7 +19,13 @@ namespace Oakton.Parsing
         private static readonly Regex SHORT_FLAG_REGEX = new Regex("^{0}[^-]+".ToFormat(SHORT_FLAG_PREFIX)); 
         
         private static readonly string FLAG_SUFFIX = "Flag";
-        private static readonly Conversions _converter = new Conversions();
+        private static readonly Conversions _converter;
+
+        static InputParser()
+        {
+            _converter = new Conversions();
+            _converter.RegisterConversionProvider<TypeConverterProvider>();
+        }
 
 
         public static List<ITokenHandler> GetHandlers(Type inputType)
@@ -124,6 +131,18 @@ namespace Oakton.Parsing
         private static string splitOnPascalCaseAndAddHyphens(string name)
         {
             return name.SplitPascalCase().Split(' ').Join("-");
+        }
+    }
+
+    public class TypeConverterProvider : IConversionProvider
+    {
+        public Func<string, object> ConverterFor(Type type)
+        {
+            return value =>
+            {
+                var converter = TypeDescriptor.GetConverter(type);
+                return converter.ConvertFromString(value);
+            };
         }
     }
 }
