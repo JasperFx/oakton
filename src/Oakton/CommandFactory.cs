@@ -27,6 +27,11 @@ namespace Oakton
         }
 
         /// <summary>
+        /// Perform some operation based on command inputs, before command construction
+        /// </summary>
+        public Action<string, object> BeforeBuild = (commandName, input) => { };
+
+        /// <summary>
         /// Alter the input object or the command object just befor executing the command
         /// </summary>
         public Action<CommandRun> ConfigureRun = run => { };
@@ -112,14 +117,15 @@ namespace Oakton
 
         private CommandRun buildRun(Queue<string> queue, string commandName)
         {
-            var command = Build(commandName);
+            var usages = new UsageGraph(_commandTypes[commandName]);
 
-            // this is where we'll call into UsageGraph?
             try
             {
+                var input = usages.BuildInput(queue, _commandCreator);
 
-                var usageGraph = command.Usages;
-                var input = usageGraph.BuildInput(queue, _commandCreator);
+                BeforeBuild(commandName, input);
+
+                var command = Build(commandName);
 
                 var run = new CommandRun
                        {
