@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Baseline;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Oakton.AspNetCore
@@ -17,6 +20,9 @@ namespace Oakton.AspNetCore
 
         [Description("Override the log level")]
         public LogLevel? LogLevelFlag { get; set; }
+        
+        [Description("Overwrite individual configuration items")]
+        public Dictionary<string, string> ConfigFlag = new Dictionary<string, string>();
 
         [IgnoreOnCommandLine] public IWebHostBuilder WebHostBuilder { get; set; }
 
@@ -53,6 +59,11 @@ namespace Oakton.AspNetCore
             {
                 Console.WriteLine($"Overwriting the environment to `{EnvironmentFlag}`");
                 WebHostBuilder.UseEnvironment(EnvironmentFlag);
+            }
+
+            if (ConfigFlag.Any())
+            {
+                WebHostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
             }
             // ENDSAMPLE
 
