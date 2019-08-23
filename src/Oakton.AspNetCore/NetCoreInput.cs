@@ -28,7 +28,11 @@ namespace Oakton.AspNetCore
 
             // The --log-level flag value overrides your application's
             // LogLevel
-//            if (LogLevelFlag.HasValue) WebHostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
+            if (LogLevelFlag.HasValue)
+            {
+                Console.WriteLine($"Overwriting the minimum log level to {LogLevelFlag.Value}");
+                WebHostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
+            }
 
             if (VerboseFlag)
             {
@@ -37,18 +41,19 @@ namespace Oakton.AspNetCore
                 // The --verbose flag adds console and
                 // debug logging, as well as setting
                 // the minimum logging level down to debug
-//                WebHostBuilder.ConfigureLogging(x =>
-//                {
-//                    x.SetMinimumLevel(LogLevel.Debug);
-//
-//                    x.AddConsole();
-//                    x.AddDebug();
-//                });
+                WebHostBuilder.ConfigureLogging(x =>
+                {
+                    x.SetMinimumLevel(LogLevel.Debug);
+                });
             }
 
             // The --environment flag is used to set the environment
             // property on the IHostedEnvironment within your system
-            if (EnvironmentFlag.IsNotEmpty()) WebHostBuilder.UseEnvironment(EnvironmentFlag);
+            if (EnvironmentFlag.IsNotEmpty())
+            {
+                Console.WriteLine($"Overwriting the environment to `{EnvironmentFlag}`");
+                WebHostBuilder.UseEnvironment(EnvironmentFlag);
+            }
             // ENDSAMPLE
 
             return WebHostBuilder.Build();
