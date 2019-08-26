@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using ExtensionCommands;
 using Oakton.Help;
 using Shouldly;
 using Xunit;
@@ -333,6 +334,19 @@ namespace Oakton.Testing
             factory.BuildRun("Hank").Input
                 .ShouldBeOfType<MyCommandInput>()
                 .Name.ShouldBe("Hank");
+        }
+
+        [Fact]
+        public void can_discover_extension_commands()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommandsFromExtensionAssemblies();
+            
+            factory.AllCommandTypes()
+                .ShouldContain(typeof(ExtensionCommand));
+            
+            factory.AllCommandTypes()
+                .ShouldContain(typeof(Extension2Command));
         }
     }
 

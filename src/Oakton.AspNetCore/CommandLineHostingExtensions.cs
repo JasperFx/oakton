@@ -99,7 +99,7 @@ namespace Oakton.AspNetCore
                 factory.RegisterCommands(typeof(RunCommand).GetTypeInfo().Assembly);
                 if (applicationAssembly != null) factory.RegisterCommands(applicationAssembly);
 
-                foreach (var assembly in FindExtensionAssemblies(applicationAssembly)) factory.RegisterCommands(assembly);
+                factory.RegisterCommandsFromExtensionAssemblies();
 
                 factory.ConfigureRun = cmd =>
                 {
@@ -108,15 +108,7 @@ namespace Oakton.AspNetCore
             });
         }
         
-        internal static Assembly[] FindExtensionAssemblies(Assembly applicationAssembly)
-        {
-            return AssemblyFinder
-                .FindAssemblies(txt => { }, false)
-                .Concat(AppDomain.CurrentDomain.GetAssemblies())
-                .Distinct()
-                .Where(a => a.HasAttribute<OaktonCommandAssemblyAttribute>())
-                .ToArray();
-        }
+
 
     }
 

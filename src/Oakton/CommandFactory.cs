@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Baseline;
+using Baseline.Reflection;
+using Oakton.Discovery;
 using Oakton.Help;
 using Oakton.Parsing;
 
@@ -281,6 +283,27 @@ namespace Oakton
         public void SetAppName(string appName)
         {
             _appName = appName;
+        }
+        
+        /// <summary>
+        /// Automatically discover any Oakton commands in assemblies marked as
+        /// [assembly: OaktonCommandAssembly]. Also 
+        /// </summary>
+        /// <param name="applicationAssembly"></param>
+        public void RegisterCommandsFromExtensionAssemblies()
+        {
+            var assemblies = AssemblyFinder
+                .FindAssemblies(txt => { }, false)
+                .Concat(AppDomain.CurrentDomain.GetAssemblies())
+                .Distinct()
+                .Where(a => a.HasAttribute<OaktonCommandAssemblyAttribute>())
+                .ToArray();
+
+            foreach (var assembly in assemblies)
+            {
+                Console.WriteLine($"Searching '{assembly.FullName}' for commands");
+                RegisterCommands(assembly);
+            }
         }
     }
 }
