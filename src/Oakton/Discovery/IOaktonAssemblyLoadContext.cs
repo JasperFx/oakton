@@ -1,7 +1,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace Oakton.AspNetCore
+namespace Oakton.Discovery
 {
     internal interface IOaktonAssemblyLoadContext
     {

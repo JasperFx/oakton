@@ -1,8 +1,9 @@
+#if NETSTANDARD2_0
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Oakton.AspNetCore
+namespace Oakton.Discovery
 {
     public sealed class AssemblyLoadContextWrapper : IOaktonAssemblyLoadContext
     {
@@ -29,3 +30,4 @@ namespace Oakton.AspNetCore
         }
     }
 }
+#endif

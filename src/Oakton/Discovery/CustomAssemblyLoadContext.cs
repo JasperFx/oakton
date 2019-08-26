@@ -1,7 +1,8 @@
+#if NETSTANDARD2_0
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Oakton.AspNetCore
+namespace Oakton.Discovery
 {
     public sealed class CustomAssemblyLoadContext : AssemblyLoadContext, IOaktonAssemblyLoadContext
     {
@@ -16,3 +17,4 @@ namespace Oakton.AspNetCore
         }
     }
 }
+#endif

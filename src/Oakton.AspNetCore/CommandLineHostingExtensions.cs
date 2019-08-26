@@ -10,6 +10,7 @@ using Baseline.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Oakton.AspNetCore.Environment;
+using Oakton.Discovery;
 
 namespace Oakton.AspNetCore
 {

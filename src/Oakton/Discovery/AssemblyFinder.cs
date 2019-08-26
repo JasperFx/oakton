@@ -8,7 +8,7 @@ using System.Reflection;
 
 #endif
 
-namespace Oakton.AspNetCore
+namespace Oakton.Discovery
 {
 	public static class AssemblyFinder
     {
@@ -43,13 +43,21 @@ namespace Oakton.AspNetCore
 
                 try
                 {
+#if NETSTANDARD2_0
                     assembly = OaktonAssemblyContext.Loader.LoadFromAssemblyName(new AssemblyName(name));
+#else
+                    assembly = AppDomain.CurrentDomain.Load(new AssemblyName(name));
+#endif
                 }
                 catch (Exception)
                 {
                     try
                     {
+#if NETSTANDARD2_0
                         assembly = OaktonAssemblyContext.Loader.LoadFromAssemblyPath(file);
+#else
+                        assembly = Assembly.LoadFrom(file);
+#endif
                     }
                     catch (Exception)
                     {
