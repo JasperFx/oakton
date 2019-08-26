@@ -13,9 +13,9 @@ namespace MvcApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static Task<int> Main(string[] args)
         {
-            CreateWebHostBuilder(args).RunCommands(args);
+            return CreateWebHostBuilder(args).RunOaktonCommands(args);
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

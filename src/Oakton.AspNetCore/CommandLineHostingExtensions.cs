@@ -16,6 +16,7 @@ namespace Oakton.AspNetCore
 {
     public static class CommandLineHostingExtensions
     {
+        /*
         public static Task ExecuteAllEnvironmentChecks(this IWebHost host, CancellationToken token = default(CancellationToken))
         {
             return host.Services.ExecuteAllEnvironmentChecks(token);
@@ -68,8 +69,17 @@ namespace Oakton.AspNetCore
                 }
             }
         }
+        */
         
-        public static Task<int> RunCommands(this IWebHostBuilder builder, string[] args)
+        /// <summary>
+        /// Execute the extended Oakton command line support for your configured WebHostBuilder.
+        /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+        /// of your AspNetCore application
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Task<int> RunOaktonCommands(this IWebHostBuilder builder, string[] args)
         {
             return Execute(builder, null, args);
         }

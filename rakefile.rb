@@ -1,6 +1,6 @@
 COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
 RESULTS_DIR = "results"
-BUILD_VERSION = '1.4.0'
+BUILD_VERSION = '2.0.0'
 
 tc_build_number = ENV["BUILD_NUMBER"]
 build_revision = tc_build_number || Time.new.strftime('5%H%M')
@@ -30,11 +30,13 @@ task :test => [:compile] do
 	Dir.mkdir RESULTS_DIR
 
 	sh "dotnet test src/Oakton.Testing/Oakton.Testing.csproj"
+	sh "dotnet test src/Oakton.AspNetCore.Testing/Oakton.AspNetCore.Testing.csproj"
 end
 
 desc "Pack up the nupkg file"
 task :pack => [:compile] do
 	sh "dotnet pack src/Oakton/Oakton.csproj -o ./../../artifacts --configuration Release"
+	sh "dotnet pack src/Oakton.AspNetCore/Oakton.AspNetCore.csproj -o ./../../artifacts --configuration Release"
 end
 
 desc "Launches VS to the Oakton solution file"

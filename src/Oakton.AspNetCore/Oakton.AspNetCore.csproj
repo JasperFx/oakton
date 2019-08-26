@@ -2,16 +2,30 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+
+        <Description>Command Line Parsing and Execution</Description>
+        <AssemblyTitle>Oakton.AspNetCore</AssemblyTitle>
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <Authors>Jeremy D. Miller</Authors>
+        <DebugType>portable</DebugType>
+        <AssemblyName>Oakton.AspNetCore</AssemblyName>
+        <OutputType>Library</OutputType>
+        <PackageId>Oakton.AspNetCore</PackageId>
+        <PackageTags>Improved Command Line Support for ASP.Net Core using Oakton</PackageTags>
+        <PackageProjectUrl>http://jasperfx.github.io/oakton</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/jasperfx/oakton/raw/master/LICENSE.TXT</PackageLicenseUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>git://github.com/jasperfx/oakton</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
+      
       <ProjectReference Include="..\Oakton\Oakton.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="[2.0.0, 3.0.0)" />
         <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="[2.0.0, 3.0.0)" />
-        <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
     </ItemGroup>
 
 </Project>
