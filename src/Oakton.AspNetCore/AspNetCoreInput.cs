@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Oakton.AspNetCore
 {
-    public class NetCoreInput
+    public class AspNetCoreInput
     {
 
         [Description("Use to override the ASP.Net Environment name")]

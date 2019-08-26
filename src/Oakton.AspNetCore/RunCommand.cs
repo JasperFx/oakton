@@ -11,9 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Oakton.AspNetCore
 {
     [Description("Runs the configured AspNetCore application")]
-    public class RunCommand : OaktonCommand<NetCoreInput>
+    public class RunCommand : OaktonCommand<AspNetCoreInput>
     {
-        public override bool Execute(NetCoreInput input)
+        public override bool Execute(AspNetCoreInput input)
         {
             var host = input.BuildHost();
 
