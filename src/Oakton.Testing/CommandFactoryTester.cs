@@ -247,6 +247,15 @@ namespace Oakton.Testing
 
             factory.DefaultCommand.ShouldBe(typeof(RebuildAuthorizationCommand));
         }
+        
+        [Fact]
+        public void default_command_is_derived_as_the_only_one_2()
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommand(typeof(RebuildAuthorizationCommand));
+
+            factory.DefaultCommand.ShouldBe(typeof(RebuildAuthorizationCommand));
+        }
 
         [Fact]
         public void explicit_default_command()

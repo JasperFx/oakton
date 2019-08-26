@@ -168,7 +168,16 @@ namespace Oakton
         /// <typeparam name="T"></typeparam>
         public void RegisterCommand<T>()
         {
-            _commandTypes[CommandNameFor(typeof(T))] = typeof(T);
+            RegisterCommand(typeof(T));
+        }
+        
+        /// <summary>
+        /// Add a single command type to the command runner
+        /// </summary>
+        public void RegisterCommand(Type type)
+        {
+            if (!IsOaktonCommandType(type)) throw new ArgumentOutOfRangeException(nameof(type), $"Type '{type.FullName}' does not inherit from either OaktonCommannd or OaktonAsyncCommand");
+            _commandTypes[CommandNameFor(type)] = type;
         }
 
         /// <summary>
@@ -179,8 +188,15 @@ namespace Oakton
         {
             assembly
                 .GetExportedTypes()
-                .Where(x => (x.Closes(typeof(OaktonCommand<>)) || x.Closes(typeof(OaktonAsyncCommand<>))) && x.IsConcrete())
+                .Where(IsOaktonCommandType)
                 .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
+        }
+
+        public static bool IsOaktonCommandType(Type type)
+        {
+            if (!type.IsConcrete()) return false;
+
+            return type.Closes(typeof(OaktonCommand<>)) || type.Closes(typeof(OaktonAsyncCommand<>));
         }
 
         private Type _defaultCommand = null;
