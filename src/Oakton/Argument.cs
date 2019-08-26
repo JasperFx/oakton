@@ -13,11 +13,13 @@ namespace Oakton
         private readonly MemberInfo _member;
         private bool _isLatched;
         protected Func<string, object> _converter;
+        private Type _memberType;
 
         public Argument(MemberInfo member, Conversions conversions) : base(member)
         {
             _member = member;
-            _converter = conversions.FindConverter(member.GetMemberType());
+            _memberType = member.GetMemberType();
+            _converter = conversions.FindConverter(_memberType);
         }
 
         public ArgumentReport ToReport()
@@ -33,7 +35,22 @@ namespace Oakton
         {
             if (_isLatched) return false;
 
-            if (tokens.NextIsFlag()) return false;
+            if (tokens.NextIsFlag())
+            {
+                if (_memberType.IsNumeric())
+                {
+                    if (!decimal.TryParse(tokens.Peek(), out var number))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+                
+            }
 
             var value = _converter(tokens.Dequeue());
             setValue(input, value);
