@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
+using Baseline.Dates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,15 +26,17 @@ namespace Oakton.AspNetCore.Testing
             
             var command = new RunCommand();
 
-            var task = command.Execute(input);
+            var task = Task.Factory.StartNew(() => command.Execute(input));
 
+            command.Started.Wait(5.Seconds());
+            
             using (var client = new HttpClient())
             {
                 var text = await client.GetStringAsync("http://localhost:5111");
                 text.ShouldBe("Hello");
             }
 
-            await command.Shutdown();
+            command.Reset.Set();
 
             await task;
         }
