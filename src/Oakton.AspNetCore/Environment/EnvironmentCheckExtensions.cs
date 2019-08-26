@@ -97,12 +97,5 @@ namespace Oakton.AspNetCore.Environment
         }
     }
     
-    
-    // SAMPLE: IEnvironmentCheck
-    // ENDSAMPLE
 
-
-    // SAMPLE: FileExistsCheck
-
-    // ENDSAMPLE
 }
