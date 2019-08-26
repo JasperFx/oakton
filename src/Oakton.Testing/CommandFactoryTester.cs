@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using ExtensionCommands;
+using System.Threading.Tasks;
 using Oakton.Help;
 using Shouldly;
 using Xunit;
@@ -341,12 +342,24 @@ namespace Oakton.Testing
         {
             var factory = new CommandFactory();
             factory.RegisterCommandsFromExtensionAssemblies();
-            
+
             factory.AllCommandTypes()
                 .ShouldContain(typeof(ExtensionCommand));
-            
+
             factory.AllCommandTypes()
                 .ShouldContain(typeof(Extension2Command));
+
+        }
+
+        [Fact]
+        public async Task set_up_command_prereq_using_beforebuild()
+        {
+          var factory = new CommandFactory();
+          factory.RegisterCommands(GetType().GetTypeInfo().Assembly);
+          factory.BeforeBuild = (commandName, input) => { ConfigureMe.IsSet = true; };
+
+          var run = factory.BuildRun("depends-static");
+          (await run.Execute()).ShouldBe(true);
         }
     }
 
@@ -419,6 +432,20 @@ namespace Oakton.Testing
         {
             throw new NotImplementedException();
         }
+    }
+
+    public static class ConfigureMe
+    {
+      public static bool IsSet { get; set; }
+    }
+
+    [Description("Depends on some static state, e.g. configuring DI container based on inputs.", Name="depends-static")]
+    public class DependsOnStaticCommand : OaktonCommand<NulloInput>
+    {
+      public override bool Execute(NulloInput input)
+      {
+        return ConfigureMe.IsSet;
+      }
     }
 
 
