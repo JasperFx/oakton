@@ -9,35 +9,35 @@ namespace Oakton.AspNetCore.Environment
 {
     public static class EnvironmentChecker
     {
-        public static async Task ExecuteAllEnvironmentChecks(IServiceProvider services, CancellationToken token = default(CancellationToken))
+        public static async Task<EnvironmentCheckResults> ExecuteAllEnvironmentChecks(IServiceProvider services, CancellationToken token = default(CancellationToken))
         {
-            var exceptions = new List<Exception>();
+            var results = new EnvironmentCheckResults();
 
 
             var checks = services.discoverChecks().ToArray();
-            if (!checks.Any()) return;
+            if (!checks.Any()) return results;
             
             ConsoleWriter.Write("Running Environment Checks");
 
             for (int i = 0; i < checks.Length; i++)
             {
+                var check = checks[i];    
+                
                 try
                 {
-                    await checks[i].Assert(services, token);
-                    ConsoleWriter.Write(ConsoleColor.Green, $"{(i + 1).ToString().PadLeft(4)}.) Success: {checks[i].Description}");
+                    await check.Assert(services, token);
+                    ConsoleWriter.Write(ConsoleColor.Green, $"{(i + 1).ToString().PadLeft(4)}.) Success: {check.Description}");
+                    results.RegisterSuccess(check.Description);
                 }
                 catch (Exception e)
                 {
-                    ConsoleWriter.Write(ConsoleColor.Red, $"{(i + 1).ToString().PadLeft(4)}.) Failed: {checks[i].Description}");
+                    ConsoleWriter.Write(ConsoleColor.Red, $"{(i + 1).ToString().PadLeft(4)}.) Failed: {check.Description}");
                     ConsoleWriter.Write(ConsoleColor.Yellow, e.ToString());
-                    exceptions.Add(e);
+                    results.RegisterFailure(check.Description, e);
                 }
             }
 
-            if (exceptions.Any())
-            {
-                throw new AggregateException("Environment Checks Failed!", exceptions);
-            }
+            return results;
 
         }
 

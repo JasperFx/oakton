@@ -7,19 +7,22 @@ namespace Oakton.AspNetCore.Environment
 {
     public class EnvironmentCheckResults
     {
+        private readonly IList<string> _successes = new List<string>();
+        private readonly IList<EnvironmentFailure> _failures = new List<EnvironmentFailure>();
+
         public void RegisterSuccess(string description)
         {
-            Successes.Add(description);
+            _successes.Add(description);
         }
 
         public void RegisterFailure(string description, Exception ex)
         {
-            Failures.Add(new EnvironmentFailure(description, ex));
+            _failures.Add(new EnvironmentFailure(description, ex));
         }
 
-        public IList<string> Successes { get; } = new List<string>();
+        public string[] Successes => _successes.ToArray();
 
-        public IList<EnvironmentFailure> Failures { get; } = new List<EnvironmentFailure>();
+        public EnvironmentFailure[] Failures => _failures.ToArray();
 
         public bool Succeeded()
         {
