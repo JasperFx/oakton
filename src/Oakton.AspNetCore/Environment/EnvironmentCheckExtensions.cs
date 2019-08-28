@@ -7,7 +7,14 @@ namespace Oakton.AspNetCore.Environment
 {
     public static class EnvironmentCheckExtensions
     {
-        public static void EnvironmentCheck(this IServiceCollection services,
+        /// <summary>
+        /// Issue a check against the running environment asynchronously. Throw an
+        /// exception to denote environment failures
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="description"></param>
+        /// <param name="test"></param>
+        public static void CheckEnvironment(this IServiceCollection services,
             string description,
             Func<IServiceProvider, CancellationToken, Task> test)
         {
@@ -15,85 +22,88 @@ namespace Oakton.AspNetCore.Environment
             services.AddSingleton<IEnvironmentCheck>(check);
         }
 
-        public static void EnvironmentCheck(this IServiceCollection services, string description, Action action)
+        /// <summary>
+        /// Issue a check against the running environment synchronously. Throw an
+        /// exception to denote environment failures
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="description"></param>
+        /// <param name="action"></param>
+        public static void CheckEnvironment(this IServiceCollection services, string description, Action<IServiceProvider> action)
         {
-            services.EnvironmentCheck(description, (s, c) =>
+            services.CheckEnvironment(description, (s, c) =>
             {
-                action();
+                action(s);
                 return Task.CompletedTask;
             });
         }
         
-        public static void EnvironmentCheck<T>(this IServiceCollection services, string description, Action<T> action)
+        /// <summary>
+        /// Issue a check against the running environment using a registered service of type T synchronously. Throw an
+        /// exception to denote environment failures
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="description"></param>
+        /// <param name="action"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void CheckEnvironment<T>(this IServiceCollection services, string description, Action<T> action)
         {
-            services.EnvironmentCheck(description, (s, c) =>
+            services.CheckEnvironment(description, (s, c) =>
             {
                 action(s.GetService<T>());
                 return Task.CompletedTask;
             });
         }
         
-        public static void EnvironmentCheck<T1, T2>(this IServiceCollection services, string description, Action<T1, T2> action)
-        {
-            services.EnvironmentCheck(description, (s, c) =>
-            {
-                action(s.GetService<T1>(), s.GetService<T2>());
-                return Task.CompletedTask;
-            });
-        }
         
-        public static void EnvironmentCheck<T1, T2, T3>(this IServiceCollection services, string description, Action<T1, T2, T3> action)
+        /// <summary>
+        /// Issue a check against the running environment using a registered service of type T asynchronously. Throw an
+        /// exception to denote environment failures
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="description"></param>
+        /// <param name="action"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void CheckEnvironment<T>(this IServiceCollection services, string description, Func<T, CancellationToken, Task> action)
         {
-            services.EnvironmentCheck(description, (s, c) =>
-            {
-                action(s.GetService<T1>(), s.GetService<T2>(), s.GetService<T3>());
-                return Task.CompletedTask;
-            });
-        }
-        
-        
-        public static void EnvironmentCheck<T>(this IServiceCollection services, string description, Func<T, CancellationToken, Task> action)
-        {
-            services.EnvironmentCheck(description, (s, c) =>
+            services.CheckEnvironment(description, (s, c) =>
             {
                 action(s.GetService<T>(), c);
                 return Task.CompletedTask;
             });
         }
-        
-        public static void EnvironmentCheck<T1, T2>(this IServiceCollection services, string description, Func<T1, T2, CancellationToken, Task> action)
+
+        /// <summary>
+        /// Issue an environment check for the existence of a named file
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="path"></param>
+        public static void CheckThatFileExists(this IServiceCollection services, string path)
         {
-            services.EnvironmentCheck(description, (s, c) =>
-            {
-                action(s.GetService<T1>(), s.GetService<T2>(), c);
-                return Task.CompletedTask;
-            });
-        }
-        
-        public static void EnvironmentCheck<T1, T2, T3>(this IServiceCollection services, string description, Func<T1, T2, T3, CancellationToken, Task> action)
-        {
-            services.EnvironmentCheck(description, (s, c) =>
-            {
-                action(s.GetService<T1>(), s.GetService<T2>(), s.GetService<T3>(), c);
-                return Task.CompletedTask;
-            });
-        }
-        
-        
-        
-        public static void FileMustExist(this IServiceCollection services)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public static void DirectoryMustBeAccessible(this IServiceCollection services)
-        {
-            throw new NotImplementedException();
+            var check = new FileExistsCheck(path);
+            services.AddSingleton<IEnvironmentCheck>(check);
         }
 
-        public static void ServiceMustBeRegistered<T>(this IServiceCollection services)
+        /// <summary>
+        /// Issue an environment check for the registration of a service in the underlying IoC
+        /// container
+        /// </summary>
+        /// <param name="services"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void CheckServiceIsRegistered<T>(this IServiceCollection services)
         {
-            throw new NotImplementedException();
+            services.CheckEnvironment($"Service {typeof(T).FullName} should be registered", s => s.GetRequiredService<T>());
+        }
+        
+        /// <summary>
+        /// Issue an environment check for the registration of a service in the underlying IoC
+        /// container
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="serviceType"></param>
+        public static void CheckServiceIsRegistered(this IServiceCollection services, Type serviceType)
+        {
+            services.CheckEnvironment($"Service {serviceType.FullName} should be registered", s => s.GetRequiredService(serviceType));
         }
     }
     

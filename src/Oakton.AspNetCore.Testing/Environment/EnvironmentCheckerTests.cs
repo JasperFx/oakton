@@ -53,9 +53,9 @@ namespace Oakton.AspNetCore.Testing.Environment
         [Fact]
         public void happy_path_with_good_checks()
         {
-            Services.EnvironmentCheck("Ok", () => { });
-            Services.EnvironmentCheck("Fine", () => { });
-            Services.EnvironmentCheck("Not bad", () => { });
+            Services.CheckEnvironment("Ok", s => { });
+            Services.CheckEnvironment("Fine", s => { });
+            Services.CheckEnvironment("Not bad", s => { });
 
             theResults.Assert();
         }
@@ -63,11 +63,11 @@ namespace Oakton.AspNetCore.Testing.Environment
         [Fact]
         public void sad_path_with_some_failures()
         {
-            Services.EnvironmentCheck("Ok", () => { });
-            Services.EnvironmentCheck("Fine", () => { });
-            Services.EnvironmentCheck("Not bad", () => { });
-            Services.EnvironmentCheck("Bad!", () => throw new NotImplementedException());
-            Services.EnvironmentCheck("Worse!", () => throw new NotImplementedException());
+            Services.CheckEnvironment("Ok", s => { });
+            Services.CheckEnvironment("Fine", s => { });
+            Services.CheckEnvironment("Not bad", s => { });
+            Services.CheckEnvironment("Bad!", s => throw new NotImplementedException());
+            Services.CheckEnvironment("Worse!", s => throw new NotImplementedException());
 
             theResults.Succeeded().ShouldBeFalse();
         }
