@@ -11,10 +11,6 @@ namespace Oakton.AspNetCore
 {
     public static class CommandLineHostingExtensions
     {
-        
-
-        
-        
         /// <summary>
         /// Execute the extended Oakton command line support for your configured WebHostBuilder.
         /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method

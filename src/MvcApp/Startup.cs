@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Oakton.AspNetCore.Environment;
 
 namespace MvcApp
 {
@@ -33,6 +34,12 @@ namespace MvcApp
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            
+            services.CheckEnvironment("good", s => {});
+            services.CheckEnvironment("also good", s => {});
+            services.CheckEnvironment("bad", s => throw new DivideByZeroException());
+            services.CheckEnvironment("boom", s => throw new Exception("Boom!"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

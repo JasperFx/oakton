@@ -17,7 +17,7 @@ namespace Oakton.AspNetCore.Environment
             var checks = services.discoverChecks().ToArray();
             if (!checks.Any()) return results;
             
-            ConsoleWriter.Write("Running Environment Checks");
+            Console.WriteLine("Running Environment Checks");
 
             for (int i = 0; i < checks.Length; i++)
             {

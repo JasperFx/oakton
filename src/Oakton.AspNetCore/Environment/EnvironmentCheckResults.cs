@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Baseline;
 
@@ -52,6 +53,46 @@ namespace Oakton.AspNetCore.Environment
                 Description = description;
                 Exception = exception;
             }
+        }
+
+        public void WriteToFile(string file)
+        {
+            var writer = new StringWriter();
+            var status = Succeeded() ? "Success" : "Failed";
+            writer.WriteLine($"Environment Checks at {DateTime.Now.ToShortTimeString()} ({status})");
+
+            writer.WriteLine();
+
+            if (Successes.Any())
+            {
+                writer.WriteLine("=================================================================");
+                writer.WriteLine("=                    Successful Checks                          =");
+                writer.WriteLine("=================================================================");
+
+                foreach (var resultsSuccess in Successes)
+                {
+                    writer.WriteLine("* " + resultsSuccess);
+                }
+
+                writer.WriteLine();
+            }
+
+            if (Failures.Any())
+            {
+                writer.WriteLine("=================================================================");
+                writer.WriteLine("=                          Failures                             =");
+                writer.WriteLine("=================================================================");
+
+                foreach (var failure in Failures)
+                {
+                    writer.WriteLine($"Failure: " + failure.Description);
+                    writer.WriteLine(failure.Exception.ToString());
+                    writer.WriteLine();
+                    writer.WriteLine();
+                }
+            }
+            
+            File.WriteAllText(file, writer.ToString());
         }
     }
 }
