@@ -38,8 +38,8 @@ namespace MvcApp
             
             services.CheckEnvironment("good", s => {});
             services.CheckEnvironment("also good", s => {});
-            services.CheckEnvironment("bad", s => throw new DivideByZeroException());
-            services.CheckEnvironment("boom", s => throw new Exception("Boom!"));
+            //services.CheckEnvironment("bad", s => throw new DivideByZeroException());
+            //services.CheckEnvironment("boom", s => throw new Exception("Boom!"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,15 +5,23 @@ using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using Baseline;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.DependencyInjection;
+using Oakton.AspNetCore.Environment;
 
 namespace Oakton.AspNetCore
 {
+    public class RunInput : AspNetCoreInput
+    {
+        [Description("Run the environment checks before starting the host")]
+        public bool CheckFlag { get; set; }
+    }
+    
     [Description("Runs the configured AspNetCore application")]
-    public class RunCommand : OaktonCommand<AspNetCoreInput>
+    public class RunCommand : OaktonCommand<RunInput>
     {
         public IWebHost Host { get; private set; }
 
@@ -28,9 +36,16 @@ namespace Oakton.AspNetCore
             Reset.Set();
         }
         
-        public override bool Execute(AspNetCoreInput input)
+        public override bool Execute(RunInput input)
         {
             Host = input.BuildHost();
+
+            if (input.CheckFlag)
+            {
+                EnvironmentChecker.ExecuteAllEnvironmentChecks(Host.Services)
+                    .GetAwaiter().GetResult()
+                    .Assert();
+            }
 
 
             var assembly = typeof(RunCommand).GetTypeInfo().Assembly;
