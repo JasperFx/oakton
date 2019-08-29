@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,25 +24,25 @@ namespace MvcApp
 
         public IConfiguration Configuration { get; }
 
+        // SAMPLE: ConfigureService-with-EnvironmentCheck
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
+            // Other registrations we don't care about...
+            
+            // This extension method is in Oakton.AspNetCore
+            services.CheckEnvironment<IConfiguration>("Can connect to the application database", config =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                var connectionString = config["connectionString"];
+                using (var conn = new SqlConnection(connectionString))
+                {
+                    // Just attempt to open the connection. If there's anything
+                    // wrong here, it's going to throw an exception
+                    conn.Open();
+                }
             });
-
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
-            
-            services.CheckEnvironment("good", s => {});
-            services.CheckEnvironment("also good", s => {});
-            //services.CheckEnvironment("bad", s => throw new DivideByZeroException());
-            //services.CheckEnvironment("boom", s => throw new Exception("Boom!"));
         }
+        // ENDSAMPLE
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
