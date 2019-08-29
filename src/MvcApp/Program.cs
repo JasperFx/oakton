@@ -11,15 +11,22 @@ using Oakton.AspNetCore;
 
 namespace MvcApp
 {
+    // SAMPLE: using-run-oakton-commands
     public class Program
     {
         public static Task<int> Main(string[] args)
         {
-            return CreateWebHostBuilder(args).RunOaktonCommands(args);
+            return CreateWebHostBuilder(args)
+                
+                // This extension method replaces the calls to
+                // IWebHost.Build() and Start()
+                .RunOaktonCommands(args);
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+        
     }
+    // ENDSAMPLE
 }

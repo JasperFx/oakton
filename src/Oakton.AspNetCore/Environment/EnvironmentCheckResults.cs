@@ -25,11 +25,20 @@ namespace Oakton.AspNetCore.Environment
 
         public EnvironmentFailure[] Failures => _failures.ToArray();
 
+        /// <summary>
+        /// Did all the environment checks succeed?
+        /// </summary>
+        /// <returns></returns>
         public bool Succeeded()
         {
             return !Failures.Any();
         }
 
+        /// <summary>
+        /// Throw an explanatory exception if there were any failed environment
+        /// checks
+        /// </summary>
+        /// <exception cref="EnvironmentCheckException"></exception>
         public void Assert()
         {
             if (Failures.Any())
