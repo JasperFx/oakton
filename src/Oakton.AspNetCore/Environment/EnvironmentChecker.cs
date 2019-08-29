@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Oakton.AspNetCore.Environment
 {
+    /// <summary>
+    /// Executes the environment checks registered in an IoC container 
+    /// </summary>
     public static class EnvironmentChecker
     {
         public static async Task<EnvironmentCheckResults> ExecuteAllEnvironmentChecks(IServiceProvider services, CancellationToken token = default(CancellationToken))

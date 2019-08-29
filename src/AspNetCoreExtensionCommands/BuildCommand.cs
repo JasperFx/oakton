@@ -2,7 +2,9 @@ using System;
 using Oakton;
 using Oakton.AspNetCore;
 
-[assembly:OaktonCommandAssembly]
+// SAMPLE: using-OaktonCommandAssemblyAttribute
+[assembly:Oakton.OaktonCommandAssembly]
+// ENDSAMPLE
 
 namespace AspNetCoreExtensionCommands
 {

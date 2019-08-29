@@ -44,11 +44,14 @@ namespace Oakton.AspNetCore
 
         private static CommandExecutor buildExecutor(IWebHostBuilder source, Assembly applicationAssembly)
         {
+            // SAMPLE: using-extension-assemblies
             return CommandExecutor.For(factory =>
             {
                 factory.RegisterCommands(typeof(RunCommand).GetTypeInfo().Assembly);
                 if (applicationAssembly != null) factory.RegisterCommands(applicationAssembly);
 
+                // This method will direct the CommandFactory to go look for extension
+                // assemblies with Oakton commands
                 factory.RegisterCommandsFromExtensionAssemblies();
 
                 factory.ConfigureRun = cmd =>
@@ -56,6 +59,7 @@ namespace Oakton.AspNetCore
                     if (cmd.Input is AspNetCoreInput) cmd.Input.As<AspNetCoreInput>().WebHostBuilder = source;
                 };
             });
+            // ENDSAMPLE
         }
         
 
