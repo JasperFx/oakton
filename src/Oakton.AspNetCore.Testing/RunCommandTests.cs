@@ -19,7 +19,7 @@ namespace Oakton.AspNetCore.Testing
                 .UseUrls("http://localhost:5111")
                 .UseStartup<Startup>();
             
-            var input = new AspNetCoreInput
+            var input = new RunInput
             {
                 WebHostBuilder = builder
             };
