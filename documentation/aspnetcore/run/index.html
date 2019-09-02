@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel=icon href=/content/images/favicon.ico>
+		<title>Oakton - Run</title>
+		<link href="/oakton/content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/prism.css" rel="stylesheet" type="text/css" />
+		<link href="/oakton/content/theme.css" rel="stylesheet" type="text/css" />
+
+
+
+
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+        <!-- CSS code from Bootply.com editor -->
+        <link href="/oakton/content/affix.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <!-- HTML code from Bootply.com editor -->
+
+    <body  >
+
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+		  <div class="container">
+		    <div class="navbar-header">
+		      <a href="/oakton" class="navbar-brand">Oakton</a>
+		    </div>
+		    <nav class="collapse navbar-collapse" role="navigation">
+		      <ul class="nav navbar-nav pull-right">
+		        <li>
+		          <a href="/oakton/documentation/getting_started">Getting Started</a>
+		        </li>
+		        <li>
+		          <a href="/oakton/documentation">Documentation</a>
+		        </li>
+		        <li>
+		        <li>
+<a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
+		        </li>
+		      	<li><a href="/oakton/documentation/aspnetcore" title="Extended ASP.Net Core Command Line Options">Previous</a></li>
+		      	<li><a href="/oakton/documentation/aspnetcore/environment" title="Environment Checks">Next</a></li>
+		      </ul>
+		      <div class="navbar-form navbar-left" role="search">
+		        <div class="form-group">
+		          <input id="search" type="search" class="form-control" placeholder="Search">
+		        </div>
+		      </div>
+
+		    </nav>
+
+		  </div>
+		</nav>
+
+		  <div class="container">
+		  	<nav class="navbar-inverse">
+		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li><a href="/oakton/documentation/aspnetcore">Extended ASP.Net Core Command Line Options</a></li><li class="active">Run</li></ol>
+		  	</nav>
+		  </div>
+
+		<!--main-->
+		<div class="container">
+			<div class="row">
+		      <!--left-->
+
+		      <div class="col-md-3" id="leftCol">
+		      	<h3>Oakton 2.0.0</h3>
+		      	<br />
+
+				<ul class="nav nav-stacked affix" id="sidebar">
+
+		        </ul>
+
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/aspnetcore/environment">Environment Checks</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/aspnetcore">Extended ASP.Net Core Command Line Options</a></p>
+
+		        </ul>
+		      </div><!--/left-->
+
+		      <!--right-->
+		      <div class="col-md-9">
+			      	<h1>Run<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/aspnetcore/run.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
+
+			      	<hr />
+
+			      	<div id="main-pane">
+			      		<!--Improved "Run" Command-->
+<p>To run your application normally from a command prompt with all the default configuration <strong>from the project root directory</strong>, there's o real change from what you'd do without <em>Oakton.AspNetCore</em>. The command is still just:</p>
+<pre><code>dotnet run
+</code></pre>
+<p>If your command prompt is at the solution directory (my personal default), you can use all the available <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run?tabs=netcore21">dotnet run</a> options, and in
+this case tell the dotnet CLI to run a project in another directory like this example:</p>
+<pre><code>dotnet run --project src/MvcApp/MvcApp.csproj
+</code></pre>
+<p>So far, no changes from what you have today, so let's dig into what's changed. First, at any time to see the list of
+available commands in your system, use either the command <code>dotnet run -- ?</code> or <code>dotnet run -- help</code> as shown below:</p>
+<pre><code>dotnet run -- ?
+</code></pre>
+<p>Which gave this output on a sample MVC application with commands from an extension library:</p>
+<pre><code>Searching 'AspNetCoreExtensionCommands, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' for commands
+
+  -----------------------------------------------------------------------
+    Available commands:
+  -----------------------------------------------------------------------
+    check-env -&gt; Execute all environment checks against the application
+          run -&gt; Runs the configured AspNetCore application
+        smoke -&gt; Simply try to build a web host as a smoke test
+  ------------------------------------------------------------------------
+</code></pre>
+<div class="alert-info alert"><p><strong>Note!</strong>
+When you're using the <code>dotnet run</code> command, the usage of the double dashes <em>--</em> separates command line arguments to the <code>dotnet run</code> command itself from the command arguments to your application. The <code>args</code> array passed into your application will be any arguments or flags to the right of the <em>--</em> separator.</p>
+</div>
+<p>The <em>run</em> command shown above is the default command for Oakton and what will be executed unless you explicitly choose another named command.</p>
+<p>Looking farther into what the <em>run</em> command provides with:</p>
+<pre><code>dotnet run -- ? run
+</code></pre>
+<p>gives you this help text for the options on the <em>run</em> command:</p>
+<pre><code> Usages for 'run' (Runs the configured AspNetCore application)
+  run [-c, --check] [-e, --environment &lt;environment&gt;] [-v, --verbose] [-l, --log-level &lt;logleve&gt;] [----config:&lt;prop&gt; &lt;value&gt;]
+
+  ---------------------------------------------------------------------------------------------------------------------------------------
+    Flags
+  ---------------------------------------------------------------------------------------------------------------------------------------
+                        [-c, --check] -&gt; Run the environment checks before starting the host
+    [-e, --environment &lt;environment&gt;] -&gt; Use to override the ASP.Net Environment name
+                      [-v, --verbose] -&gt; Write out much more information at startup and enables console logging
+          [-l, --log-level &lt;logleve&gt;] -&gt; Override the log level
+          [----config:&lt;prop&gt; &lt;value&gt;] -&gt; Overwrite individual configuration items
+  ---------------------------------------------------------------------------------------------------------------------------------------
+</code></pre>
+<h2 id="overriding-the-hosting-environment">Overriding the Hosting Environment</h2>
+<p>To override the hosting environment that your ASP.Net Core application runs under, use the <em>environment</em> flag as shown below:</p>
+<pre><code>dotnet run -- --environment Testing
+</code></pre>
+<p>This would be the equivalent of running your application with this code (note the usage of <code>UseEnvironment(&quot;Testing&quot;)</code>):</p>
+<pre><code>    public class Program
+    {
+        public static Task&lt;int&gt; Main(string[] args)
+        {
+            return CreateWebHostBuilder(args)
+                .RunOaktonCommands(args);
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =&gt;
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup&lt;Startup&gt;()
+
+                // This is what the --environment flag does
+                .UseEnvironment(&quot;Testing&quot;);
+        
+    }
+</code></pre>
+<p>See <a href="https://andrewlock.net/how-to-use-multiple-hosting-environments-on-the-same-machine-in-asp-net-core/">Andrew Lock on how the hosting environment can be useful</a>.</p>
+<h2 id="overriding-configuration-items">Overriding Configuration Items</h2>
+<p>Individual values in your system's <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-2.2">IConfiguration</a> can be overridden at the command line using the <em>--config</em> flag like so:</p>
+<pre><code>dotnet run -- --config:key1 value1 --config:key2 value2
+</code></pre>
+<p>The flag usage above would override the system configuration with the values <em>key1=value1</em> and <em>key2=value2</em>.</p>
+<h2 id="overriding-the-minimum-log-level">Overriding the Minimum Log Level</h2>
+<p>You can override the minimum log level in the running application using any valid value of the <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loglevel?view=aspnetcore-2.2">LogLevel</a> enumeration and the <em>--log-level</em> flag as shown below:</p>
+<pre><code>dotnet run -- --log-level Information
+</code></pre>
+<p>See <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.2">Logging in .NET Core and ASP.NET Core</a> for more information about ASP.Net Core logging.</p>
+<h2 id="running-environment-checks-before-starting-the-application">Running Environment Checks Before Starting the Application</h2>
+<p>You can also opt into running any configured <a href="/oakton/documentation/aspnetcore/environment">environment checks</a> before starting Kestrel. If any of the environment checks fail, the application startup will fail. The goal of this feature is to make deployments be self-diagnosing and fail fast at startup time if the system can detect problems in its configuration or with its dependencies.</p>
+<p>To run the environment checks as part of the run command, just use the <em>--environment</em> flag like this:</p>
+<pre><code>dotnet run -- --environment
+</code></pre>
+
+			      	</div>
+
+			      	<hr />
+
+			      	<nav>
+				        <span>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/aspnetcore">Extended ASP.Net Core Command Line Options</a>
+
+				        </span>
+				        <span class="pull-right">
+
+				        	<strong>Next: </strong><a href="/oakton/documentation/aspnetcore/environment">Environment Checks</a>
+
+				        </span>
+			      	</nav>
+
+		      </div><!--/right-->
+		  	</div><!--/row-->
+		</div><!--/container-->
+
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$('#search').keyup(function(e){
+  if(e.keyCode == 13) {
+    var search = $('#search').val();
+
+    var url = 'https://www.google.com/#q=site:http://jasperfx.github.io/oakton ' + search;
+    url = encodeURI(url);
+
+    //alert(url);
+
+    window.location.href = url;
+
+    e.stopPropagation();
+    if (e.cancelBubble!=null) e.cancelBubble = true;
+    return false;
+  }
+
+
+
+});
+
+</script>
+    </body>
+
+
+    <foot>
+        <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type='text/javascript' src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/oakton/content/embed.js"></script>
+        <script type="text/javascript" src="/oakton/content/prism.js"></script>
+        <script type="text/javascript" src="/oakton/content/sidebar.js"></script>
+        <script type="text/javascript" src="/oakton/content/affix.js"></script>
+    </foot>
+</html>
