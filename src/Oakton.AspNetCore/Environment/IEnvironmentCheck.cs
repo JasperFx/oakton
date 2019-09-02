@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Oakton.AspNetCore.Environment
 {
+    // SAMPLE: IEnvironmentCheck
     /// <summary>
     ///     Executed during bootstrapping time to carry out environment tests
     ///     against the application
@@ -22,4 +23,5 @@ namespace Oakton.AspNetCore.Environment
         /// </summary>
         Task Assert(IServiceProvider services, CancellationToken cancellation);
     }
+    // ENDSAMPLE
 }

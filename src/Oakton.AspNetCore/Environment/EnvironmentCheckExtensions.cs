@@ -72,7 +72,8 @@ namespace Oakton.AspNetCore.Environment
                 return Task.CompletedTask;
             });
         }
-
+        
+        // SAMPLE: CheckThatFileExists
         /// <summary>
         /// Issue an environment check for the existence of a named file
         /// </summary>
@@ -83,7 +84,9 @@ namespace Oakton.AspNetCore.Environment
             var check = new FileExistsCheck(path);
             services.AddSingleton<IEnvironmentCheck>(check);
         }
+        // ENDSAMPLE
 
+        // SAMPLE: CheckServiceIsRegistered
         /// <summary>
         /// Issue an environment check for the registration of a service in the underlying IoC
         /// container
@@ -105,6 +108,7 @@ namespace Oakton.AspNetCore.Environment
         {
             services.CheckEnvironment($"Service {serviceType.FullName} should be registered", s => s.GetRequiredService(serviceType));
         }
+        // ENDSAMPLE
     }
     
 

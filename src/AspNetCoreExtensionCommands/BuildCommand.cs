@@ -9,12 +9,14 @@ using Oakton.AspNetCore;
 namespace AspNetCoreExtensionCommands
 {
     
-    
+    // SAMPLE: SmokeCommand
     [Description("Simply try to build a web host as a smoke test", Name = "smoke")]
     public class SmokeCommand : OaktonCommand<AspNetCoreInput>
     {
         public override bool Execute(AspNetCoreInput input)
         {
+            // This method builds out the IWebHost for your
+            // configured IWebHostBuilder of the application
             using (var host = input.BuildHost())
             {
                 Console.WriteLine("It's all good");
@@ -23,4 +25,5 @@ namespace AspNetCoreExtensionCommands
             return true;
         }
     }
+    // ENDSAMPLE
 }
