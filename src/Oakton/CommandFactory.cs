@@ -31,7 +31,7 @@ namespace Oakton
         /// <summary>
         /// Perform some operation based on command inputs, before command construction
         /// </summary>
-        public Action<string, object> BeforeBuild = (commandName, input) => { };
+        public Action<string, object> BeforeBuild = null;
 
         /// <summary>
         /// Alter the input object or the command object just befor executing the command
@@ -119,15 +119,21 @@ namespace Oakton
 
         private CommandRun buildRun(Queue<string> queue, string commandName)
         {
-            var usages = new UsageGraph(_commandTypes[commandName]);
-
             try
             {
-                var input = usages.BuildInput(queue, _commandCreator);
+                object input = null;
 
-                BeforeBuild?.Invoke(commandName, input);
+                if (BeforeBuild != null)
+                {
+                  input = tryBeforeBuild(queue, commandName);
+                }
 
                 var command = Build(commandName);
+
+                if (input == null)
+                {
+                  input = command.Usages.BuildInput(queue, _commandCreator);
+                }
 
                 var run = new CommandRun
                        {
@@ -160,6 +166,26 @@ namespace Oakton
             }
 
             return HelpRun(commandName);
+        }
+
+        private object tryBeforeBuild(Queue<string> queue, string commandName)
+        {
+          var commandType = _commandTypes[commandName];
+
+          try
+          {
+            var defaultConstructorCommand = new ActivatorCommandCreator().CreateCommand(commandType);
+            var input = defaultConstructorCommand.Usages.BuildInput(queue, _commandCreator);
+
+            BeforeBuild?.Invoke(commandName, input);
+
+            return input;
+          }
+          catch (MissingMethodException)
+          {
+            // Command has no default constructor - not possible to pre-configure from inputs.
+            return null;
+          }
         }
 
         /// <summary>
