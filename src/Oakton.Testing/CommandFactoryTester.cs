@@ -507,7 +507,8 @@ namespace Oakton.Testing
       }
     }
 
-    public class NoDefaultConstructorCommand : OaktonCommand<OptionalArgumentsInput>
+    // Not exported to avoid breaking other tests that use assembly-wide command registration.
+    internal class NoDefaultConstructorCommand : OaktonCommand<OptionalArgumentsInput>
     {
       public NoDefaultConstructorCommand(string _)
       {
