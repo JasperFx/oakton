@@ -370,6 +370,24 @@ namespace Oakton.Testing
           var run = factory.BuildRun("depends-static");
           (await run.Execute()).ShouldBe(true);
         }
+
+        [Fact]
+        public async Task can_execute_command_constructor_custom_usage_all_optional_arguments()
+        {
+          var factory = new CommandFactory();
+          factory.RegisterCommand<OptionalArgumentsCommand>();
+          var run = factory.BuildRun("optionalarguments");
+          (await run.Execute()).ShouldBe(true);
+        }
+
+        [Fact]
+        public async Task can_execute_command_no_default_constructor()
+        {
+          var factory = new CommandFactory(new NoDefaultConstructorCommandCreator());
+          factory.RegisterCommand<NoDefaultConstructorCommand>();
+          var run = factory.BuildRun("nodefaultconstructor");
+          (await run.Execute()).ShouldBe(true);
+        }
     }
 
     public class NulloInput
@@ -464,5 +482,54 @@ namespace Oakton.Testing
         public bool ForceFlag { get; set; }
         public bool SecondFlag { get; set; }
         public bool ThirdFlag { get; set; }
+    }
+
+    public class OptionalArgumentsInput
+    {
+      [Description("Listening on defined port")]
+      public int Port { get; set; } = 12345;
+
+      [Description("Get binaries"), FlagAlias("withBinaries", 'b')]
+      public bool WithBinariesFlag { get; set; }
+    }
+
+    public class OptionalArgumentsCommand : OaktonCommand<OptionalArgumentsInput>
+    {
+      public OptionalArgumentsCommand()
+      {
+        Usage("Listen on default port").Arguments();
+        Usage("Listen with explicit port").Arguments(i => i.Port);
+      }
+
+      public override bool Execute(OptionalArgumentsInput input)
+      {
+        return true;
+      }
+    }
+
+    public class NoDefaultConstructorCommand : OaktonCommand<OptionalArgumentsInput>
+    {
+      public NoDefaultConstructorCommand(string _)
+      {
+        Usage("Listen on default port").Arguments();
+      }
+
+      public override bool Execute(OptionalArgumentsInput input)
+      {
+        return true;
+      }
+    }
+
+    public class NoDefaultConstructorCommandCreator : ICommandCreator
+    {
+      public IOaktonCommand CreateCommand(Type commandType)
+      {
+        return new NoDefaultConstructorCommand("required parameter");
+      }
+
+      public object CreateModel(Type modelType)
+      {
+        return Activator.CreateInstance(modelType);
+      }
     }
 }
