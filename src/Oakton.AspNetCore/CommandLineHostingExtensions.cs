@@ -1,11 +1,13 @@
-using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Baseline;
-using Baseline.Reflection;
+#if NETSTANDARD2_0
 using Microsoft.AspNetCore.Hosting;
-using Oakton.Discovery;
+#else
+using Microsoft.Extensions.Hosting;
+#endif
+
 
 namespace Oakton.AspNetCore
 {
@@ -19,30 +21,45 @@ namespace Oakton.AspNetCore
         /// <param name="builder"></param>
         /// <param name="args"></param>
         /// <returns></returns>
+#if NETSTANDARD2_0
         public static Task<int> RunOaktonCommands(this IWebHostBuilder builder, string[] args)
         {
             return Execute(builder, null, args);
         }
+#else
+        public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args)
+        {
+            return Execute(builder, null, args);
+        }  
+#endif
         
+#if NETSTANDARD2_0
         internal static Task<int> Execute(IWebHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
+        #else
+        internal static Task<int> Execute(IHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
+#endif
         {
             if (args == null || args.Length == 0 || args[0].StartsWith("-"))
                 args = new[] {"run"}.Concat(args ?? new string[0]).ToArray();
 
             if (applicationAssembly == null)
             {
-                var name = runtimeSource.GetSetting(WebHostDefaults.ApplicationKey);
-                if (name.IsNotEmpty())
-                {
-                    applicationAssembly = Assembly.Load(name);
-                }
+//                var name = runtimeSource.GetSetting(WebHostDefaults.ApplicationKey);
+//                if (name.IsNotEmpty())
+//                {
+//                    applicationAssembly = Assembly.Load(name);
+//                }
             }
 
             return buildExecutor(runtimeSource, applicationAssembly).ExecuteAsync(args);
         }
 
 
+#if NETSTANDARD2_0
         private static CommandExecutor buildExecutor(IWebHostBuilder source, Assembly applicationAssembly)
+#else
+        private static CommandExecutor buildExecutor(IHostBuilder source, Assembly applicationAssembly)
+#endif
         {
             // SAMPLE: using-extension-assemblies
             return CommandExecutor.For(factory =>

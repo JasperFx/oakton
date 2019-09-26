@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 
         <Description>Command Line Parsing and Execution</Description>
         <AssemblyTitle>Oakton.AspNetCore</AssemblyTitle>
@@ -23,9 +23,13 @@
       <ProjectReference Include="..\Oakton\Oakton.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="[2.0.0, 3.0.0)" />
         <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="[2.0.0, 3.0.0)" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="[3.0.0,4.0.0)" />
     </ItemGroup>
 
 </Project>

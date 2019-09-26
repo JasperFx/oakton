@@ -4,6 +4,7 @@ using Baseline.Dates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Shouldly;
 using Xunit;
 
@@ -14,10 +15,19 @@ namespace Oakton.AspNetCore.Testing
         [Fact]
         public async Task can_start_application()
         {
+#if NETCOREAPP2_2
             var builder = new WebHostBuilder()
                 .UseKestrel()
                 .UseUrls("http://localhost:5111")
                 .UseStartup<Startup>();
+#else
+            var builder = new HostBuilder().ConfigureWebHostDefaults(x => 
+            {
+                x.UseKestrel()
+                    .UseUrls("http://localhost:5111")
+                    .UseStartup<Startup>();
+            });
+#endif
             
             var input = new RunInput
             {
