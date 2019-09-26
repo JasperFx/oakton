@@ -4,6 +4,11 @@ using Baseline.Dates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+#if NETCOREAPP2_2
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+#endif
 using Microsoft.Extensions.Hosting;
 using Shouldly;
 using Xunit;
@@ -21,12 +26,14 @@ namespace Oakton.AspNetCore.Testing
                 .UseUrls("http://localhost:5111")
                 .UseStartup<Startup>();
 #else
-            var builder = new HostBuilder().ConfigureWebHostDefaults(x => 
-            {
-                x.UseKestrel()
-                    .UseUrls("http://localhost:5111")
-                    .UseStartup<Startup>();
-            });
+            var builder = new HostBuilder()
+                
+                .ConfigureWebHostDefaults(x => 
+                {
+                    x.UseKestrel()
+                        .UseUrls("http://localhost:5111")
+                        .UseStartup<Startup>();
+                });
 #endif
             
             var input = new RunInput

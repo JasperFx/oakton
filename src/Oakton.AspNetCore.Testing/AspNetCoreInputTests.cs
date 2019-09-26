@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Server;
+
 #if NETCOREAPP2_2
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Http.Features;
 #else
 using Microsoft.Extensions.Hosting;
 #endif
-using Microsoft.AspNetCore.Http.Features;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
 using HostBuilder = Microsoft.Extensions.Hosting.HostBuilder;
-using WebHostBuilder = Microsoft.AspNetCore.Hosting.WebHostBuilder;
+
 
 namespace Oakton.AspNetCore.Testing
 {
@@ -95,6 +96,7 @@ namespace Oakton.AspNetCore.Testing
         }
     }
 
+#if NETCOREAPP2_2
     public class NulloServer : IServer
     {
         public void Dispose()
@@ -114,4 +116,5 @@ namespace Oakton.AspNetCore.Testing
 
         public IFeatureCollection Features { get; } = new FeatureCollection();
     }
+#endif
 }

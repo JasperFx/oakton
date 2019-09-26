@@ -11,11 +11,20 @@
         <PackageReference Include="Shouldly" Version="3.0.2" />
         <PackageReference Include="xunit" Version="2.4.0" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-        <PackageReference Include="Microsoft.AspNetCore.App" />
+        
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Oakton.AspNetCore\Oakton.AspNetCore.csproj" />
     </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
 
 </Project>
