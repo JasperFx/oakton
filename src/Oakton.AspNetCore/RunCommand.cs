@@ -14,7 +14,7 @@ using Oakton.AspNetCore.Environment;
 
 namespace Oakton.AspNetCore
 {
-    public class RunInput : AspNetCoreInput
+    public class RunInput : NetCoreInput
     {
         [Description("Run the environment checks before starting the host")]
         public bool CheckFlag { get; set; }

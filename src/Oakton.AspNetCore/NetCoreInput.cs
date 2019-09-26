@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Oakton.AspNetCore
 {
-    public class AspNetCoreInput
+    public class NetCoreInput
     {
 
         [Description("Use to override the ASP.Net Environment name")]
@@ -24,7 +24,7 @@ namespace Oakton.AspNetCore
         [Description("Overwrite individual configuration items")]
         public Dictionary<string, string> ConfigFlag = new Dictionary<string, string>();
 
-        [IgnoreOnCommandLine] public IWebHostBuilder WebHostBuilder { get; set; }
+        [IgnoreOnCommandLine] public IWebHostBuilder HostBuilder { get; set; }
 
         [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
 
@@ -37,7 +37,7 @@ namespace Oakton.AspNetCore
             if (LogLevelFlag.HasValue)
             {
                 Console.WriteLine($"Overwriting the minimum log level to {LogLevelFlag.Value}");
-                WebHostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
+                HostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
             }
 
             if (VerboseFlag)
@@ -47,7 +47,7 @@ namespace Oakton.AspNetCore
                 // The --verbose flag adds console and
                 // debug logging, as well as setting
                 // the minimum logging level down to debug
-                WebHostBuilder.ConfigureLogging(x =>
+                HostBuilder.ConfigureLogging(x =>
                 {
                     x.SetMinimumLevel(LogLevel.Debug);
                 });
@@ -58,16 +58,16 @@ namespace Oakton.AspNetCore
             if (EnvironmentFlag.IsNotEmpty())
             {
                 Console.WriteLine($"Overwriting the environment to `{EnvironmentFlag}`");
-                WebHostBuilder.UseEnvironment(EnvironmentFlag);
+                HostBuilder.UseEnvironment(EnvironmentFlag);
             }
 
             if (ConfigFlag.Any())
             {
-                WebHostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
+                HostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
             }
             // ENDSAMPLE
 
-            return WebHostBuilder.Build();
+            return HostBuilder.Build();
         }
     }
 }

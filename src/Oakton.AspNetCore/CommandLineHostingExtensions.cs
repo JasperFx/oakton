@@ -56,7 +56,7 @@ namespace Oakton.AspNetCore
 
                 factory.ConfigureRun = cmd =>
                 {
-                    if (cmd.Input is AspNetCoreInput) cmd.Input.As<AspNetCoreInput>().WebHostBuilder = source;
+                    if (cmd.Input is NetCoreInput) cmd.Input.As<NetCoreInput>().HostBuilder = source;
                 };
             });
             // ENDSAMPLE

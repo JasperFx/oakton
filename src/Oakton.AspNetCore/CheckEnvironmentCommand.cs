@@ -7,7 +7,7 @@ using Oakton.AspNetCore.Environment;
 
 namespace Oakton.AspNetCore
 {
-    public class CheckEnvironmentInput : AspNetCoreInput
+    public class CheckEnvironmentInput : NetCoreInput
     {
         [Description("Use to optionally write the results of the environment checks to a file")]
         public string FileFlag { get; set; }

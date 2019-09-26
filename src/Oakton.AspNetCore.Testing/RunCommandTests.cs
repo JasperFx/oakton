@@ -21,7 +21,7 @@ namespace Oakton.AspNetCore.Testing
             
             var input = new RunInput
             {
-                WebHostBuilder = builder
+                HostBuilder = builder
             };
             
             var command = new RunCommand();

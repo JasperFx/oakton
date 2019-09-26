@@ -16,9 +16,9 @@ namespace Oakton.AspNetCore.Testing
         [Fact]
         public void can_bootstrap_a_host()
         {
-            var input = new AspNetCoreInput
+            var input = new NetCoreInput
             {
-                WebHostBuilder = new WebHostBuilder()
+                HostBuilder = new WebHostBuilder()
                     .UseServer(new NulloServer())
                     .UseStartup<EmptyStartup>()
             };
@@ -32,9 +32,9 @@ namespace Oakton.AspNetCore.Testing
         [Fact]
         public void modify_the_environment()
         {
-            var input = new AspNetCoreInput
+            var input = new NetCoreInput
             {
-                WebHostBuilder = new WebHostBuilder()
+                HostBuilder = new WebHostBuilder()
                     .UseServer(new NulloServer())
                     .UseStartup<EmptyStartup>(),
                 EnvironmentFlag = "Weird"
@@ -50,9 +50,9 @@ namespace Oakton.AspNetCore.Testing
         [Fact]
         public void modify_configuration_items()
         {
-            var input = new AspNetCoreInput
+            var input = new NetCoreInput
             {
-                WebHostBuilder = new WebHostBuilder()
+                HostBuilder = new WebHostBuilder()
                     .UseServer(new NulloServer())
                     .UseStartup<EmptyStartup>(),
                 ConfigFlag = new Dictionary<string, string>{{"direction", "south"}, {"color", "orange"}}
