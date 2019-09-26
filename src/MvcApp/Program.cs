@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Oakton.AspNetCore;
 
 namespace MvcApp
 {
+#if NETCOREAPP2_2
     // SAMPLE: using-run-oakton-commands
     public class Program
     {
@@ -28,5 +30,26 @@ namespace MvcApp
                 .UseStartup<Startup>();
         
     }
-    // ENDSAMPLE
+    // ENDSAMPLE 
+    
+#else
+    // SAMPLE: using-run-oakton-commands-3
+    public class Program
+    {
+        public static Task<int> Main(string[] args)
+        {
+            return CreateHostBuilder(args)
+                
+                // This extension method replaces the calls to
+                // IWebHost.Build() and Start()
+                .RunOaktonCommands(args);
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(x => x.UseStartup<Startup>());
+        
+    }
+    // ENDSAMPLE 
+#endif
 }
