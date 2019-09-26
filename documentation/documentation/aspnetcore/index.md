@@ -1,5 +1,9 @@
 <!--title:Extended ASP.Net Core Command Line Options-->
 
+<[info]>
+This section **only** refers to Oakton.AspNetCore 2.0.0.
+<[/info]>
+
 The *Oakton.AspNetCore* library can be used to extend the command line options of the typical ASP.Net Core application for:
 
 * <[linkto:documentation/aspnetcore/run;title=An improved, default run command]>
