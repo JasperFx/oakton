@@ -35,8 +35,8 @@ end
 
 desc "Pack up the nupkg file"
 task :pack => [:compile] do
-	sh "dotnet pack src/Oakton/Oakton.csproj -o ./../../artifacts --configuration Release"
-	sh "dotnet pack src/Oakton.AspNetCore/Oakton.AspNetCore.csproj -o ./../../artifacts --configuration Release"
+	sh "dotnet pack src/Oakton/Oakton.csproj -o ./artifacts --configuration Release"
+	sh "dotnet pack src/Oakton.AspNetCore/Oakton.AspNetCore.csproj -o ./artifacts --configuration Release"
 end
 
 desc "Launches VS to the Oakton solution file"
