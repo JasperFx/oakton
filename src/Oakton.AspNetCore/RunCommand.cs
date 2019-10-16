@@ -93,6 +93,8 @@ namespace Oakton.AspNetCore
 
 
                 Reset.Wait();
+                
+                Host.StopAsync().GetAwaiter().GetResult();
             }
 
 
