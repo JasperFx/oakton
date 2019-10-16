@@ -4,7 +4,7 @@
     <AssemblyTitle>Oakton</AssemblyTitle>
     <VersionPrefix>2.0.1</VersionPrefix>
     <Authors>Jeremy D. Miller</Authors>
-    <TargetFrameworks>netstandard2.0;net46;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461;netstandard2.1</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>Oakton</AssemblyName>
     <OutputType>Library</OutputType>
@@ -16,7 +16,7 @@
     <RepositoryUrl>git://github.com/jasperfx/oakton</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Baseline" Version="1.4.0" />
+    <PackageReference Include="Baseline" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.Console" Version="4.3.0" />

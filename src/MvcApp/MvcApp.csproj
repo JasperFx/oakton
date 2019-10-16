@@ -22,4 +22,9 @@
     <ProjectReference Include="..\Oakton.AspNetCore\Oakton.AspNetCore.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+  </ItemGroup>
+
 </Project>
