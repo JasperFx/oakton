@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Baseline;
 using Baseline.Reflection;
-using Oakton.Discovery;
+using BaselineTypeDiscovery;
 using Oakton.Help;
 using Oakton.Parsing;
 

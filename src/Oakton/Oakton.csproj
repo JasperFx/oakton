@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Baseline" Version="2.0.0" />
+    <PackageReference Include="BaselineTypeDiscovery" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.Console" Version="4.3.0" />
@@ -24,6 +25,7 @@
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+    
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System" />

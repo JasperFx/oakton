@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Baseline;
-using Baseline.Reflection;
-using Oakton.Discovery;
 using Oakton.Parsing;
 
 namespace Oakton
 {
     /// <summary>
-    /// The main entry class for Oakton command line applications
+    ///     The main entry class for Oakton command line applications
     /// </summary>
     public class CommandExecutor
     {
-        private readonly ICommandFactory _factory;
+        public CommandExecutor(ICommandFactory factory)
+        {
+            Factory = factory;
+        }
+
+        public CommandExecutor() : this(new CommandFactory())
+        {
+        }
+
+        /// <summary>
+        ///     Directs Oakton to look for an options file at this location.
+        /// </summary>
+        public string OptionsFile { get; set; }
+
+
+        public ICommandFactory Factory { get; }
 
         private static async Task<int> execute(CommandRun run)
         {
@@ -43,19 +55,22 @@ namespace Oakton
         }
 
         /// <summary>
-        /// Execute an instance of the "T" command class with the current arguments and an optional
-        /// opts file
+        ///     Execute an instance of the "T" command class with the current arguments and an optional
+        ///     opts file
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="args"></param>
-        /// <param name="optsFile">If chosen, Oakton will look at this file location for options and apply any found to the command line arguments</param>
+        /// <param name="optsFile">
+        ///     If chosen, Oakton will look at this file location for options and apply any found to the command
+        ///     line arguments
+        /// </param>
         /// <returns></returns>
         public static int ExecuteCommand<T>(string[] args, string optsFile = null) where T : IOaktonCommand
         {
             var factory = new CommandFactory();
             factory.RegisterCommand<T>();
 
-            var executor =  new CommandExecutor(factory)
+            var executor = new CommandExecutor(factory)
             {
                 OptionsFile = optsFile
             };
@@ -64,12 +79,15 @@ namespace Oakton
         }
 
         /// <summary>
-        /// Execute an instance of the "T" command class with the current arguments and an optional
-        /// opts file
+        ///     Execute an instance of the "T" command class with the current arguments and an optional
+        ///     opts file
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="args"></param>
-        /// <param name="optsFile">If chosen, Oakton will look at this file location for options and apply any found to the command line arguments</param>
+        /// <param name="optsFile">
+        ///     If chosen, Oakton will look at this file location for options and apply any found to the command
+        ///     line arguments
+        /// </param>
         /// <returns></returns>
         public static Task<int> ExecuteCommandAsync<T>(string[] args, string optsFile = null) where T : IOaktonCommand
         {
@@ -85,8 +103,8 @@ namespace Oakton
         }
 
         /// <summary>
-        /// Build a configured executor. You would generally choose this option if you have multiple commands
-        /// within the application
+        ///     Build a configured executor. You would generally choose this option if you have multiple commands
+        ///     within the application
         /// </summary>
         /// <param name="configure"></param>
         /// <param name="creator"></param>
@@ -100,24 +118,6 @@ namespace Oakton
             return new CommandExecutor(factory);
         }
 
-        public CommandExecutor(ICommandFactory factory)
-        {
-            _factory = factory;
-        }
-
-        public CommandExecutor() : this(new CommandFactory())
-        {
-            
-        }
-
-        /// <summary>
-        /// Directs Oakton to look for an options file at this location. 
-        /// </summary>
-        public string OptionsFile { get; set; }
-
-
-        public ICommandFactory Factory => _factory;
-
         private string applyOptions(string commandLine)
         {
             if (OptionsFile.IsEmpty()) return commandLine;
@@ -129,13 +129,8 @@ namespace Oakton
 #endif
 
             if (File.Exists(path))
-            {
                 return $"{OptionReader.Read(path)} {commandLine}";
-            }
-            else
-            {
-                return commandLine;
-            }
+            return commandLine;
         }
 
         private IEnumerable<string> readOptions()
@@ -154,25 +149,22 @@ namespace Oakton
 
                 return StringTokenizer.Tokenize(options);
             }
-            else
-            {
-                return new string[0];
-            }
+
+            return new string[0];
         }
 
         /// <summary>
-        /// Execute with the command line arguments. Useful for testing Oakton applications
+        ///     Execute with the command line arguments. Useful for testing Oakton applications
         /// </summary>
         /// <param name="commandLine"></param>
         /// <returns></returns>
         public int Execute(string commandLine)
         {
             return ExecuteAsync(commandLine).GetAwaiter().GetResult();
-
         }
 
         /// <summary>
-        /// Execute with the command line arguments. 
+        ///     Execute with the command line arguments.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
@@ -182,32 +174,28 @@ namespace Oakton
         }
 
         /// <summary>
-        /// Execute asynchronously with the command line arguments. Useful for testing Oakton applications
+        ///     Execute asynchronously with the command line arguments. Useful for testing Oakton applications
         /// </summary>
         /// <param name="commandLine"></param>
         /// <returns></returns>
         public Task<int> ExecuteAsync(string commandLine)
         {
             commandLine = applyOptions(commandLine);
-            var run = _factory.BuildRun(commandLine);
+            var run = Factory.BuildRun(commandLine);
 
             return execute(run);
-
         }
 
         /// <summary>
-        /// Execute asynchronously with the command line arguments. 
+        ///     Execute asynchronously with the command line arguments.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
         public Task<int> ExecuteAsync(string[] args)
         {
-            var run = _factory.BuildRun(readOptions().Concat(args));
+            var run = Factory.BuildRun(readOptions().Concat(args));
 
             return execute(run);
         }
-
-
-
     }
 }
