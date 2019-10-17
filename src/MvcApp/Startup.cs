@@ -11,7 +11,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Oakton.AspNetCore;
+using Oakton.AspNetCore.Descriptions;
 using Oakton.AspNetCore.Environment;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MvcApp
 {
@@ -41,11 +45,20 @@ namespace MvcApp
                     conn.Open();
                 }
             });
+            
+            // Ignore this please;)
+            services.AddSingleton<IDescribedSystemPart, Describer1>();
+            services.AddSingleton<IDescribedSystemPart, Describer2>();
+            services.AddSingleton<IDescribedSystemPart, Describer3>();
         }
         // ENDSAMPLE
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#if NETCOREAPP2_2
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        #else
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+#endif
         {
             if (env.IsDevelopment())
             {

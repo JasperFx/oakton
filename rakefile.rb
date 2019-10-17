@@ -7,9 +7,9 @@ build_revision = tc_build_number || Time.new.strftime('5%H%M')
 build_number = "#{BUILD_VERSION}.#{build_revision}"
 BUILD_NUMBER = build_number
 
-task :ci => [:default, :pack]
+task :ci => [:default, :pack, :run]
 
-task :default => [:test]
+task :default => [:test, :run]
 
 desc "Prepares the working directory for a new build"
 task :clean do
@@ -23,6 +23,13 @@ desc 'Compile the code'
 task :compile => [:clean] do
 	sh "dotnet restore src/Oakton.sln"
 	sh "dotnet build src/Oakton.Testing/Oakton.Testing.csproj"
+end
+
+desc 'Run sample commands' 
+task :run do
+    Dir.chdir "src/MvcApp" do
+        sh "dotnet run --framework netcoreapp3.0 -- describe --html"
+    end
 end
 
 desc 'Run the unit tests'

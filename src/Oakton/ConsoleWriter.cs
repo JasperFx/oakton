@@ -1,6 +1,7 @@
 ﻿using Baseline;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Oakton
 {
@@ -67,7 +68,6 @@ namespace Oakton
                 .Each(l=>Console.WriteLine(l));
             Console.ResetColor();
         }
-
 
         public static void Write(string format, params object[] args)
         {

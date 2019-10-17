@@ -75,7 +75,11 @@ namespace Oakton.AspNetCore
                 //Console.WriteLine("Running all environment checks...");
                 //host.ExecuteAllEnvironmentChecks();
 
-                IHostingEnvironment service = Host.Services.GetService<IHostingEnvironment>();
+#if NETSTANDARD2_0
+                var service = Host.Services.GetService<IHostingEnvironment>();
+                #else
+                var service = Host.Services.GetService<IHostEnvironment>();
+#endif
 
                 Console.WriteLine("Hosting environment: " + service.EnvironmentName);
                 Console.WriteLine("Content root path: " + service.ContentRootPath);
