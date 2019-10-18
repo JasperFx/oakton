@@ -2,6 +2,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Baseline;
+using Oakton.AspNetCore.Internal;
 #if NETSTANDARD2_0
 using Microsoft.AspNetCore.Hosting;
 #else
@@ -11,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace Oakton.AspNetCore
 {
+    
+    
     public static class CommandLineHostingExtensions
     {
         /// <summary>
@@ -33,12 +36,17 @@ namespace Oakton.AspNetCore
         }  
 #endif
         
+        
+        
 #if NETSTANDARD2_0
         internal static Task<int> Execute(IWebHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
         #else
         internal static Task<int> Execute(IHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
 #endif
         {
+            // Workaround for IISExpress / VS2019 erroneously putting crap arguments
+            args = args.FilterLauncherArgs();
+            
             if (args == null || args.Length == 0 || args[0].StartsWith("-"))
                 args = new[] {"run"}.Concat(args ?? new string[0]).ToArray();
 
