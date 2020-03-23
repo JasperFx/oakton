@@ -341,10 +341,10 @@ namespace Oakton
         public void RegisterCommandsFromExtensionAssemblies()
         {
             var assemblies = AssemblyFinder
-                .FindAssemblies(txt => { }, false)
+                .FindAssemblies(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic,txt => { }, false)
                 .Concat(AppDomain.CurrentDomain.GetAssemblies())
+                .Where(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic)
                 .Distinct()
-                .Where(a => a.HasAttribute<OaktonCommandAssemblyAttribute>())
                 .ToArray();
 
             foreach (var assembly in assemblies)
