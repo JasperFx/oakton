@@ -1,6 +1,6 @@
 <!--Improved "Run" Command-->
 
-To run your application normally from a command prompt with all the default configuration **from the project root directory**, there's o real change from what you'd do without *Oakton.AspNetCore*. The command is still just:
+To run your application normally from a command prompt with all the default configuration **from the project root directory**, there's no real change from what you'd do without *Oakton.AspNetCore*. The command is still just:
 
 ```
 dotnet run
