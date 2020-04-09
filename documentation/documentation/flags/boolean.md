@@ -16,7 +16,7 @@ git clean -x -d --force
 or with all short names:
 
 ```
-git clean -x -d --force 
+git clean -x -d --f
 ```
 
 or using the Unix idiom of being able to combine flags in one expression like this ("git clean -xfd" is what I use myself):
