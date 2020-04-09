@@ -64,7 +64,7 @@ namespace MultipleCommands
     public class CheckoutInput
     {
         [FlagAlias("create-branch",'b')]
-        public string c { get; set; }
+        public string CreateBranchFlag { get; set; }
         
         public bool DetachFlag { get; set; }
         
