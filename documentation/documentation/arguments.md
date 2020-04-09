@@ -15,7 +15,7 @@ Argument values can be of type:
 * Guid
 * DateTime -- in [Iso8601](https://en.wikipedia.org/wiki/ISO_8601) format, or it falls back to `DateTime.Parse()`. Relative dates can be expressed like `TODAY` or `TODAY-3` or `TODAY+3` for today, 3 days ago, and 3 days from now respectively
 * Any concrete type that has a constructor with a single string argument like `new Dimensions("2 x 4")`
-* Arrays of any of the types above in comma delimited form, but you would have to wrap the logical array values in parantheses like `"1,2,3,4"`
+* Arrays of any of the types above in comma delimited form, but you would have to wrap the logical array values in parentheses like `"1,2,3,4"`
 * TimeSpan -- express as a time in 24 hour time like `1200` or `12:30`. See the [unit tests for TimeSpan conversions](https://github.com/JasperFx/baseline/blob/master/src/Baseline.Testing/Conversion/TimeSpanConverterTester.cs) for more examples.
 
 The conversions are done via the [Baseline](https://github.com/JasperFx/baseline) library.
