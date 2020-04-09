@@ -44,7 +44,7 @@ git clean -f
 ```
 
 There is some logic to deal with bigger property names by splitting based on [Pascal casing rules](http://wiki.c2.com/?PascalCase). So
-a property named `FirstNameFlag` would be parsed at the command line as either `-f` or `--first-name-flag`.
+a property named `FirstNameFlag` would be parsed at the command line as either `-f` or `--first-name`.
 
 You can of course override the flag alias in either long or short form by using the `[FlagAlias]` attribute as shown in the `CleanInput`
 example above.
