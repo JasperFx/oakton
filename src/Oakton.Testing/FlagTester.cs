@@ -103,6 +103,12 @@ namespace Oakton.Testing
         {
             forProp(x => x.LagFlag).ToUsageDescription().ShouldBe("[-l, --lag <lag>]");
         }
+
+        [Fact]
+        public void to_usage_description_for_flag_flag_string()
+        {
+            forProp(x => x.FlagFlag).ToUsageDescription().ShouldBe("[-f, --flag <flag>]");
+        }
     }
 
     public enum FlagEnum
@@ -128,6 +134,8 @@ namespace Oakton.Testing
         public IEnumerable<string> HerpDerpFlag { get; set; }
 
         public string LagFlag { get; set; }
+
+        public string FlagFlag { get; set; }
     }
 
     // SAMPLE: FileInput
