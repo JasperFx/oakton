@@ -97,6 +97,12 @@ namespace Oakton.Testing
         {
             forProp(x => x.EnumFlag).ToUsageDescription().ShouldBe("[-e, --enum red|blue|green]");
         }
+
+        [Fact]
+        public void to_usage_description_for_string_ending_with_flag_letters()
+        {
+            forProp(x => x.LagFlag).ToUsageDescription().ShouldBe("[-l, --lag <lag>]");
+        }
     }
 
     public enum FlagEnum
@@ -120,6 +126,8 @@ namespace Oakton.Testing
         public string LongFormAliasFlag { get; set; }
 
         public IEnumerable<string> HerpDerpFlag { get; set; }
+
+        public string LagFlag { get; set; }
     }
 
     // SAMPLE: FileInput
