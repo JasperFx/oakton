@@ -57,8 +57,14 @@ namespace Oakton.Parsing
                 return $"[{flagAliases} {enumValues}]";
             }
 
+            var name = _member.Name.ToLower();
             
-            return $"[{flagAliases} <{_member.Name.ToLower().TrimEnd('f', 'l','a','g')}>]";
+            if (name.EndsWith("flag"))
+            {
+                name = name.Substring(0, name.Length - 4);
+            }
+
+            return $"[{flagAliases} <{name}>]";
         }
     }
 }
