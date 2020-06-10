@@ -102,6 +102,20 @@ namespace Oakton.Testing
         }
 
         [Fact]
+        public void get_the_long_flag_name_for_property_named_flag()
+        {
+            var property = ReflectionHelper.GetProperty<InputModel>(x => x.Flag);
+            InputParser.ToFlagAliases(property).LongForm.ShouldBe("--flag");
+        }
+
+        [Fact]
+        public void get_the_short_name_for_property_named_flag()
+        {
+            var property = ReflectionHelper.GetProperty<InputModel>(x => x.Flag);
+            InputParser.ToFlagAliases(property).ShortForm.ShouldBe("-f");
+        }
+
+        [Fact]
         public void get_the_short_flag_name_for_a_property_with_an_alias()
         {
             var property = ReflectionHelper.GetProperty<InputModel>(x => x.AliasedFlag);
@@ -412,7 +426,8 @@ namespace Oakton.Testing
         public string AliasedFlag { get; set; }
         
         public Dictionary<string, string> PropsFlag { get; set; } = new Dictionary<string, string>();
-        
+
+        public string Flag { get; set; }
     }
 
     public class InputCommand : OaktonCommand<InputModel>

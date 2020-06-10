@@ -96,7 +96,7 @@ namespace Oakton.Parsing
         public static FlagAliases ToFlagAliases(MemberInfo member)
         {
             var name = member.Name;
-            if (name.EndsWith("Flag"))
+            if (name.EndsWith("Flag") && name.Length > 4)
             {
                 name = name.Substring(0, member.Name.Length - 4);
             }
