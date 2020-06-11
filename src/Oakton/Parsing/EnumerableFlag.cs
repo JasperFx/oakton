@@ -49,8 +49,14 @@ namespace Oakton.Parsing
         {
             var flagAliases = InputParser.ToFlagAliases(_member);
 
-            return "[{0} [<{1}1 {1}2 {1}3 ...>]]".ToFormat(flagAliases, _member.Name.ToLower().TrimEnd('f', 'l', 'a', 'g'));
-            
+            var name = _member.Name.ToLower();
+
+            if (name.EndsWith("flag") && name.Length > 4)
+            {
+                name = name.Substring(0, name.Length - 4);
+            }
+
+            return "[{0} [<{1}1 {1}2 {1}3 ...>]]".ToFormat(flagAliases, name);
         }
     }
 }
