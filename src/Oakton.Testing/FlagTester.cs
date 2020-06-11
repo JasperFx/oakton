@@ -111,9 +111,17 @@ namespace Oakton.Testing
         }
 
         [Fact]
-        public void to_usage_description_for__flag_string()
+        public void to_usage_description_for_flag_string()
         {
             forProp(x => x.Flag).ToUsageDescription().ShouldBe("[-f, --flag <flag>]");
+        }
+
+        [Fact]
+        public void to_usage_description_for_enumerable_flag_ending_with_flag_letters()
+        {
+            forArg(x => x.SlagFlag)
+                .ToUsageDescription()
+                .ShouldBe("[-s, --slag [<slag1 slag2 slag3 ...>]]");
         }
     }
 
@@ -144,6 +152,8 @@ namespace Oakton.Testing
         public string FlagFlag { get; set; }
 
         public string Flag { get; set; }
+
+        public IEnumerable<string> SlagFlag { get; set; }
     }
 
     // SAMPLE: FileInput
