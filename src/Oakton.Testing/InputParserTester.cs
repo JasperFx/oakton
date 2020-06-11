@@ -381,6 +381,18 @@ namespace Oakton.Testing
         }
 
         [Fact]
+        public void RemoveFlagSuffix_should_remove_suffix()
+        {
+            InputParser.RemoveFlagSuffix("FlagFlag").ShouldBe("Flag");
+        }
+
+        [Fact]
+        public void RemoveFlagSuffix_should_stay_same_if_is_suffix()
+        {
+            InputParser.RemoveFlagSuffix("Flag").ShouldBe("Flag");
+        }
+
+        [Fact]
         public void complex_usage_smoketest()
         {
             new UsageGraph(typeof(InputCommand)).WriteUsages("fubu");

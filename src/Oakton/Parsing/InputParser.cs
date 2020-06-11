@@ -95,12 +95,7 @@ namespace Oakton.Parsing
 
         public static FlagAliases ToFlagAliases(MemberInfo member)
         {
-            var name = member.Name;
-            if (name.EndsWith("Flag") && name.Length > 4)
-            {
-                name = name.Substring(0, member.Name.Length - 4);
-            }
-
+            var name = RemoveFlagSuffix(member.Name);
             name = splitOnPascalCaseAndAddHyphens(name);
 
             var oneLetterName = name.ToLower()[0];
@@ -119,6 +114,21 @@ namespace Oakton.Parsing
                            LongForm = LONG_FLAG_PREFIX + name.ToLower(),
                            LongFormOnly = longFormOnly
                        };
+        }
+
+        public static string RemoveFlagSuffix(string fullFlagName)
+        {
+            var suffixLength = FLAG_SUFFIX.Length;
+            var shouldBeRemoved = fullFlagName.ToLower().EndsWith(FLAG_SUFFIX.ToLower())
+                && fullFlagName.Length > suffixLength;
+            if (shouldBeRemoved)
+            {
+                return fullFlagName.Substring(0, fullFlagName.Length - suffixLength);
+            }
+            else
+            {
+                return fullFlagName;
+            }
         }
 
         private static string splitOnPascalCaseAndAddHyphens(string name)

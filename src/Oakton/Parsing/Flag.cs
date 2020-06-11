@@ -57,13 +57,7 @@ namespace Oakton.Parsing
                 return $"[{flagAliases} {enumValues}]";
             }
 
-            var name = _member.Name.ToLower();
-            
-            if (name.EndsWith("flag") && name.Length > 4)
-            {
-                name = name.Substring(0, name.Length - 4);
-            }
-
+            var name = InputParser.RemoveFlagSuffix(_member.Name).ToLower();
             return $"[{flagAliases} <{name}>]";
         }
     }
