@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
 
         <Description>Command Line Parsing and Execution</Description>
         <AssemblyTitle>Oakton.AspNetCore</AssemblyTitle>
-        <VersionPrefix>2.1.3</VersionPrefix>
+        <VersionPrefix>2.1.4</VersionPrefix>
         <Authors>Jeremy D. Miller</Authors>
         <DebugType>portable</DebugType>
         <AssemblyName>Oakton.AspNetCore</AssemblyName>
@@ -32,6 +32,10 @@
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="[3.0.0,4.0.0)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="[5.0.0,)" />
     </ItemGroup>
 
 </Project>
