@@ -22,7 +22,7 @@ end
 desc 'Compile the code'
 task :compile => [:clean] do
 	sh "dotnet restore src/Oakton.sln"
-	sh "dotnet build src/Oakton.Testing/Oakton.Testing.csproj"
+	sh "dotnet build src/Tests/Tests.csproj"
 end
 
 desc 'Run sample commands' 
