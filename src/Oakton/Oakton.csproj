@@ -17,15 +17,15 @@
     <PackageIconUrl>https://github.com/JasperFx/oakton/blob/master/documentation/content/images/title.png?raw=true</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Baseline" Version="2.0.0" />
-    <PackageReference Include="BaselineTypeDiscovery" Version="1.1.0" />
+    <PackageReference Include="Baseline" Version="2.1.1" />
+    <PackageReference Include="BaselineTypeDiscovery" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.Console" Version="4.3.0" />
-    <PackageReference Include="System.AppContext" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+    <PackageReference Include="System.Console" Version="[4.3.0, 6.0.0)" />
+    <PackageReference Include="System.AppContext" Version="[4.3.0, 6.0.0)" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="[4.3.0, 6.0.0)" />
+    <PackageReference Include="System.Reflection.Extensions" Version="[4.3.0, 6.0.0)" />
+    <PackageReference Include="System.Runtime.Loader" Version="[4.3.0, 6.0.0)" />
     
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
