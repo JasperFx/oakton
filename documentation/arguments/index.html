@@ -72,7 +72,7 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 2.0.0</h3>
+		      	<h3>Oakton 2.1.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
@@ -105,7 +105,7 @@ with the <code>[IgnoreOnCommandLine]</code>. Below is a sample:</p>
 <li>Guid</li>
 <li>DateTime -- in <a href="https://en.wikipedia.org/wiki/ISO_8601">Iso8601</a> format, or it falls back to <code>DateTime.Parse()</code>. Relative dates can be expressed like <code>TODAY</code> or <code>TODAY-3</code> or <code>TODAY+3</code> for today, 3 days ago, and 3 days from now respectively</li>
 <li>Any concrete type that has a constructor with a single string argument like <code>new Dimensions(&quot;2 x 4&quot;)</code></li>
-<li>Arrays of any of the types above in comma delimited form, but you would have to wrap the logical array values in parantheses like <code>&quot;1,2,3,4&quot;</code></li>
+<li>Arrays of any of the types above in comma delimited form, but you would have to wrap the logical array values in parentheses like <code>&quot;1,2,3,4&quot;</code></li>
 <li>TimeSpan -- express as a time in 24 hour time like <code>1200</code> or <code>12:30</code>. See the <a href="https://github.com/JasperFx/baseline/blob/master/src/Baseline.Testing/Conversion/TimeSpanConverterTester.cs">unit tests for TimeSpan conversions</a> for more examples.</li>
 </ul>
 <p>The conversions are done via the <a href="https://github.com/JasperFx/baseline">Baseline</a> library.</p>
