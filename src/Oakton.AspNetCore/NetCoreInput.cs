@@ -28,12 +28,8 @@ namespace Oakton.AspNetCore
         
         [Description("Overwrite individual configuration items")]
         public Dictionary<string, string> ConfigFlag = new Dictionary<string, string>();
-
-#if NETSTANDARD2_0
-        [IgnoreOnCommandLine] public IWebHostBuilder HostBuilder { get; set; }
-        #else
+        
         [IgnoreOnCommandLine] public IHostBuilder HostBuilder { get; set; }
-#endif
 
         [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
 

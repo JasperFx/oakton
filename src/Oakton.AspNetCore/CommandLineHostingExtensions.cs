@@ -16,6 +16,7 @@ namespace Oakton.AspNetCore
     
     public static class CommandLineHostingExtensions
     {
+
         /// <summary>
         /// Execute the extended Oakton command line support for your configured WebHostBuilder.
         /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
@@ -24,25 +25,13 @@ namespace Oakton.AspNetCore
         /// <param name="builder"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-#if NETSTANDARD2_0
-        public static Task<int> RunOaktonCommands(this IWebHostBuilder builder, string[] args)
-        {
-            return Execute(builder, null, args);
-        }
-#else
         public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args)
         {
             return Execute(builder, null, args);
         }  
-#endif
-        
-        
-        
-#if NETSTANDARD2_0
-        internal static Task<int> Execute(IWebHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
-        #else
+
+
         internal static Task<int> Execute(IHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
-#endif
         {
             // Workaround for IISExpress / VS2019 erroneously putting crap arguments
             args = args.FilterLauncherArgs();
@@ -63,11 +52,8 @@ namespace Oakton.AspNetCore
         }
 
 
-#if NETSTANDARD2_0
-        private static CommandExecutor buildExecutor(IWebHostBuilder source, Assembly applicationAssembly)
-#else
+
         private static CommandExecutor buildExecutor(IHostBuilder source, Assembly applicationAssembly)
-#endif
         {
             // SAMPLE: using-extension-assemblies
             return CommandExecutor.For(factory =>

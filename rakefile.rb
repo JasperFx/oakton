@@ -28,7 +28,7 @@ end
 desc 'Run sample commands' 
 task :run do
     Dir.chdir "src/MvcApp" do
-        sh "dotnet run --framework netcoreapp3.0 -- describe --html"
+        sh "dotnet run --framework netcoreapp3.1 -- describe --html"
     end
 end
 
@@ -36,7 +36,7 @@ desc 'Run the unit tests'
 task :test => [:compile] do
 	Dir.mkdir RESULTS_DIR
 
-	sh "dotnet test src/Oakton.Testing/Oakton.Testing.csproj"
+	sh "dotnet test src/Tests/Tests.csproj"
 	sh "dotnet test src/Oakton.AspNetCore.Testing/Oakton.AspNetCore.Testing.csproj"
 end
 

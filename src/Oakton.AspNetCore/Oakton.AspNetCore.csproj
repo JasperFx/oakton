@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
 
         <Description>Command Line Parsing and Execution</Description>
         <AssemblyTitle>Oakton.AspNetCore</AssemblyTitle>
-        <VersionPrefix>2.1.5</VersionPrefix>
+        <VersionPrefix>3.0.0</VersionPrefix>
         <Authors>Jeremy D. Miller</Authors>
         <DebugType>portable</DebugType>
         <AssemblyName>Oakton.AspNetCore</AssemblyName>
@@ -24,13 +24,7 @@
       <ProjectReference Include="..\Oakton\Oakton.csproj" />
     </ItemGroup>
 
-
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-        <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="[2.0.0, 4.0.0)" />
-        <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="[2.0.0, 4.0.0)" />
-        
-    </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="[3.0.0,4.0.0)" />
     </ItemGroup>
 

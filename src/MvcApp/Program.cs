@@ -13,6 +13,7 @@ using Oakton.AspNetCore;
 namespace MvcApp
 {
 #if NETCOREAPP2_2
+/*
     // SAMPLE: using-run-oakton-commands
     public class Program
     {
@@ -31,7 +32,7 @@ namespace MvcApp
         
     }
     // ENDSAMPLE 
-    
+    */
 #else
     // SAMPLE: using-run-oakton-commands-3
     public class Program

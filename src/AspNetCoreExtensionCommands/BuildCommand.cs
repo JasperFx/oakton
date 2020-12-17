@@ -16,7 +16,7 @@ namespace AspNetCoreExtensionCommands
         public override bool Execute(NetCoreInput input)
         {
             // This method builds out the IWebHost for your
-            // configured IWebHostBuilder of the application
+            // configured IHostBuilder of the application
             using (var host = input.BuildHost())
             {
                 Console.WriteLine("It's all good");
