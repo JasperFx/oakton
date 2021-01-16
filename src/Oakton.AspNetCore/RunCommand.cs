@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading;
-#if NETSTANDARD2_0
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-#else
+
 using Microsoft.Extensions.Hosting;
-#endif
 using Microsoft.Extensions.DependencyInjection;
 
 using Oakton.AspNetCore.Environment;
@@ -25,11 +20,7 @@ namespace Oakton.AspNetCore
     [Description("Runs the configured AspNetCore application")]
     public class RunCommand : OaktonCommand<RunInput>
     {
-#if NETSTANDARD2_0
-        public IWebHost Host { get; private set; }
-        #else
         public IHost Host { get; private set; }
-#endif
 
         public ManualResetEventSlim Reset { get; } = new ManualResetEventSlim();
         public ManualResetEventSlim Started { get; } = new ManualResetEventSlim();
@@ -75,22 +66,10 @@ namespace Oakton.AspNetCore
                 //Console.WriteLine("Running all environment checks...");
                 //host.ExecuteAllEnvironmentChecks();
 
-#if NETSTANDARD2_0
-                var service = Host.Services.GetService<IHostingEnvironment>();
-                #else
                 var service = Host.Services.GetService<IHostEnvironment>();
-#endif
 
                 Console.WriteLine("Hosting environment: " + service.EnvironmentName);
                 Console.WriteLine("Content root path: " + service.ContentRootPath);
-#if NETSTANDARD2_0
-                ICollection<string> addresses = Host.ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
-                if (addresses != null)
-                {
-                    foreach (string str in addresses)
-                        Console.WriteLine("Now listening on: " + str);
-                }
-#endif
                 
                 if (!string.IsNullOrEmpty(shutdownMessage))
                     Console.WriteLine(shutdownMessage);
