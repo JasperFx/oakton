@@ -3,11 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Baseline;
 using Oakton.AspNetCore.Internal;
-#if NETSTANDARD2_0
-using Microsoft.AspNetCore.Hosting;
-#else
 using Microsoft.Extensions.Hosting;
-#endif
 
 
 namespace Oakton.AspNetCore

@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Baseline;
-#if NETSTANDARD2_0
-using Microsoft.AspNetCore.Hosting;
-#else
 using Microsoft.Extensions.Hosting;
-#endif
 using Microsoft.Extensions.Configuration;
 
 using Microsoft.Extensions.Logging;
@@ -33,11 +29,7 @@ namespace Oakton.AspNetCore
 
         [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
 
-#if NETSTANDARD2_0
-        public IWebHost BuildHost()
-#else
         public IHost BuildHost() 
-#endif
         {
             // SAMPLE: what-the-cli-is-doing
 
