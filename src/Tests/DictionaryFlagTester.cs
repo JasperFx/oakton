@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using Oakton;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     public class DictionaryFlagTester
     {

@@ -12,9 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Oakton.AspNetCore;
-using Oakton.AspNetCore.Descriptions;
-using Oakton.AspNetCore.Environment;
+using Oakton.Descriptions;
+using Oakton.Environment;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MvcApp

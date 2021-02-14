@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Oakton.AspNetCore\Oakton.AspNetCore.csproj" />
+      <ProjectReference Include="..\Oakton\Oakton.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Baseline;
+using Oakton;
 using Oakton.Help;
 using Shouldly;
 using Xunit;
-using System.Reflection;
-using Baseline;
 
-namespace Oakton.Testing
+namespace Tests
 {
     
     public class UsageGraphTester

@@ -3,10 +3,11 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Baseline;
+using Oakton;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     public class CommandExecutorTester
     {

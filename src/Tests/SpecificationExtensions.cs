@@ -6,7 +6,7 @@ using System.Linq;
 using Baseline;
 using Shouldly;
 
-namespace Oakton.Testing
+namespace Tests
 {
     public static class SpecificationExtensions
     {

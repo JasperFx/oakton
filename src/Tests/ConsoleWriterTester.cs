@@ -1,6 +1,7 @@
+using Oakton;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     
     public class ConsoleWriterTester

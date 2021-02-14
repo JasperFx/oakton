@@ -1,4 +1,6 @@
-﻿namespace Oakton.Testing
+﻿using Oakton;
+
+namespace Tests
 {
     public class OptionsSamples
     {

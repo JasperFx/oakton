@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Oakton;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     public class can_use_fields_as_arguments_and_flags
     {

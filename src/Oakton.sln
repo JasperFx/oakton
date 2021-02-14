@@ -13,11 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quickstart", "quickstart\qu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleCommands", "MultipleCommands\MultipleCommands.csproj", "{481ABB0E-11DF-4E16-AD7C-B23009C7521D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oakton.AspNetCore", "Oakton.AspNetCore\Oakton.AspNetCore.csproj", "{EDD1B29A-1D8A-4E31-983D-BE05F790B395}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApp", "MvcApp\MvcApp.csproj", "{634B8118-F16D-4B5E-A5AE-2EAFC4ACB8F2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oakton.AspNetCore.Testing", "Oakton.AspNetCore.Testing\Oakton.AspNetCore.Testing.csproj", "{E9259CB9-D64B-4928-AB17-696C4F2A3EEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionCommands", "ExtensionCommands\ExtensionCommands.csproj", "{5C29CBFA-18EF-480F-9754-36137F9AE2B0}"
 EndProject
@@ -51,18 +47,10 @@ Global
 		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{481ABB0E-11DF-4E16-AD7C-B23009C7521D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDD1B29A-1D8A-4E31-983D-BE05F790B395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDD1B29A-1D8A-4E31-983D-BE05F790B395}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDD1B29A-1D8A-4E31-983D-BE05F790B395}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDD1B29A-1D8A-4E31-983D-BE05F790B395}.Release|Any CPU.Build.0 = Release|Any CPU
 		{634B8118-F16D-4B5E-A5AE-2EAFC4ACB8F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{634B8118-F16D-4B5E-A5AE-2EAFC4ACB8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{634B8118-F16D-4B5E-A5AE-2EAFC4ACB8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{634B8118-F16D-4B5E-A5AE-2EAFC4ACB8F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9259CB9-D64B-4928-AB17-696C4F2A3EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9259CB9-D64B-4928-AB17-696C4F2A3EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9259CB9-D64B-4928-AB17-696C4F2A3EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9259CB9-D64B-4928-AB17-696C4F2A3EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C29CBFA-18EF-480F-9754-36137F9AE2B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C29CBFA-18EF-480F-9754-36137F9AE2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C29CBFA-18EF-480F-9754-36137F9AE2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU

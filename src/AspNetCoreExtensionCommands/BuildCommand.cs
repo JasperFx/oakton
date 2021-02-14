@@ -1,6 +1,5 @@
 using System;
 using Oakton;
-using Oakton.AspNetCore;
 
 // SAMPLE: using-OaktonCommandAssemblyAttribute
 [assembly:Oakton.OaktonCommandAssembly]

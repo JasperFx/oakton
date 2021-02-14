@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Reflection;
 using Baseline;
+using Oakton;
 using Oakton.Reporting;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     
     public class DumpCommandSmokeTester

@@ -1,8 +1,9 @@
 ﻿using System;
+using Oakton;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     public class CustomCommandCreatorTests
     {

@@ -7,14 +7,9 @@
   </PropertyGroup>
 
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-
   <ItemGroup>
     <ProjectReference Include="..\AspNetCoreExtensionCommands\AspNetCoreExtensionCommands.csproj" />
-    <ProjectReference Include="..\Oakton.AspNetCore\Oakton.AspNetCore.csproj" />
+    <ProjectReference Include="..\Oakton\Oakton.csproj" />
   </ItemGroup>
 
 

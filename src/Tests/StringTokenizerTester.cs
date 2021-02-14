@@ -1,11 +1,9 @@
-using System.Diagnostics;
 using System.Linq;
-using Baseline;
 using Oakton.Parsing;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     
     public class StringTokenizerTester

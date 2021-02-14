@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using ExtensionCommands;
 using System.Threading.Tasks;
+using ExtensionCommands;
+using Oakton;
 using Oakton.Help;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     
     public class CommandFactoryTester

@@ -1,7 +1,8 @@
+using Oakton;
 using Shouldly;
 using Xunit;
 
-namespace Oakton.Testing.Bugs
+namespace Tests.Bugs
 {
     public class bug_24_negative_numbers
     {

@@ -1,7 +1,7 @@
 ﻿using Oakton.Parsing;
 using Xunit;
 
-namespace Oakton.Testing
+namespace Tests
 {
     
     public class ArgPreprocessorTester
