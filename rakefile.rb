@@ -22,7 +22,7 @@ end
 desc 'Run sample commands' 
 task :run do
     Dir.chdir "src/MvcApp" do
-        sh "dotnet run --framework netcoreapp3.1 -- describe --html"
+        sh "dotnet run --framework netcoreapp3.1 -- describe"
     end
 end
 

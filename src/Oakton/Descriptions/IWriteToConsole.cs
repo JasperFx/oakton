@@ -1,11 +1,13 @@
+using System.Threading.Tasks;
+
 namespace Oakton.Descriptions
 {
     /// <summary>
-    /// Optional interface that can be implemented by IDescribedSystemPart for
-    /// advanced Console appearance
+    /// Optional interface for exposing specialized console output
+    /// in the "describe" command
     /// </summary>
     public interface IWriteToConsole
     {
-        void WriteToConsole();
+        Task WriteToConsole();
     }
 }

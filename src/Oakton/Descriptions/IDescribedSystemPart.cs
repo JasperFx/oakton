@@ -4,18 +4,23 @@ using System.Threading.Tasks;
 namespace Oakton.Descriptions
 {
     /// <summary>
-    /// Interface that can be registered in your .Net Core application
-    /// container to be used by the "describe" command
+    /// Base class for a "described" part of your application.
+    /// Implementations of this type should be registered in your
+    /// system's DI container to be exposed through the "describe"
+    /// command
     /// </summary>
     public interface IDescribedSystemPart
     {
         /// <summary>
-        /// Human readable title that will appear in diagnostic reports
+        /// A descriptive title to be shown in the rendered output
         /// </summary>
         string Title { get; }
-        
-        
-        string Key { get; }
+
+        /// <summary>
+        /// Write markdown formatted text to describe this system part
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <returns></returns>
         Task Write(TextWriter writer);
     }
 }

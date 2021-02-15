@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Oakton;
 using Oakton.Descriptions;
 
-namespace MvcApp
+namespace EnvironmentCheckDemonstrator
 {
     public class Describer1 : IDescribedSystemPart
     {

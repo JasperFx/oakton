@@ -2,8 +2,10 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Baseline;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Oakton;
 using Oakton.Descriptions;
-using Oakton.Html;
 using Shouldly;
 using Xunit;
 
@@ -12,8 +14,9 @@ namespace Tests.Descriptions
     public class DescribeCommandTests
     {
         private readonly IDescribedSystemPart[] theParts = new[]
-            {new DescribedPart(), new ConsoleWritingPart(), new HtmlTagWritingPart(),};
+            {new DescribedPart(), new ConsoleWritingPart(),};
 
+        
 
         [Fact]
         public async Task write_text()
@@ -27,9 +30,6 @@ namespace Tests.Descriptions
             
             writer.ToString().ShouldContain(theParts[1].As<DescribedPart>().Body);
             writer.ToString().ShouldContain(theParts[1].Title);
-            
-            writer.ToString().ShouldContain(theParts[1].As<DescribedPart>().Body);
-            writer.ToString().ShouldContain(theParts[2].Title);
         }
 
         [Fact]
@@ -42,20 +42,129 @@ namespace Tests.Descriptions
         }
 
         [Fact]
-        public void write_to_html()
+        public async Task use_lambda_description()
         {
-            var document = DescribeCommand.GenerateHtmlDocument(theParts);
-            var html = document.ToString();
-            
-            html.ShouldContain(theParts[0].As<DescribedPart>().Body);
-            html.ShouldContain(theParts[0].Title);
-            
-            html.ShouldContain(theParts[1].As<DescribedPart>().Body);
-            html.ShouldContain(theParts[1].Title);
-            
-            html.ShouldContain(theParts[2].Key);
-            html.ShouldContain($"id=\"{theParts[2].Key}\"");
+            var builder = Host.CreateDefaultBuilder()
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton(new FakeService {Name = "Hugo"});
+                    services.Describe<FakeService>("Fake Service #1", (s, w) => w.WriteLine("Fake Service Name: " + s.Name));
+                    services.Describe<FakeService>("Fake Service #2", (s, w) => w.WriteLineAsync("Fake Service Name Async: " + s.Name));
+                });
+
+            var input = new DescribeInput
+            {
+                HostBuilder = builder
+            };
+
+            var original = Console.Out;
+            var output = new StringWriter();
+            Console.SetOut(output);
+
+            try
+            {
+                await new DescribeCommand().Execute(input);
+
+                var text = output.ToString().ReadLines();
+                
+                //text.ShouldContain("Fake Service #1");
+                text.ShouldContain("Fake Service Name: Hugo");
+                
+                //text.ShouldContain("Fake Service #2");
+                text.ShouldContain("Fake Service Name Async: Hugo");
+            }
+            finally
+            {
+                Console.SetOut(original);
+            }
+
         }
+
+        [Fact]
+        public async Task using_custom_part_factory()
+        {
+            var builder = Host.CreateDefaultBuilder()
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton(new FakeService {Name = "Hugo"});
+                    services.AddDescriptionFactory<CustomDiscovery>();
+                });
+
+            var input = new DescribeInput
+            {
+                HostBuilder = builder
+            };
+
+            var original = Console.Out;
+            var output = new StringWriter();
+            Console.SetOut(output);
+
+            try
+            {
+                await new DescribeCommand().Execute(input);
+
+                var text = output.ToString().ReadLines();
+
+                text.ShouldContain("Description of the first part");
+                text.ShouldContain("Second part writing in blue");
+                text.ShouldContain("Description of the third part");
+
+            }
+            finally
+            {
+                Console.SetOut(original);
+            }
+        }
+    }
+
+    public class CustomDiscovery : IDescribedSystemPartFactory
+    {
+        public IDescribedSystemPart[] Parts()
+        {
+            return new IDescribedSystemPart[] {new Describer1(), new Describer2(), new Describer3()};
+        }
+    }
+    
+    public class Describer1 : IDescribedSystemPart
+    {
+        public string Title { get; } = "The First Part";
+
+        public Task Write(TextWriter writer)
+        {
+            return writer.WriteLineAsync("Description of the first part");
+        }
+    }
+
+    public class Describer2 : IDescribedSystemPart, IWriteToConsole
+    {
+        public string Title { get; } = "The Second Part";
+        public string Key { get; } = "part2";
+        public Task Write(TextWriter writer)
+        {
+            return writer.WriteLineAsync("Description of the second part");
+        }
+
+        public Task WriteToConsole()
+        {
+            ConsoleWriter.Write(ConsoleColor.DarkBlue, "Second part writing in blue");
+            return Task.CompletedTask;
+        }
+    }
+
+    public class Describer3 : IDescribedSystemPart
+    {
+        public string Title { get; } = "The Third Part";
+        public string Key { get; } = "part3";
+        public Task Write(TextWriter writer)
+        {
+            return writer.WriteLineAsync("Description of the third part");
+        }
+
+    }
+
+    public class FakeService
+    {
+        public string Name { get; set; }
     }
 
     public class DescribedPart : IDescribedSystemPart
@@ -71,21 +180,16 @@ namespace Tests.Descriptions
 
     public class ConsoleWritingPart : DescribedPart, IWriteToConsole
     {
-        public void WriteToConsole()
+        public Task WriteToConsole()
         {
             DidWriteToConsole = true;
             
             Console.WriteLine(Body);
+
+            return Task.CompletedTask;
         }
 
         public bool DidWriteToConsole { get; set; }
     }
 
-    public class HtmlTagWritingPart : DescribedPart, IDescribedByHtml
-    {
-        public HtmlTag Build()
-        {
-            return new HtmlTag("div").Id(Key);
-        }
-    }
 }

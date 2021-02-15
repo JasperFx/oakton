@@ -2,9 +2,6 @@ namespace Oakton.Descriptions
 {
     public class DescribeInput : NetCoreInput
     {
-        [Description("Also write an HTML report to the location specified by the --file flag")]
-        public bool HtmlFlag { get; set; } = false;
-        
         [Description("Optionally write the description to the given file location")]
         public string FileFlag { get; set; } = null;
 
@@ -12,10 +9,13 @@ namespace Oakton.Descriptions
         public bool SilentFlag { get; set; } = false;
         
         [Description("Filter the output to only a single described part")]
-        public string PartFlag { get; set; }
+        public string TitleFlag { get; set; }
         
-        [Description("If set, the command only lists the known part keys")]
+        [Description("If set, the command only lists the known part titles")]
         public bool ListFlag { get; set; }
+        
+        [Description("If set, interactively select which part(s) to preview")]
+        public bool InteractiveFlag { get; set; }
 
     }
 }

@@ -5,6 +5,7 @@ using Baseline.Dates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Oakton;
+using Oakton.Descriptions;
 using Oakton.Environment;
 
 namespace EnvironmentCheckDemonstrator
@@ -22,6 +23,10 @@ namespace EnvironmentCheckDemonstrator
                         services.AddSingleton<IEnvironmentCheck>(new BadEnvironmentCheck(i + 1));
                         
                     }
+                    
+                    services.AddDescription<Describer1>();
+                    services.AddDescription<Describer2>();
+                    services.AddDescription<Describer3>();
 
                 })
                 .RunOaktonCommands(args);

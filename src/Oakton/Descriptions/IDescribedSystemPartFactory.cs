@@ -1,11 +1,11 @@
 namespace Oakton.Descriptions
 {
     /// <summary>
-    /// Optional interface to be registered to find described parts
-    /// in the system
+    /// Register implementations of this service to help
+    /// the describe command discover additional system parts
     /// </summary>
     public interface IDescribedSystemPartFactory
     {
-        IDescribedSystemPart[] FindParts();
+        IDescribedSystemPart[] Parts();
     }
 }

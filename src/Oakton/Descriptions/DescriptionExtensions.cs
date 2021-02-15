@@ -1,0 +1,81 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Baseline;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Oakton.Descriptions
+{
+    public static class DescriptionExtensions
+    {
+        /// <summary>
+        /// Register an Oakton part description for console diagnostics
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="described"></param>
+        public static void AddDescription(this IServiceCollection services, IDescribedSystemPart described)
+        {
+            services.AddSingleton<IDescribedSystemPart>(described);
+        }
+
+        /// <summary>
+        /// Register a custom description part factory
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="factory"></param>
+        public static void AddDescriptionFactory(this IServiceCollection services, IDescribedSystemPartFactory factory)
+        {
+            services.AddSingleton<IDescribedSystemPartFactory>(factory);
+        }
+        
+        /// <summary>
+        /// Register a custom description part factory
+        /// </summary>
+        /// <param name="services"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void AddDescriptionFactory<T>(this IServiceCollection services) where T : class, IDescribedSystemPartFactory
+        {
+            services.AddSingleton<IDescribedSystemPartFactory, T>();
+        }
+
+        /// <summary>
+        /// Register an Oakton part description for console diagnostics
+        /// </summary>
+        /// <param name="services"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void AddDescription<T>(this IServiceCollection services) where T : class, IDescribedSystemPart
+        {
+            services.AddSingleton<IDescribedSystemPart, T>();
+        }
+        
+        /// <summary>
+        /// Register an Oakton part description for console diagnostics
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="title"></param>
+        /// <param name="describe"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void Describe<T>(this IServiceCollection services, string title, Action<T, TextWriter> describe)
+        {
+            services.DescribeAsync<T>(title, (service, writer) =>
+            {
+                describe(service, writer);
+                return Task.CompletedTask;
+            });
+        }
+        
+        /// <summary>
+        /// Register an Oakton part description for console diagnostics
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="title"></param>
+        /// <param name="describe"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void DescribeAsync<T>(this IServiceCollection services, string title, Func<T, TextWriter, Task> describe)
+        {
+            var part = new LambdaDescribedSystemPart<T>(title, describe);
+
+            services.AddSingleton<IDescribedSystemPart>(part);
+        }
+    }
+}

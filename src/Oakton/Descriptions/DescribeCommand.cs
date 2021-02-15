@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Baseline;
 using Microsoft.Extensions.DependencyInjection;
-using Oakton.Html;
+using Spectre.Console;
 
 namespace Oakton.Descriptions
 {
@@ -15,25 +15,29 @@ namespace Oakton.Descriptions
         {
             using (var host = input.BuildHost())
             {
-                var factory = host.Services.GetService<IDescribedSystemPartFactory>() ??
-                              new DefaultDescribedSystemPartFactory(host.Services);
+                var factories = host.Services.GetServices<IDescribedSystemPartFactory>();
+                var parts = host.Services.GetServices<IDescribedSystemPart>()
+                    .Concat(factories.SelectMany(x => x.Parts())).ToArray();
 
-                var parts = factory.FindParts();
+                foreach (var partWithServices in parts.OfType<IRequiresServices>())
+                {
+                    partWithServices.Resolve(host.Services);
+                }
 
                 if (input.ListFlag)
                 {
                     Console.WriteLine("The registered system parts are");
                     foreach (var part in parts)
                     {
-                        Console.WriteLine("* " + part.Key);
+                        Console.WriteLine("* " + part.Title);
                     }
 
                     return true;
                 }
 
-                if (input.PartFlag.IsNotEmpty())
+                if (input.TitleFlag.IsNotEmpty())
                 {
-                    parts = parts.Where(x => x.Key == input.PartFlag).ToArray();
+                    parts = parts.Where(x => x.Title == input.TitleFlag).ToArray();
                 }
 
                 if (!input.SilentFlag)
@@ -43,27 +47,14 @@ namespace Oakton.Descriptions
 
                 if (input.FileFlag.IsNotEmpty())
                 {
-                    if (input.HtmlFlag)
+                    using (var stream = new FileStream(input.FileFlag, FileMode.CreateNew, FileAccess.Write))
                     {
-                        var document = GenerateHtmlDocument(parts);
-                        var formatter = host.Services.GetService<IDescribedHtmlFormatter>();
-                        formatter?.ApplyFormatting(document);
-                        
-                        File.WriteAllText(input.FileFlag, document.ToString());
-                    }
-                    else
-                    {
-                        using (var stream = new FileStream(input.FileFlag, FileMode.CreateNew, FileAccess.Write))
-                        {
-                            var writer = new StreamWriter(stream);
+                        var writer = new StreamWriter(stream);
                             
-                            await WriteText(parts, writer);
-                            await writer.FlushAsync();
-                        }
-                        
-                        
+                        await WriteText(parts, writer);
+                        await writer.FlushAsync();
                     }
-                    
+
                     Console.WriteLine("Wrote system description to file " + input.FileFlag);
                 }
 
@@ -71,43 +62,6 @@ namespace Oakton.Descriptions
             }
         }
 
-        public static HtmlDocument GenerateHtmlDocument(IDescribedSystemPart[] parts)
-        {
-            var document = new HtmlDocument();
-            document.Body.Add("a").Attr("name", "top");
-            var tableOfContents = document.Body.Add("ol");
-            document.Body.Add("hr");
-
-            foreach (var part in parts)
-            {
-                tableOfContents.Add("li/a").Text(part.Title).Attr("href","#" + part.Key);
-
-                document.Body.Add("a").Attr("name", part.Key);
-                document.Body.Add("h3").Text(part.Title);
-
-                if (part is IDescribedByHtml x)
-                {
-                    document.Body.Append(x.Build());
-                }
-                else
-                {
-                    var writer = new StringWriter();
-                    part.Write(writer).GetAwaiter().GetResult();
-
-                    document.Body.Add("pre").Text(writer.ToString());
-                }
-
-                document.Body.Add("a").Text("back to top...").Attr("href", "#top");
-
-                document.Body.Add("hr");
-            }
-
-
-
-
-
-            return document;
-        }
 
         public static async Task WriteText(IDescribedSystemPart[] parts, TextWriter writer)
         {
@@ -123,21 +77,24 @@ namespace Oakton.Descriptions
 
         public static async Task WriteToConsole(IDescribedSystemPart[] parts)
         {
-            
             foreach (var part in parts)
             {
-                ConsoleWriter.Write(ConsoleColor.Cyan, part.Title);
-                Console.WriteLine();
-                
-                if (part is IWriteToConsole w)
+                var rule = new Rule($"[blue]{part.Title}[/]")
                 {
-                    w.WriteToConsole();
+                    Alignment = Justify.Left,
+                };
+                
+                AnsiConsole.Render(rule);
+
+                if (part is IWriteToConsole o)
+                {
+                    await o.WriteToConsole();
                 }
                 else
                 {
                     await part.Write(Console.Out);
                 }
-                
+
                 Console.WriteLine();
                 Console.WriteLine();
             }
