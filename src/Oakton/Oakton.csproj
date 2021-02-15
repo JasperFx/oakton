@@ -19,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Baseline" Version="2.1.1" />
     <PackageReference Include="BaselineTypeDiscovery" Version="1.1.1" />
+    <PackageReference Include="Spectre.Console" Version="0.37.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.Console" Version="[4.3.0, 6.0.0)" />

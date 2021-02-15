@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Baseline;
 using Oakton.Environment;
@@ -25,13 +26,18 @@ namespace Oakton.Commands
                     results.WriteToFile(input.FileFlag);
                     Console.WriteLine("Writing environment checks to " + input.FileFlag);
                 }
-                
-                results.Assert();
-                
-                ConsoleWriter.Write(ConsoleColor.Green, "All environment checks are good!");
-            }
 
-            return true;
+                if (results.Failures.Any())
+                {
+                    ConsoleWriter.Write(ConsoleColor.Red, "Some environment checks failed!");
+                    return false;
+                }
+                else
+                {
+                    ConsoleWriter.Write(ConsoleColor.Green, "All environment checks are good!");
+                    return true;
+                }
+            }
         }
 
     }

@@ -56,6 +56,7 @@ namespace Oakton.Environment
         }
         
         
+        
         /// <summary>
         /// Issue a check against the running environment using a registered service of type T asynchronously. Throw an
         /// exception to denote environment failures

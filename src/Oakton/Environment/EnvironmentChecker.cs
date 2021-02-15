@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Spectre.Console;
 
 namespace Oakton.Environment
 {
@@ -16,29 +17,53 @@ namespace Oakton.Environment
         {
             var results = new EnvironmentCheckResults();
 
+            AnsiConsole.Render(
+                new FigletText("Oakton")
+                    .LeftAligned());
 
             var checks = services.discoverChecks().ToArray();
-            if (!checks.Any()) return results;
-            
-            Console.WriteLine("Running Environment Checks");
-
-            for (int i = 0; i < checks.Length; i++)
+            if (!checks.Any())
             {
-                var check = checks[i];    
-                
-                try
-                {
-                    await check.Assert(services, token);
-                    ConsoleWriter.Write(ConsoleColor.Green, $"{(i + 1).ToString().PadLeft(4)}.) Success: {check.Description}");
-                    results.RegisterSuccess(check.Description);
-                }
-                catch (Exception e)
-                {
-                    ConsoleWriter.Write(ConsoleColor.Red, $"{(i + 1).ToString().PadLeft(4)}.) Failed: {check.Description}");
-                    ConsoleWriter.Write(ConsoleColor.Yellow, e.ToString());
-                    results.RegisterFailure(check.Description, e);
-                }
+                AnsiConsole.Write("No environment checks.");
+                return results;
             }
+
+            await AnsiConsole.Progress().StartAsync(async c =>
+            {
+                var task = c.AddTask("[bold]Running Environment Checks[/]", new ProgressTaskSettings
+                {
+                    MaxValue = checks.Length
+                });
+
+                for (int i = 0; i < checks.Length; i++)
+                {
+                    var check = checks[i];
+
+                    try
+                    {
+                        await check.Assert(services, token);
+
+                        AnsiConsole.MarkupLine(
+                            $"[green]{(i + 1).ToString().PadLeft(4)}.) Success: {check.Description}[/]");
+
+                        results.RegisterSuccess(check.Description);
+                    }
+                    catch (Exception e)
+                    {
+                        AnsiConsole.MarkupLine(
+                            $"[red]{(i + 1).ToString().PadLeft(4)}.) Failed: {check.Description}[/]");
+                        AnsiConsole.WriteException(e);
+
+                        results.RegisterFailure(check.Description, e);
+                    }
+                    finally
+                    {
+                        task.Increment(1);
+                    }
+                }
+                
+                task.StopTask();
+            });
 
             return results;
 
