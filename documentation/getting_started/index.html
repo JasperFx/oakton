@@ -72,7 +72,7 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 2.1.0</h3>
+		      	<h3>Oakton 3.0.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
@@ -93,25 +93,26 @@
 
 			      	<div id="main-pane">
 			      		<!--title: Getting Started-->
+<div class="alert-info alert"><p><strong>Note!</strong>
+The power of Oakton really comes into play when it's combined with applications using the <code>HostBuilder</code>
+mechanism for bootstrapping .Net applications. See <a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a> for more information.</p>
+</div>
 <p>Oakton originated in the now defunct <a href="https://github.com/DarthFubuMVC/fubucore">FubuCore</a> project in 2010 as a mechanism to allow our .Net
-development team to build robust console line utilities with these attributes:</p>
+development team of that time to build robust console line utilities with these attributes:</p>
 <ul>
 <li>Make it easy to embed and expose command help for user friendliness</li>
 <li>Be consistent with Unix/Linux command line idioms from arguments and optional names -- i.e., make the command line usage
-feel like git's command line syntax</li>
+feel like Git's command line syntax</li>
 <li>Easily enable tools to expose multiple commands</li>
-<li>Completely separate the command line parsing from the actual functionality of the console application <em>which we
-still believe separates Oakton from most other existing command line argument parsing tools in the .Net space</em></li>
-<li>Enable relatively easy testing of the command line tools</li>
+<li>Completely separate the command line parsing from the actual functionality of the console application for easier testing of the command line tools and cleaner code</li>
 <li>Validate user input and helpfully tell them when it's invalid and what the correct usage should be</li>
 </ul>
-<p>Oakton was originally extracted from FubuCore as a new standalone project before adding some new improvements and support for Netstandard targets and the new fangled
-CoreCLR.</p>
+<p>Oakton was originally extracted from FubuCore as a new standalone project before adding some new improvements and support for .Net Core and now .Net 5.0.</p>
 <h2 id="your-first-command">Your First Command</h2>
 <p>To get started, simply create a new dotnet console application and add the <code>Oakton</code> nuget dependency. For your first commnd, let's start simple with a command that will simply print out a specified name with an optional color and title. The logical first step is to just
 create the input class for your command that will establish the arguments and an optional flag:</p>
 <pre><code class="language-csharp">&#xA;public class NameInput&#xA;{&#xA;    [Description(&quot;The name to be printed to the console output&quot;)]&#xA;    public string Name { get; set; }&#xA;&#xA;    [Description(&quot;The color of the text. Default is black&quot;)]&#xA;    public ConsoleColor Color { get; set; } = ConsoleColor.Black;&#xA;&#xA;    [Description(&quot;Optional title preceeding the name&quot;)]&#xA;    public string TitleFlag { get; set; }&#xA;}&#xA;</code></pre>
-<p>You'll note that I've added some <code>[Description]</code> attributes strictly for the purpose of adding user help messages that we'll take a look at later. Now that we've got that out of the way, let's create our first command:</p>
+<p>You'll note that I've added some <code>[Oakton.Description]</code> attributes strictly for the purpose of adding user help messages that we'll take a look at later. Now that we've got that out of the way, let's create our first command:</p>
 <pre><code class="language-csharp">&#xA;[Description(&quot;Print somebody&#x27;s name&quot;)]&#xA;public class NameCommand : OaktonCommand&lt;NameInput&gt;&#xA;{&#xA;    public NameCommand()&#xA;    {&#xA;        // The usage pattern definition here is completely&#xA;        // optional&#xA;        Usage(&quot;Default Color&quot;).Arguments(x =&gt; x.Name);&#xA;        Usage(&quot;Print name with specified color&quot;).Arguments(x =&gt; x.Name, x =&gt; x.Color);&#xA;    }&#xA;&#xA;    public override bool Execute(NameInput input)&#xA;    {&#xA;        var text = input.Name;&#xA;        if (!string.IsNullOrEmpty(input.TitleFlag))&#xA;        {&#xA;            text = input.TitleFlag &#x2B; &quot; &quot; &#x2B; text;&#xA;        }&#xA;&#xA;        // This is a little helper in Oakton for getting&#xA;        // cute with colors in the console output&#xA;        ConsoleWriter.Write(input.Color, text);&#xA;&#xA;&#xA;        // Just telling the OS that the command&#xA;        // finished up okay&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
 <p>With that in place, let's wire it up to our applications <code>Program.Main()</code>:</p>
 <pre><code class="language-csharp">&#xA;class Program&#xA;{&#xA;    static int Main(string[] args)&#xA;    {&#xA;        // As long as this doesn&#x27;t blow up, we&#x27;re good to go&#xA;        return CommandExecutor.ExecuteCommand&lt;NameCommand&gt;(args);&#xA;    }&#xA;}&#xA;</code></pre>
@@ -194,8 +195,10 @@ the git command line with the <code>clean</code> and <code>checkout</code> comma
 <p>From here, you probably want to learn more about:</p>
 <ul>
 <li><a href="/oakton/documentation/commands">All about commands</a></li>
-<li><a href="/oakton/documentation/arguments">Using arguments and argument signatures</a></li>
-<li><a href="/oakton/documentation/flags">Optional Flags</a></li>
+<li><p class="bg-warning" style="padding:5px"><b>Unknown topic key &#x27;documentation/arguments&#x27;</b><small> -- CTRL&#x2B;SHIFT&#x2B;R to force refresh the topic tree</small></p>
+</li>
+<li><p class="bg-warning" style="padding:5px"><b>Unknown topic key &#x27;documentation/flags&#x27;</b><small> -- CTRL&#x2B;SHIFT&#x2B;R to force refresh the topic tree</small></p>
+</li>
 <li><a href="/oakton/documentation/help">How the help output works</a></li>
 <li><a href="/oakton/documentation/opts">&quot;Opts&quot; Files</a></li>
 </ul>

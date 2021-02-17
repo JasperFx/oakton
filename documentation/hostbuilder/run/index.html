@@ -6,7 +6,7 @@
         <meta name="generator" content="Bootply" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel=icon href=/content/images/favicon.ico>
-		<title>Oakton - Run</title>
+		<title>Oakton - Improved "Run" Command</title>
 		<link href="/oakton/content/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="/oakton/content/prism.css" rel="stylesheet" type="text/css" />
 		<link href="/oakton/content/theme.css" rel="stylesheet" type="text/css" />
@@ -46,8 +46,8 @@
 		        <li>
 <a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
 		        </li>
-		      	<li><a href="/oakton/documentation/aspnetcore" title="Extended ASP.Net Core Command Line Options">Previous</a></li>
-		      	<li><a href="/oakton/documentation/aspnetcore/environment" title="Environment Checks">Next</a></li>
+		      	<li><a href="/oakton/documentation/hostbuilder" title="Integration with HostBuilder">Previous</a></li>
+		      	<li><a href="/oakton/documentation/hostbuilder/environment" title="Environment Checks">Next</a></li>
 		      </ul>
 		      <div class="navbar-form navbar-left" role="search">
 		        <div class="form-group">
@@ -62,7 +62,7 @@
 
 		  <div class="container">
 		  	<nav class="navbar-inverse">
-		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li><a href="/oakton/documentation/aspnetcore">Extended ASP.Net Core Command Line Options</a></li><li class="active">Run</li></ol>
+		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li><a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a></li><li class="active">Improved &quot;Run&quot; Command</li></ol>
 		  	</nav>
 		  </div>
 
@@ -72,27 +72,27 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 2.1.0</h3>
+		      	<h3>Oakton 3.0.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
 
 		        </ul>
 
-		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/aspnetcore/environment">Environment Checks</a></p>
-		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/aspnetcore">Extended ASP.Net Core Command Line Options</a></p>
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/hostbuilder/environment">Environment Checks</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a></p>
 
 		        </ul>
 		      </div><!--/left-->
 
 		      <!--right-->
 		      <div class="col-md-9">
-			      	<h1>Run<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/aspnetcore/run.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
+			      	<h1>Improved "Run" Command<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/hostbuilder/run.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
 
 			      	<hr />
 
 			      	<div id="main-pane">
-			      		<!--Improved "Run" Command-->
+			      		<!--title:Improved "Run" Command-->
 <p>To run your application normally from a command prompt with all the default configuration <strong>from the project root directory</strong>, there's no real change from what you'd do without <em>Oakton.AspNetCore</em>. The command is still just:</p>
 <pre><code>dotnet run
 </code></pre>
@@ -170,7 +170,7 @@ When you're using the <code>dotnet run</code> command, the usage of the double d
 </code></pre>
 <p>See <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.2">Logging in .NET Core and ASP.NET Core</a> for more information about ASP.Net Core logging.</p>
 <h2 id="running-environment-checks-before-starting-the-application">Running Environment Checks Before Starting the Application</h2>
-<p>You can also opt into running any configured <a href="/oakton/documentation/aspnetcore/environment">environment checks</a> before starting Kestrel. If any of the environment checks fail, the application startup will fail. The goal of this feature is to make deployments be self-diagnosing and fail fast at startup time if the system can detect problems in its configuration or with its dependencies.</p>
+<p>You can also opt into running any configured <p class="bg-warning" style="padding:5px"><b>Unknown topic key 'documentation/aspnetcore/environment'</b><small> -- CTRL+SHIFT+R to force refresh the topic tree</small></p> before starting Kestrel. If any of the environment checks fail, the application startup will fail. The goal of this feature is to make deployments be self-diagnosing and fail fast at startup time if the system can detect problems in its configuration or with its dependencies.</p>
 <p>To run the environment checks as part of the run command, just use the <em>--environment</em> flag like this:</p>
 <pre><code>dotnet run -- --environment
 </code></pre>
@@ -181,12 +181,12 @@ When you're using the <code>dotnet run</code> command, the usage of the double d
 
 			      	<nav>
 				        <span>
-				        	<strong>Previous: </strong><a href="/oakton/documentation/aspnetcore">Extended ASP.Net Core Command Line Options</a>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a>
 
 				        </span>
 				        <span class="pull-right">
 
-				        	<strong>Next: </strong><a href="/oakton/documentation/aspnetcore/environment">Environment Checks</a>
+				        	<strong>Next: </strong><a href="/oakton/documentation/hostbuilder/environment">Environment Checks</a>
 
 				        </span>
 			      	</nav>

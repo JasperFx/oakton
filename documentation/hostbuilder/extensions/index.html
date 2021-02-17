@@ -6,7 +6,7 @@
         <meta name="generator" content="Bootply" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel=icon href=/content/images/favicon.ico>
-		<title>Oakton - Extended ASP.Net Core Command Line Options</title>
+		<title>Oakton - Writing Extension Commands</title>
 		<link href="/oakton/content/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="/oakton/content/prism.css" rel="stylesheet" type="text/css" />
 		<link href="/oakton/content/theme.css" rel="stylesheet" type="text/css" />
@@ -46,8 +46,8 @@
 		        <li>
 <a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
 		        </li>
-		      	<li><a href="/oakton/documentation/discovery" title="Command Assembly Discovery">Previous</a></li>
-		      	<li><a href="/oakton/documentation/aspnetcore/run" title="Run">Next</a></li>
+		      	<li><a href="/oakton/documentation/hostbuilder/environment" title="Environment Checks">Previous</a></li>
+		      	<li><a href="/oakton/documentation/hostbuilder/describe" title="The "describe" command">Next</a></li>
 		      </ul>
 		      <div class="navbar-form navbar-left" role="search">
 		        <div class="form-group">
@@ -62,7 +62,7 @@
 
 		  <div class="container">
 		  	<nav class="navbar-inverse">
-		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li class="active">Extended ASP.Net Core Command Line Options</li></ol>
+		  		<ol class="breadcrumb"><li><a href="/oakton/">Oakton</a></li><li><a href="/oakton/documentation">Documentation</a></li><li><a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a></li><li class="active">Writing Extension Commands</li></ol>
 		  	</nav>
 		  </div>
 
@@ -72,48 +72,35 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 2.1.0</h3>
+		      	<h3>Oakton 3.0.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
 
 		        </ul>
 
-		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/aspnetcore/run">Run</a></p>
-		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/discovery">Command Assembly Discovery</a></p>
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/hostbuilder/describe">The "describe" command</a></p>
+		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/hostbuilder/environment">Environment Checks</a></p>
 
 		        </ul>
 		      </div><!--/left-->
 
 		      <!--right-->
 		      <div class="col-md-9">
-			      	<h1>Extended ASP.Net Core Command Line Options<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/aspnetcore/index.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
+			      	<h1>Writing Extension Commands<a href="https://github.com/jasperfx/oakton/blob/master/documentation/documentation/hostbuilder/extensions.md"  class="text-muted small pull-right" style="margin-top: 10px"><i class="fa fa-github"></i> Edit on GitHub</a></h1>
 
 			      	<hr />
 
 			      	<div id="main-pane">
-			      		<!--title:Extended ASP.Net Core Command Line Options-->
-<div class="alert-info alert"><p><strong>Note!</strong>
-This section <strong>only</strong> refers to Oakton.AspNetCore 2.0.0.</p>
+			      		<!--title:Writing Extension Commands-->
+<p>Oakton has a strong extensibility model to find and activate commands from external assemblies. If an application uses the <code>RunOaktonCommands(args)</code> method, Oakton will look for any Oakton commands in any assembly that has this assembly level attribute:</p>
+<pre><code class="language-csharp">&#xA;[assembly:Oakton.OaktonCommandAssembly]&#xA;</code></pre>
+<div class="alert-warning alert"><p><strong>Note!</strong>
+You will have to explicitly add this attribute to the main assembly of your application to make Oakton discover commands in that assembly. Oakton no longer supports trying to walk the call stack to determine the main application assembly.</p>
 </div>
-<p>The <em>Oakton.AspNetCore</em> library can be used to extend the command line options of the typical ASP.Net Core application for:</p>
-<ul>
-<li><a href="/oakton/documentation/aspnetcore/run">An improved, default run command</a></li>
-<li><a href="/oakton/documentation/aspnetcore/environment">A new command for environment check support</a></li>
-<li><a href="/oakton/documentation/aspnetcore/extensions">Ability to add your own commands running in the context of your application</a></li>
-</ul>
-<p>To enable the extended command line options in your ASP.Net Core application, first install the <code>Oakton.AspNetCore</code> nuget to your project. Then modify the <code>Program.Main()</code> method generated by the baseline <em>mvc</em> or other ASP.Net Core services to this <strong>in ASP.Net Core 2</strong>:</p>
-<pre><code class="language-csharp">&#xA;public class Program&#xA;{&#xA;    public static Task&lt;int&gt; Main(string[] args)&#xA;    {&#xA;        return CreateWebHostBuilder(args)&#xA;            &#xA;            // This extension method replaces the calls to&#xA;            // IWebHost.Build() and Start()&#xA;            .RunOaktonCommands(args);&#xA;    }&#xA;&#xA;    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =&gt;&#xA;        WebHost.CreateDefaultBuilder(args)&#xA;            .UseStartup&lt;Startup&gt;();&#xA;    &#xA;}&#xA;</code></pre>
-<p><strong>Or in .Net Core 3.0</strong>, use the new generic <code>HostBuilder</code> with or without ASP.Net Core:</p>
-<pre><code class="language-csharp">&#xA;public class Program&#xA;{&#xA;    public static Task&lt;int&gt; Main(string[] args)&#xA;    {&#xA;        return CreateHostBuilder(args)&#xA;            &#xA;            // This extension method replaces the calls to&#xA;            // IWebHost.Build() and Start()&#xA;            .RunOaktonCommands(args);&#xA;    }&#xA;&#xA;    public static IHostBuilder CreateHostBuilder(string[] args) =&gt;&#xA;        Host.CreateDefaultBuilder(args)&#xA;            .ConfigureWebHostDefaults(x =&gt; x.UseStartup&lt;Startup&gt;());&#xA;    &#xA;}&#xA;</code></pre>
-<p>There are just a couple things to note:</p>
-<ol>
-<li>The return value of the <code>Program.Main()</code> method now needs to be <code>Task&lt;int&gt;</code> rather than <code>void</code>. This is done so that Oakton
-can return either successful or failure exit codes for usage in diagnostic commands you may want to stop automated builds upon
-failures.</li>
-<li>You will use the <code>RunOaktonCommands()</code> method to accept the command line arguments and invoke your system rather than manually
-building and/or starting the <code>IWebHost</code> yourself</li>
-</ol>
+<p>Extension commands can be either basic <code>OaktonCommand</code> or <code>OaktonAsyncCommand</code> classes. To add an extension command that uses the <code>HostBuilder</code> configuration of the application, the command needs to use the <code>NetCoreInput</code> class or a class that inherits from <code>NetCoreInput</code>. In this simple example below, I've built a command that just tries to do a &quot;smoke test&quot; by calling the <code>HostBuilder.Build()</code> method and seeing if any exceptions happen:</p>
+<pre><code class="language-csharp">&#xA;[Description(&quot;Simply try to build a web host as a smoke test&quot;, Name = &quot;smoke&quot;)]&#xA;public class SmokeCommand : OaktonCommand&lt;NetCoreInput&gt;&#xA;{&#xA;    public override bool Execute(NetCoreInput input)&#xA;    {&#xA;        // This method builds out the IWebHost for your&#xA;        // configured IHostBuilder of the application&#xA;        using (var host = input.BuildHost())&#xA;        {&#xA;            Console.WriteLine(&quot;It&#x27;s all good&quot;);&#xA;        }&#xA;&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
+<p>The <code>NetCoreInput</code> carries the <code>IHostBuilder</code> of your application, but does <strong>not</strong> start up or build the <code>IHost</code> by itself. You would have to explicitly do so, but making that lazy gives you the ability to alter or extend the application configuration before calling <code>IHostBuilder.Build()</code> or <code>IHostBuilder.Start()</code>.</p>
 
 			      	</div>
 
@@ -121,12 +108,12 @@ building and/or starting the <code>IWebHost</code> yourself</li>
 
 			      	<nav>
 				        <span>
-				        	<strong>Previous: </strong><a href="/oakton/documentation/discovery">Command Assembly Discovery</a>
+				        	<strong>Previous: </strong><a href="/oakton/documentation/hostbuilder/environment">Environment Checks</a>
 
 				        </span>
 				        <span class="pull-right">
 
-				        	<strong>Next: </strong><a href="/oakton/documentation/aspnetcore/run">Run</a>
+				        	<strong>Next: </strong><a href="/oakton/documentation/hostbuilder/describe">The "describe" command</a>
 
 				        </span>
 			      	</nav>

@@ -47,7 +47,7 @@
 <a href="https://gitter.im/jasperfx/oakton?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="Join the chat at https://gitter.im/jasperfx/oakton" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;"></a>
 		        </li>
 		      	<li><a href="/oakton/documentation/getting_started" title="Getting Started">Previous</a></li>
-		      	<li><a href="/oakton/documentation/async" title="Asynchronous Execution">Next</a></li>
+		      	<li><a href="/oakton/documentation/hostbuilder" title="Integration with HostBuilder">Next</a></li>
 		      </ul>
 		      <div class="navbar-form navbar-left" role="search">
 		        <div class="form-group">
@@ -72,14 +72,14 @@
 		      <!--left-->
 
 		      <div class="col-md-3" id="leftCol">
-		      	<h3>Oakton 2.1.0</h3>
+		      	<h3>Oakton 3.0.0</h3>
 		      	<br />
 
 				<ul class="nav nav-stacked affix" id="sidebar">
 
 		        </ul>
 
-		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/async">Asynchronous Execution</a></p>
+		        	<h3 class="no-margin">Next</h3><p><a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a></p>
 		        	<h3 class="no-margin">Previous</h3><a href="/oakton/documentation/getting_started">Getting Started</a></p>
 
 		        </ul>
@@ -125,6 +125,15 @@ they appear within the input class.</p>
 <p>By default, Oakton determines the command name for a command class by taking the class name, removing the &quot;Command&quot; suffix, and then using the all lower case remainder of the string. For an example, a command class called <code>CleanCommand</code> would have the command name
 <em>clean</em>. To override that behavior, you can use the <code>Alias</code> property on Oakton's <code>[Description]</code> attribute as shown below:</p>
 <pre><code class="language-csharp">&#xA;[Description(&quot;Say my name differently&quot;, Name = &quot;different-name&quot;)]&#xA;public class AliasedCommand : OaktonCommand&lt;NameInput&gt;&#xA;</code></pre>
+<h2 id="asynchronous-commands">Asynchronous Commands</h2>
+<p>Oakton also supports the ability to write asynchronous commands that take advantage of
+the ability to use asynchronous <code>Program.Main()</code> method signatures in recent versions of .Net.</p>
+<p>To write an asynchronous command, use the <code>OaktonAsyncCommand&lt;T&gt;</code> type as your base class for your
+command as shown below:</p>
+<pre><code class="language-csharp">&#xA;[Description(&quot;Say my name&quot;, Name = &quot;say-async-name&quot;)]&#xA;public class AsyncSayNameCommand : OaktonAsyncCommand&lt;SayName&gt;&#xA;{&#xA;    public AsyncSayNameCommand()&#xA;    {&#xA;        Usage(&quot;Capture the users name&quot;).Arguments(x =&gt; x.FirstName, x =&gt; x.LastName);&#xA;    }&#xA;&#xA;    public override async Task&lt;bool&gt; Execute(SayName input)&#xA;    {&#xA;        await Console.Out.WriteLineAsync($&quot;{input.FirstName} {input.LastName}&quot;);&#xA;&#xA;        return true;&#xA;    }&#xA;}&#xA;</code></pre>
+<p>Likewise, to execute asynchronously from <code>Program.Main()</code>, there are new overloads on
+<code>CommandExecutor</code> for async:</p>
+<pre><code class="language-csharp">&#xA;static Task&lt;int&gt; Main(string[] args)&#xA;{&#xA;    var executor = CommandExecutor.For(_ =&gt;&#xA;    {&#xA;        // Find and apply all command classes discovered&#xA;        // in this assembly&#xA;        _.RegisterCommands(typeof(Program).GetTypeInfo().Assembly);&#xA;    });&#xA;&#xA;    return executor.ExecuteAsync(args);&#xA;}&#xA;</code></pre>
 
 			      	</div>
 
@@ -137,7 +146,7 @@ they appear within the input class.</p>
 				        </span>
 				        <span class="pull-right">
 
-				        	<strong>Next: </strong><a href="/oakton/documentation/async">Asynchronous Execution</a>
+				        	<strong>Next: </strong><a href="/oakton/documentation/hostbuilder">Integration with HostBuilder</a>
 
 				        </span>
 			      	</nav>
