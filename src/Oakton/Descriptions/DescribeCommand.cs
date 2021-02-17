@@ -120,6 +120,7 @@ namespace Oakton.Descriptions
         }
     }
 
+    // SAMPLE: AboutThisAppPart
     public class AboutThisAppPart : IDescribedSystemPart
     {
         private readonly IHostEnvironment _host;
@@ -140,13 +141,13 @@ namespace Oakton.Descriptions
             writer.WriteLine($"             Environment: {_host.EnvironmentName}");
             writer.WriteLine($"       Content Root Path: {_host.ContentRootPath}");
             writer.WriteLine($"AppContext.BaseDirectory: {AppContext.BaseDirectory}");
-            
-            
 
             return Task.CompletedTask;
         }
     }
+    // ENDSAMPLE
 
+    // SAMPLE: ReferencedAssemblies
     public class ReferencedAssemblies : IDescribedSystemPart, IWriteToConsole
     {
         public string Title { get; } = "Referenced Assemblies";
@@ -184,4 +185,5 @@ namespace Oakton.Descriptions
             return Task.CompletedTask;
         }
     }
+    // ENDSAMPLE
 }

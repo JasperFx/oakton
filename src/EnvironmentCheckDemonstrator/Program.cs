@@ -12,6 +12,7 @@ namespace EnvironmentCheckDemonstrator
 {
     class Program
     {
+        // SAMPLE: extending-describe
         static Task<int> Main(string[] args)
         {
             return Host.CreateDefaultBuilder()
@@ -24,6 +25,10 @@ namespace EnvironmentCheckDemonstrator
                         
                     }
                     
+                    // This is an example of adding custom
+                    // IDescriptionSystemPart types to your
+                    // application that can participate in
+                    // the describe output
                     services.AddDescription<Describer1>();
                     services.AddDescription<Describer2>();
                     services.AddDescription<Describer3>();
@@ -31,6 +36,7 @@ namespace EnvironmentCheckDemonstrator
                 })
                 .RunOaktonCommands(args);
         }
+        // ENDSAMPLE
     }
 
     public class GoodEnvironmentCheck : IEnvironmentCheck
