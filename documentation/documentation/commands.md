@@ -45,3 +45,20 @@ By default, Oakton determines the command name for a command class by taking the
 *clean*. To override that behavior, you can use the `Alias` property on Oakton's `[Description]` attribute as shown below:
 
 <[sample:command-alias]>
+
+## Asynchronous Commands
+
+Oakton also supports the ability to write asynchronous commands that take advantage of
+the ability to use asynchronous `Program.Main()` method signatures in recent versions of .Net.
+
+To write an asynchronous command, use the `OaktonAsyncCommand<T>` type as your base class for your
+command as shown below:
+
+<[sample:async-command-sample]>
+
+Likewise, to execute asynchronously from `Program.Main()`, there are new overloads on 
+`CommandExecutor` for async:
+
+<[sample:MultipleCommands.Program.Main.Async]>
+
+

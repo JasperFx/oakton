@@ -1,4 +1,6 @@
-<!--title:Bootstrapping-->
+<!--title:Bootstrapping with CommandExecutor-->
+
+The easiest way to bootstrap Oakton is to use the <[linkto:documentation/hostbuilder;title=integration with HostBuilder]>. Eschewing that, you have the options in this page.
 
 Oakton applications can be bootstrapped either very simply with a single command, or more elaborately with 
 options to preprocess commands, automatic command discovery, <[linkto:documentation/opts;title=options files]>, or custom

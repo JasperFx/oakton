@@ -1,19 +1,21 @@
 <!--title: Getting Started-->
 
+<[info]>
+The power of Oakton really comes into play when it's combined with applications using the `HostBuilder`
+mechanism for bootstrapping .Net applications. See <[linkto:documentation/hostbuilder]> for more information.
+<[/info]>
+
 Oakton originated in the now defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net
-development team to build robust console line utilities with these attributes:
+development team of that time to build robust console line utilities with these attributes:
 
 * Make it easy to embed and expose command help for user friendliness
 * Be consistent with Unix/Linux command line idioms from arguments and optional names -- i.e., make the command line usage
-  feel like git's command line syntax
+  feel like Git's command line syntax
 * Easily enable tools to expose multiple commands
-* Completely separate the command line parsing from the actual functionality of the console application *which we
-  still believe separates Oakton from most other existing command line argument parsing tools in the .Net space*
-* Enable relatively easy testing of the command line tools
+* Completely separate the command line parsing from the actual functionality of the console application for easier testing of the command line tools and cleaner code
 * Validate user input and helpfully tell them when it's invalid and what the correct usage should be
 
-Oakton was originally extracted from FubuCore as a new standalone project before adding some new improvements and support for Netstandard targets and the new fangled
-CoreCLR.
+Oakton was originally extracted from FubuCore as a new standalone project before adding some new improvements and support for .Net Core and now .Net 5.0.
 
 ## Your First Command
 
@@ -22,7 +24,7 @@ create the input class for your command that will establish the arguments and an
 
 <[sample:NameInput]>
 
-You'll note that I've added some `[Description]` attributes strictly for the purpose of adding user help messages that we'll take a look at later. Now that we've got that out of the way, let's create our first command:
+You'll note that I've added some `[Oakton.Description]` attributes strictly for the purpose of adding user help messages that we'll take a look at later. Now that we've got that out of the way, let's create our first command:
 
 <[sample:NameCommand]>
 

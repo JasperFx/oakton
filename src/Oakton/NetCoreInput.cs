@@ -24,6 +24,10 @@ namespace Oakton
         [Description("Overwrite individual configuration items")]
         public Dictionary<string, string> ConfigFlag = new Dictionary<string, string>();
         
+        /// <summary>
+        /// The IHostBuilder configured by your application. Can be used to build or start
+        /// up the application
+        /// </summary>
         [IgnoreOnCommandLine] public IHostBuilder HostBuilder { get; set; }
 
         [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
