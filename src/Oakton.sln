@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvironmentCheckDemonstrator", "EnvironmentCheckDemonstrator\EnvironmentCheckDemonstrator.csproj", "{FB502E9E-95A0-415C-BDB9-EF8E2353A9C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService", "WorkerService\WorkerService.csproj", "{2E9B5960-EA33-4519-989C-5D9BFF2BCFEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net5WebApi", "Net5WebApi\Net5WebApi.csproj", "{59731519-F9A1-4FE2-9525-DDF4214D2E77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{FB502E9E-95A0-415C-BDB9-EF8E2353A9C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB502E9E-95A0-415C-BDB9-EF8E2353A9C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB502E9E-95A0-415C-BDB9-EF8E2353A9C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E9B5960-EA33-4519-989C-5D9BFF2BCFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9B5960-EA33-4519-989C-5D9BFF2BCFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9B5960-EA33-4519-989C-5D9BFF2BCFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9B5960-EA33-4519-989C-5D9BFF2BCFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59731519-F9A1-4FE2-9525-DDF4214D2E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59731519-F9A1-4FE2-9525-DDF4214D2E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59731519-F9A1-4FE2-9525-DDF4214D2E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59731519-F9A1-4FE2-9525-DDF4214D2E77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
