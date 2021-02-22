@@ -15,7 +15,7 @@ namespace Oakton.Commands
         public bool CheckFlag { get; set; }
     }
     
-    [Description("Runs the configured AspNetCore application")]
+    [Description("Start and run this .Net application")]
     public class RunCommand : OaktonAsyncCommand<RunInput>
     {
         public IHost Host { get; private set; }

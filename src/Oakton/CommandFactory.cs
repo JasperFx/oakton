@@ -68,12 +68,6 @@ namespace Oakton
 
             var firstArg = queue.Peek().ToLowerInvariant();
 
-            if (firstArg == "dump-usages")
-            {
-                queue.Dequeue();
-                return dumpUsagesRun(queue);
-            }
-
             if (_helpCommands.Contains(firstArg))
             {
                 queue.Dequeue();
@@ -289,20 +283,7 @@ namespace Oakton
                 Input = input
             };
         }
-
-        private CommandRun dumpUsagesRun(Queue<string> queue)
-        {
-            var command = new DumpUsagesCommand();
-            var input = command.Usages.BuildInput(queue, _commandCreator).As<DumpUsagesInput>();
-            input.Commands = this;
-            
-            return new CommandRun
-            {
-                Command = command,
-                Input = input
-            };
-        }
-
+        
 
         static readonly Regex regex = new Regex("(?<name>.+)Command",RegexOptions.Compiled);
         public static string CommandNameFor(Type type)
