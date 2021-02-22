@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Baseline;
 using Oakton.Environment;
+using Spectre.Console;
 
 namespace Oakton.Commands
 {
@@ -17,6 +18,12 @@ namespace Oakton.Commands
     {
         public override async Task<bool> Execute(CheckEnvironmentInput input)
         {
+            
+            AnsiConsole.Render(
+                new FigletText("Oakton")
+                    .LeftAligned());
+
+            
             using (var host = input.BuildHost())
             {
                 var results = await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services);

@@ -17,14 +17,10 @@ namespace Oakton.Environment
         {
             var results = new EnvironmentCheckResults();
 
-            AnsiConsole.Render(
-                new FigletText("Oakton")
-                    .LeftAligned());
-
             var checks = services.discoverChecks().ToArray();
             if (!checks.Any())
             {
-                AnsiConsole.Write("No environment checks.");
+                AnsiConsole.WriteLine("No environment checks.");
                 return results;
             }
 

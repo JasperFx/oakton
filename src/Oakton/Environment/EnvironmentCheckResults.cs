@@ -49,7 +49,7 @@ namespace Oakton.Environment
 
         public override string ToString()
         {
-            return $"Environment check failures:\n{Failures.Select(x => x.Description).Join("\n")}";
+            return $"Environment check failures:\n{Failures.Select(x => x.Description).Join(System.Environment.NewLine)}";
         }
 
         public class EnvironmentFailure
