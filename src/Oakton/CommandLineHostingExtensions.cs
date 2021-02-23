@@ -23,7 +23,7 @@ namespace Oakton
         /// <returns></returns>
         public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args)
         {
-            return Execute(builder, null, args);
+            return Execute(builder, Assembly.GetEntryAssembly(), args);
         }  
 
 
@@ -63,7 +63,7 @@ namespace Oakton
 
                 factory.ConfigureRun = cmd =>
                 {
-                    if (cmd.Input is NetCoreInput) cmd.Input.As<NetCoreInput>().HostBuilder = source;
+                    if (cmd.Input is IHostBuilderInput) cmd.Input.As<IHostBuilderInput>().HostBuilder = source;
                 };
             });
             // ENDSAMPLE

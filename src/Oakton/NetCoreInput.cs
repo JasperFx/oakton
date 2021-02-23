@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Oakton
 {
-    public class NetCoreInput
+    public class NetCoreInput : IHostBuilderInput
     {
 
         [Description("Use to override the ASP.Net Environment name")]
@@ -20,10 +20,10 @@ namespace Oakton
 
         [Description("Override the log level")]
         public LogLevel? LogLevelFlag { get; set; }
-        
+
         [Description("Overwrite individual configuration items")]
         public Dictionary<string, string> ConfigFlag = new Dictionary<string, string>();
-        
+
         /// <summary>
         /// The IHostBuilder configured by your application. Can be used to build or start
         /// up the application
@@ -32,7 +32,7 @@ namespace Oakton
 
         [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
 
-        public IHost BuildHost() 
+        public virtual void ApplyHostBuilderInput()
         {
             // SAMPLE: what-the-cli-is-doing
 
@@ -70,6 +70,11 @@ namespace Oakton
                 HostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
             }
             // ENDSAMPLE
+        }
+
+        public IHost BuildHost()
+        {
+            ApplyHostBuilderInput();
 
             return HostBuilder.Build();
         }

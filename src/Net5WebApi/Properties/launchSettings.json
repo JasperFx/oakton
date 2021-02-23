@@ -19,6 +19,7 @@
     },
     "Net5WebApi": {
       "commandName": "Project",
+      "commandLineArgs": "job1",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
       "launchUrl": "swagger",
