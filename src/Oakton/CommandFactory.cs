@@ -34,7 +34,7 @@ namespace Oakton
         public Action<string, object> BeforeBuild = null;
 
         /// <summary>
-        /// Alter the input object or the command object just befor executing the command
+        /// Alter the input object or the command object just before executing the command
         /// </summary>
         public Action<CommandRun> ConfigureRun = run => { };
 
