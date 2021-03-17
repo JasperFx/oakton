@@ -16,6 +16,8 @@ namespace Oakton.Descriptions
     {
         public override async Task<bool> Execute(DescribeInput input)
         {
+            input.HostBuilder.ConfigureServices(x => x.AddTransient<IDescribedSystemPart, ConfigurationPreview>());
+            
             using (var host = input.BuildHost())
             {
                 var config = host.Services.GetRequiredService<IConfiguration>();

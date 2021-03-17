@@ -35,14 +35,6 @@ namespace Oakton
             if (args == null || args.Length == 0 || args[0].StartsWith("-"))
                 args = new[] {"run"}.Concat(args ?? new string[0]).ToArray();
 
-            if (applicationAssembly == null)
-            {
-//                var name = runtimeSource.GetSetting(WebHostDefaults.ApplicationKey);
-//                if (name.IsNotEmpty())
-//                {
-//                    applicationAssembly = Assembly.Load(name);
-//                }
-            }
 
             return buildExecutor(runtimeSource, applicationAssembly).ExecuteAsync(args);
         }
@@ -63,7 +55,7 @@ namespace Oakton
 
                 factory.ConfigureRun = cmd =>
                 {
-                    if (cmd.Input is IHostBuilderInput) cmd.Input.As<IHostBuilderInput>().HostBuilder = source;
+                    if (cmd.Input is IHostBuilderInput i) i.HostBuilder = source;
                 };
             });
             // ENDSAMPLE
