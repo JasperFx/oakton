@@ -5,13 +5,12 @@ using Microsoft.Extensions.Configuration;
 namespace Oakton.Descriptions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Spectre.Console;
 
     internal class ConfigurationPreview : IDescribedSystemPart, IWriteToConsole
     {
-        private readonly IConfiguration _configuration;
         private const string PreviewErrorMessage = "Unable to show a preview of the configuration.";
+        private readonly IConfiguration _configuration;
 
         public ConfigurationPreview(IConfiguration configuration)
         {
@@ -34,7 +33,7 @@ namespace Oakton.Descriptions
 
         public Task WriteToConsole()
         {
-            if (this._configuration is not IConfigurationRoot root)
+            if (!(_configuration is IConfigurationRoot root))
             {
                 AnsiConsole.MarkupLine($"[red]{PreviewErrorMessage}[/]");
                 return Task.CompletedTask;
@@ -53,27 +52,31 @@ namespace Oakton.Descriptions
                     }
                     else
                     {
-                        var current = valuesAndProviders.Pop();
-                        var currentNode = node.AddNode(new Table()
-                            .Border(TableBorder.None)
-                            .HideHeaders()
-                            .AddColumn("Key")
-                            .AddColumn("Value")
-                            .AddColumn("Provider")
-                            .HideHeaders()
-                            .AddRow($"[yellow]{child.Key}[/]", current.Value, $@"([grey]{current.Provider}[/])")
-                        );
-
-                        // Add the overriden values
-                        foreach (var valueAndProvider in valuesAndProviders)
-                        {
-                            currentNode.AddNode(new Table()
+                        // Remove the last value added to the stack. This is the "current" value
+                        var finalValue = valuesAndProviders.Pop();
+                        var currentNode = node.AddNode(
+                            new Table()
                                 .Border(TableBorder.None)
                                 .HideHeaders()
+                                .AddColumn("Key")
                                 .AddColumn("Value")
                                 .AddColumn("Provider")
                                 .HideHeaders()
-                                .AddRow($"[strikethrough]{child.Value}[/]", $@"([grey]{current.Provider}[/])")
+                                .AddRow($"[yellow]{child.Key}[/]", finalValue.Value, $@"([grey]{finalValue.Provider}[/])")
+                        );
+
+                        // Loop through the remaining (overridden) values
+                        // Display them as children of the current value
+                        foreach (var overriddenValue in valuesAndProviders)
+                        {
+                            currentNode.AddNode(
+                                new Table()
+                                    .Border(TableBorder.None)
+                                    .HideHeaders()
+                                    .AddColumn("Value")
+                                    .AddColumn("Provider")
+                                    .HideHeaders()
+                                    .AddRow($"[strikethrough]{overriddenValue.Value}[/]", $@"([grey]{overriddenValue.Provider}[/])")
                             );
                         }
                     }
@@ -95,8 +98,9 @@ namespace Oakton.Descriptions
             IConfigurationRoot root,
             string key)
         {
+            // Return matching values from all providers, not just the final val
             var stack = new Stack<(string, IConfigurationProvider)>();
-            foreach (IConfigurationProvider provider in root.Providers.Reverse())
+            foreach (IConfigurationProvider provider in root.Providers)
             {
                 if (provider.TryGet(key, out string value))
                 {
