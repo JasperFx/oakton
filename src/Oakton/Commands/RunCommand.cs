@@ -18,22 +18,25 @@ namespace Oakton.Commands
     [Description("Start and run this .Net application")]
     public class RunCommand : OaktonAsyncCommand<RunInput>
     {
-        public IHost Host { get; private set; }
-
-        public override async Task<bool> Execute(RunInput input)
+        public async override Task<bool> Execute(RunInput input)
         {
-            using (Host = input.BuildHost())
+            using (var host = input.BuildHost())
             {
                 if (input.CheckFlag)
+                    (await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services)).Assert();
+                
+                var reset = new ManualResetEventSlim();
+                AssemblyLoadContext.GetLoadContext(typeof (RunCommand).GetTypeInfo().Assembly).Unloading += (Action<AssemblyLoadContext>) (context => reset.Set());
+                Console.CancelKeyPress += (ConsoleCancelEventHandler) ((sender, eventArgs) =>
                 {
-                    var report = await EnvironmentChecker.ExecuteAllEnvironmentChecks(Host.Services);
-                    report.Assert();
-                }
-
-                await Host.RunAsync();
+                    reset.Set();
+                    eventArgs.Cancel = true;
+                });
+            
+                await host.StartAsync();
+                reset.Wait();
+                await host.StopAsync();
             }
-
-
             return true;
         }
     }
