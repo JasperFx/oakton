@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Description>Command Line Parsing and Execution</Description>
     <AssemblyTitle>Oakton</AssemblyTitle>
-    <VersionPrefix>3.1.0</VersionPrefix>
+    <VersionPrefix>3.2.0</VersionPrefix>
     <Authors>Jeremy D. Miller</Authors>
     <TargetFrameworks>netcoreapp3.1;net5.0;netstandard2.0</TargetFrameworks>
     <DebugType>portable</DebugType>
@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <PackageId>Oakton</PackageId>
     <PackageTags>Command Line Parsing</PackageTags>
-    <PackageProjectUrl>http://jasperfx.github.io/oakton</PackageProjectUrl>
+    <PackageProjectUrl>https://jasperfx.github.io/oakton</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/jasperfx/oakton/raw/master/LICENSE.TXT</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/jasperfx/oakton</RepositoryUrl>
