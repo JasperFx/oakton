@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
+using Baseline.Expressions;
 using Baseline.Reflection;
 using Oakton.Parsing;
 using Oakton.Reporting;
@@ -197,9 +198,7 @@ namespace Oakton.Help
                     properties.Select(
                         expr =>
                         {
-                            var finder = new Baseline.Expressions.FindMembers();
-                            finder.Visit(expr);
-                            var member = finder.Members.Last();
+                            var member = FindMembers.Determine(expr).Last();
 
                             return _parent.Handlers.FirstOrDefault(x => x.MemberName == member.Name);
                         }).OfType
