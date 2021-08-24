@@ -67,10 +67,9 @@ namespace Oakton.Environment
         /// <typeparam name="T"></typeparam>
         public static void CheckEnvironment<T>(this IServiceCollection services, string description, Func<T, CancellationToken, Task> action)
         {
-            services.CheckEnvironment(description, (s, c) =>
+            services.CheckEnvironment(description, async (s, c) =>
             {
-                action(s.GetService<T>(), c);
-                return Task.CompletedTask;
+                await action(s.GetService<T>(), c);
             });
         }
         

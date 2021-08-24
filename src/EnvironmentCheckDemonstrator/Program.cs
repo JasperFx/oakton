@@ -24,6 +24,13 @@ namespace EnvironmentCheckDemonstrator
                         services.AddSingleton<IEnvironmentCheck>(new BadEnvironmentCheck(i + 1));
                         
                     }
+                    services.CheckEnvironment("Inline, async check", async (services, token) =>
+                    {
+                        await Task.Delay(1.Milliseconds(), token);
+
+                        throw new Exception("I failed!");
+                    });
+                    
                     
                     // This is an example of adding custom
                     // IDescriptionSystemPart types to your

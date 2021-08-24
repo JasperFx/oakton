@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Baseline.Dates;
 using Microsoft.Extensions.DependencyInjection;
 using Oakton.Environment;
 using Shouldly;
@@ -79,11 +80,12 @@ namespace Tests.Environment
             var thing = new Thing{Name = "Blob"};
             theServices.AddSingleton(thing);
             
-            theServices.CheckEnvironment<Thing>("Name cannot be Blob", (t, token) =>
+            theServices.CheckEnvironment<Thing>("Name cannot be Blob", async (t, token) =>
             {
+                await Task.Delay(1.Milliseconds(), token);
                 if (t.Name == "Blob") throw new DivideByZeroException();
 
-                return Task.CompletedTask;
+                
             });
             
             theResults.Failures.Single().Description.ShouldBe("Name cannot be Blob");
