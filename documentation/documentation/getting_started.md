@@ -19,7 +19,7 @@ Oakton was originally extracted from FubuCore as a new standalone project before
 
 ## Your First Command
 
-To get started, simply create a new dotnet console application and add the `Oakton` nuget dependency. For your first commnd, let's start simple with a command that will simply print out a specified name with an optional color and title. The logical first step is to just
+To get started, simply create a new dotnet console application and add the `Oakton` nuget dependency. For your first command, let's start simple with a command that will simply print out a specified name with an optional color and title. The logical first step is to just
 create the input class for your command that will establish the arguments and an optional flag:
 
 <[sample:NameInput]>
