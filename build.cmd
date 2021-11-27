@@ -1,2 +1,3 @@
-dotnet restore src/Oakton.Testing/Oakton.Testing.csproj
-dotnet test src/Oakton.Testing/Oakton.Testing.csproj
+@echo off
+
+dotnet run --project build/build.csproj -c Release -- %*
