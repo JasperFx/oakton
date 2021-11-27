@@ -18,25 +18,23 @@ namespace Oakton.Commands
     [Description("Start and run this .Net application")]
     public class RunCommand : OaktonAsyncCommand<RunInput>
     {
-        public async override Task<bool> Execute(RunInput input)
+        public override async Task<bool> Execute(RunInput input)
         {
-            using (var host = input.BuildHost())
-            {
-                if (input.CheckFlag)
-                    (await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services)).Assert();
+            using var host = input.BuildHost();
+            if (input.CheckFlag)
+                (await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services)).Assert();
                 
-                var reset = new ManualResetEventSlim();
-                AssemblyLoadContext.GetLoadContext(typeof (RunCommand).GetTypeInfo().Assembly).Unloading += (Action<AssemblyLoadContext>) (context => reset.Set());
-                Console.CancelKeyPress += (ConsoleCancelEventHandler) ((sender, eventArgs) =>
-                {
-                    reset.Set();
-                    eventArgs.Cancel = true;
-                });
+            var reset = new ManualResetEventSlim();
+            AssemblyLoadContext.GetLoadContext(typeof (RunCommand).GetTypeInfo().Assembly).Unloading += (Action<AssemblyLoadContext>) (context => reset.Set());
+            Console.CancelKeyPress += (ConsoleCancelEventHandler) ((sender, eventArgs) =>
+            {
+                reset.Set();
+                eventArgs.Cancel = true;
+            });
             
-                await host.StartAsync();
-                reset.Wait();
-                await host.StopAsync();
-            }
+            await host.StartAsync();
+            reset.Wait();
+            await host.StopAsync();
             return true;
         }
     }

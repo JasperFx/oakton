@@ -19,32 +19,28 @@ namespace Oakton.Commands
         public override async Task<bool> Execute(CheckEnvironmentInput input)
         {
             
-            AnsiConsole.Render(
+            AnsiConsole.Write(
                 new FigletText("Oakton")
                     .LeftAligned());
 
-            
-            using (var host = input.BuildHost())
+
+            using var host = input.BuildHost();
+            var results = await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services);
+
+            if (input.FileFlag.IsNotEmpty())
             {
-                var results = await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services);
-
-                if (input.FileFlag.IsNotEmpty())
-                {
-                    results.WriteToFile(input.FileFlag);
-                    Console.WriteLine("Writing environment checks to " + input.FileFlag);
-                }
-
-                if (results.Failures.Any())
-                {
-                    ConsoleWriter.Write(ConsoleColor.Red, "Some environment checks failed!");
-                    return false;
-                }
-                else
-                {
-                    ConsoleWriter.Write(ConsoleColor.Green, "All environment checks are good!");
-                    return true;
-                }
+                results.WriteToFile(input.FileFlag);
+                Console.WriteLine("Writing environment checks to " + input.FileFlag);
             }
+
+            if (results.Failures.Any())
+            {
+                ConsoleWriter.Write(ConsoleColor.Red, "Some environment checks failed!");
+                return false;
+            }
+
+            ConsoleWriter.Write(ConsoleColor.Green, "All environment checks are good!");
+            return true;
         }
 
     }

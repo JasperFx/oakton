@@ -24,9 +24,7 @@ namespace Oakton.Descriptions
 
         public Task Write(TextWriter writer)
         {
-            if (_service == null) return default;
-
-            return _write(_service, writer);
+            return _service == null ? default : _write(_service, writer);
         }
 
         

@@ -105,7 +105,7 @@ namespace Oakton.Descriptions
                     Alignment = Justify.Left,
                 };
                 
-                AnsiConsole.Render(rule);
+                AnsiConsole.Write(rule);
 
                 if (part is IWriteToConsole o)
                 {
@@ -182,7 +182,7 @@ namespace Oakton.Descriptions
                 table.AddRow(assemblyName.Name, assemblyName.Version.ToString());
             }
             
-            AnsiConsole.Render(table);
+            AnsiConsole.Write(table);
 
             return Task.CompletedTask;
         }

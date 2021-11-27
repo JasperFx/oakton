@@ -75,7 +75,6 @@ namespace Oakton
         public IHost BuildHost()
         {
             ApplyHostBuilderInput();
-
             return HostBuilder.Build();
         }
     }

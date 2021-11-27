@@ -89,7 +89,7 @@ namespace Oakton.Descriptions
 
             RecurseChildren(tree, root.GetChildren());
 
-            AnsiConsole.Render(tree);
+            AnsiConsole.Write(tree);
 
             return Task.CompletedTask;
         }

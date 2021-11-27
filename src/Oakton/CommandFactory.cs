@@ -13,10 +13,25 @@ namespace Oakton
 {
     public class CommandFactory : ICommandFactory
     {
-        private static readonly string[] _helpCommands = new []{"help", "?"}; 
-        private readonly LightweightCache<string, Type> _commandTypes = new LightweightCache<string, Type>();
+        private static readonly string[] _helpCommands = {"help", "?"};
+
+
+        private static readonly Regex regex = new("(?<name>.+)Command", RegexOptions.Compiled);
         private readonly ICommandCreator _commandCreator;
+        private readonly LightweightCache<string, Type> _commandTypes = new();
         private string _appName;
+
+        private Type _defaultCommand;
+
+        /// <summary>
+        ///     Perform some operation based on command inputs, before command construction
+        /// </summary>
+        public Action<string, object> BeforeBuild = null;
+
+        /// <summary>
+        ///     Alter the input object or the command object just before executing the command
+        /// </summary>
+        public Action<CommandRun> ConfigureRun = run => { };
 
         public CommandFactory()
         {
@@ -29,14 +44,20 @@ namespace Oakton
         }
 
         /// <summary>
-        /// Perform some operation based on command inputs, before command construction
+        ///     Optionally designates the default command type. Useful if your console app only has one command
         /// </summary>
-        public Action<string, object> BeforeBuild = null;
-
-        /// <summary>
-        /// Alter the input object or the command object just before executing the command
-        /// </summary>
-        public Action<CommandRun> ConfigureRun = run => { };
+        public Type DefaultCommand
+        {
+            get => _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null);
+            set
+            {
+                _defaultCommand = value;
+                if (value != null)
+                {
+                    _commandTypes[CommandNameFor(value)] = value;
+                }
+            }
+        }
 
         public CommandRun BuildRun(string commandLine)
         {
@@ -46,7 +67,6 @@ namespace Oakton
 
         public CommandRun BuildRun(IEnumerable<string> args)
         {
-
             if (!args.Any())
             {
                 if (DefaultCommand == null)
@@ -63,8 +83,7 @@ namespace Oakton
             {
                 return buildRun(queue, CommandNameFor(DefaultCommand));
             }
-            
-            
+
 
             var firstArg = queue.Peek().ToLowerInvariant();
 
@@ -80,15 +99,30 @@ namespace Oakton
                 queue.Dequeue();
                 return buildRun(queue, firstArg);
             }
-            
+
             if (DefaultCommand != null)
             {
                 return buildRun(queue, CommandNameFor(DefaultCommand));
             }
-            else
-            {
-                return InvalidCommandRun(firstArg);
-            }
+
+            return InvalidCommandRun(firstArg);
+        }
+
+        /// <summary>
+        ///     Add all the IOaktonCommand classes in the given assembly to the command runner
+        /// </summary>
+        /// <param name="assembly"></param>
+        public void RegisterCommands(Assembly assembly)
+        {
+            assembly
+                .GetExportedTypes()
+                .Where(IsOaktonCommandType)
+                .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
+        }
+
+        public IEnumerable<IOaktonCommand> BuildAllCommands()
+        {
+            return _commandTypes.Select(x => _commandCreator.CreateCommand(x));
         }
 
 
@@ -99,10 +133,11 @@ namespace Oakton
 
         public CommandRun InvalidCommandRun(string commandName)
         {
-            return new CommandRun()
+            return new()
             {
                 Command = new HelpCommand(),
-                Input = new HelpInput(){
+                Input = new HelpInput
+                {
                     AppName = _appName,
                     Name = commandName,
                     CommandTypes = _commandTypes.GetAll(),
@@ -119,21 +154,18 @@ namespace Oakton
 
                 if (BeforeBuild != null)
                 {
-                  input = tryBeforeBuild(queue, commandName);
+                    input = tryBeforeBuild(queue, commandName);
                 }
 
                 var command = Build(commandName);
 
-                if (input == null)
-                {
-                  input = command.Usages.BuildInput(queue, _commandCreator);
-                }
+                input ??= command.Usages.BuildInput(queue, _commandCreator);
 
                 var run = new CommandRun
-                       {
-                           Command = command,
-                           Input = input
-                       };
+                {
+                    Command = command,
+                    Input = input
+                };
 
                 ConfigureRun(run);
 
@@ -155,7 +187,7 @@ namespace Oakton
             {
                 ConsoleWriter.Write(ConsoleColor.Red, "Error parsing input");
                 ConsoleWriter.Write(ConsoleColor.Yellow, e.ToString());
-                
+
                 Console.WriteLine();
             }
 
@@ -164,79 +196,55 @@ namespace Oakton
 
         private object tryBeforeBuild(Queue<string> queue, string commandName)
         {
-          var commandType = _commandTypes[commandName];
+            var commandType = _commandTypes[commandName];
 
-          try
-          {
-            var defaultConstructorCommand = new ActivatorCommandCreator().CreateCommand(commandType);
-            var input = defaultConstructorCommand.Usages.BuildInput(queue, _commandCreator);
+            try
+            {
+                var defaultConstructorCommand = new ActivatorCommandCreator().CreateCommand(commandType);
+                var input = defaultConstructorCommand.Usages.BuildInput(queue, _commandCreator);
 
-            BeforeBuild?.Invoke(commandName, input);
+                BeforeBuild?.Invoke(commandName, input);
 
-            return input;
-          }
-          catch (MissingMethodException)
-          {
-            // Command has no default constructor - not possible to pre-configure from inputs.
-            return null;
-          }
+                return input;
+            }
+            catch (MissingMethodException)
+            {
+                // Command has no default constructor - not possible to pre-configure from inputs.
+                return null;
+            }
         }
 
         /// <summary>
-        /// Add a single command type to the command runner
+        ///     Add a single command type to the command runner
         /// </summary>
         /// <typeparam name="T"></typeparam>
         public void RegisterCommand<T>()
         {
             RegisterCommand(typeof(T));
         }
-        
+
         /// <summary>
-        /// Add a single command type to the command runner
+        ///     Add a single command type to the command runner
         /// </summary>
         public void RegisterCommand(Type type)
         {
-            if (!IsOaktonCommandType(type)) throw new ArgumentOutOfRangeException(nameof(type), $"Type '{type.FullName}' does not inherit from either OaktonCommannd or OaktonAsyncCommand");
-            _commandTypes[CommandNameFor(type)] = type;
-        }
+            if (!IsOaktonCommandType(type))
+            {
+                throw new ArgumentOutOfRangeException(nameof(type),
+                    $"Type '{type.FullName}' does not inherit from either OaktonCommannd or OaktonAsyncCommand");
+            }
 
-        /// <summary>
-        /// Add all the IOaktonCommand classes in the given assembly to the command runner
-        /// </summary>
-        /// <param name="assembly"></param>
-        public void RegisterCommands(Assembly assembly)
-        {
-            assembly
-                .GetExportedTypes()
-                .Where(IsOaktonCommandType)
-                .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
+            _commandTypes[CommandNameFor(type)] = type;
         }
 
         public static bool IsOaktonCommandType(Type type)
         {
-            if (!type.IsConcrete()) return false;
+            if (!type.IsConcrete())
+            {
+                return false;
+            }
 
             return type.Closes(typeof(OaktonCommand<>)) || type.Closes(typeof(OaktonAsyncCommand<>));
-        }
-
-        private Type _defaultCommand = null;
-
-        /// <summary>
-        /// Optionally designates the default command type. Useful if your console app only has one command
-        /// </summary>
-        public Type DefaultCommand
-        {
-            get => _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null);
-            set
-            {
-                _defaultCommand = value;
-                if (value != null) _commandTypes[CommandNameFor(value)] = value;
-            }
-        }
-
-        public IEnumerable<IOaktonCommand> BuildAllCommands()
-        {
-            return _commandTypes.Select(x => _commandCreator.CreateCommand(x));
         }
 
 
@@ -246,15 +254,14 @@ namespace Oakton
         }
 
 
-
         public CommandRun HelpRun(string commandName)
         {
-            return HelpRun(new Queue<string>(new []{commandName}));
+            return HelpRun(new Queue<string>(new[] {commandName}));
         }
 
         public virtual CommandRun HelpRun(Queue<string> queue)
         {
-            var input = (HelpInput) (new HelpCommand().Usages.BuildInput(queue, _commandCreator));
+            var input = (HelpInput) new HelpCommand().Usages.BuildInput(queue, _commandCreator);
             input.CommandTypes = _commandTypes.GetAll();
 
             // Little hokey, but show the detailed help for the default command
@@ -273,29 +280,27 @@ namespace Oakton
                     input.InvalidCommandName = false;
 
                     var cmd = _commandCreator.CreateCommand(type);
-                    
+
                     input.Usage = cmd.Usages;
                 });
             }
 
-            return new CommandRun(){
+            return new CommandRun
+            {
                 Command = new HelpCommand(),
                 Input = input
             };
         }
-        
 
-        static readonly Regex regex = new Regex("(?<name>.+)Command",RegexOptions.Compiled);
         public static string CommandNameFor(Type type)
         {
-            
             var match = regex.Match(type.Name);
             var name = type.Name;
-            if(match.Success)
+            if (match.Success)
             {
                 name = match.Groups["name"].Value;
             }
-            
+
             type.ForAttribute<DescriptionAttribute>(att => name = att.Name ?? name);
 
             return name.ToLower();
@@ -313,16 +318,16 @@ namespace Oakton
         {
             _appName = appName;
         }
-        
+
         /// <summary>
-        /// Automatically discover any Oakton commands in assemblies marked as
-        /// [assembly: OaktonCommandAssembly]. Also 
+        ///     Automatically discover any Oakton commands in assemblies marked as
+        ///     [assembly: OaktonCommandAssembly]. Also
         /// </summary>
         /// <param name="applicationAssembly"></param>
         public void RegisterCommandsFromExtensionAssemblies()
         {
             var assemblies = AssemblyFinder
-                .FindAssemblies(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic,txt => { }, false)
+                .FindAssemblies(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic, txt => { })
                 .Concat(AppDomain.CurrentDomain.GetAssemblies())
                 .Where(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic)
                 .Distinct()
