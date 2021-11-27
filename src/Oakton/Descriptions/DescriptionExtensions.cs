@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Baseline;
 using Microsoft.Extensions.DependencyInjection;
+using Spectre.Console;
 
 namespace Oakton.Descriptions
 {
@@ -76,6 +78,25 @@ namespace Oakton.Descriptions
             var part = new LambdaDescribedSystemPart<T>(title, describe);
 
             services.AddSingleton<IDescribedSystemPart>(part);
+        }
+        
+        /// <summary>
+        /// Create a Spectre table output from a dictionary
+        /// </summary>
+        /// <param name="props"></param>
+        /// <returns></returns>
+        public static Table BuildTableForProperties(this IDictionary<string, object> props)
+        {
+            var table = new Table();
+            table.AddColumn("Property");
+            table.AddColumn("Value");
+
+            foreach (var (key, value) in props)
+            {
+                table.AddRow(key, value?.ToString() ?? string.Empty);
+            }
+
+            return table;
         }
     }
 }

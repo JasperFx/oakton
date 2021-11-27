@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Baseline;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Oakton;
 using Oakton.Descriptions;
 using Shouldly;
+using Spectre.Console;
 using Xunit;
 
 namespace Tests.Descriptions
@@ -175,6 +177,30 @@ namespace Tests.Descriptions
         public Task Write(TextWriter writer)
         {
             return writer.WriteLineAsync(Body);
+        }
+    }
+
+    public class DescribedAndTablePart : DescribedPart, IWriteToConsole, IDescribesProperties
+    {
+        public bool DidWriteToConsole { get; set; }
+        
+        public Task WriteToConsole()
+        {
+            DidWriteToConsole = true;
+
+            var table = DescribeProperties().BuildTableForProperties();
+            AnsiConsole.Write(table);
+            
+            return Task.CompletedTask;
+        }
+
+        public IDictionary<string, object> DescribeProperties()
+        {
+            return new Dictionary<string, object>
+            {
+                {"foo", "bar"},
+                {"number", 5},
+            };
         }
     }
 
