@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <AssemblyName>OaktonSample</AssemblyName>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
