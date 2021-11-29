@@ -91,10 +91,13 @@ namespace Oakton
             return commandExecutor.ExecuteAsync(args);
         }
 
-
-
         private static CommandExecutor buildExecutor(IHostBuilder source, Assembly? applicationAssembly)
         {
+            if (OaktonEnvironment.AutoStartHost && source is PreBuiltHostBuilder b)
+            {
+                b.Host.Start();
+            }
+            
             // SAMPLE: using-extension-assemblies
             return CommandExecutor.For(factory =>
             {

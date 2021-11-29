@@ -8,14 +8,15 @@ namespace Oakton
 {
     internal class PreBuiltHostBuilder : IHostBuilder
     {
-        private readonly IHost _host;
         private readonly string _notSupportedMessage;
 
         public PreBuiltHostBuilder(IHost host)
         {
-            _host = host;
-            _notSupportedMessage = $"The IHost ({_host}) is already constructed. See https://jasperfx.github.io/oakton for alternative bootstrapping to enable this feature.";
+            Host = host;
+            _notSupportedMessage = $"The IHost ({Host}) is already constructed. See https://jasperfx.github.io/oakton for alternative bootstrapping to enable this feature.";
         }
+
+        public IHost Host { get; }
 
         public IHostBuilder ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
         {
@@ -49,7 +50,7 @@ namespace Oakton
 
         public IHost Build()
         {
-            return _host;
+            return Host;
         }
 
         public IDictionary<object, object> Properties { get; } = new Dictionary<object, object>();
