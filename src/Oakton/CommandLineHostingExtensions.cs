@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Oakton.Commands;
 using Oakton.Internal;
 
+#nullable enable
+
 namespace Oakton
 {
     
@@ -19,10 +21,11 @@ namespace Oakton
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="args"></param>
+        /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
         /// <returns></returns>
-        public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args)
+        public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args, string? optionsFile = null)
         {
-            return Execute(builder, Assembly.GetEntryAssembly(), args);
+            return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile);
         }  
         
         /// <summary>
@@ -32,10 +35,11 @@ namespace Oakton
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="args"></param>
+        /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
         /// <returns></returns>
-        public static int RunOaktonCommandsSynchronously(this IHostBuilder builder, string[] args)
+        public static int RunOaktonCommandsSynchronously(this IHostBuilder builder, string[] args, string? optionsFile = null)
         {
-            return Execute(builder, Assembly.GetEntryAssembly(), args).GetAwaiter().GetResult();
+            return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile).GetAwaiter().GetResult();
         }  
         
         /// <summary>
@@ -45,10 +49,11 @@ namespace Oakton
         /// </summary>
         /// <param name="host">An already built IHost</param>
         /// <param name="args"></param>
+        /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
         /// <returns></returns>
-        public static Task<int> RunOaktonCommands(this IHost host, string[] args)
+        public static Task<int> RunOaktonCommands(this IHost host, string[] args, string? optionsFile = null)
         {
-            return Execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args);
+            return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile);
         }  
         
         /// <summary>
@@ -58,28 +63,37 @@ namespace Oakton
         /// </summary>
         /// <param name="host">An already built IHost</param>
         /// <param name="args"></param>
+        /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
         /// <returns></returns>
-        public static int RunOaktonCommandsSynchronously(this IHost host, string[] args)
+        public static int RunOaktonCommandsSynchronously(this IHost host, string[] args, string? optionsFile = null)
         {
-            return Execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args).GetAwaiter().GetResult();
-        }  
+            return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile).GetAwaiter().GetResult();
+        }
 
 
-        internal static Task<int> Execute(IHostBuilder runtimeSource, Assembly applicationAssembly, string[] args)
+        private static Task<int> execute(IHostBuilder runtimeSource, Assembly? applicationAssembly, string[] args,
+            string? optionsFile)
         {
             // Workaround for IISExpress / VS2019 erroneously putting crap arguments
             args = args.FilterLauncherArgs();
+
+            // Gotta apply the options file here before the magic "run" gets in
+            if (optionsFile.IsNotEmpty())
+            {
+                args = CommandExecutor.ReadOptions(optionsFile).Concat(args).ToArray();
+            }
             
             if (args == null || args.Length == 0 || args[0].StartsWith("-"))
                 args = new[] {"run"}.Concat(args ?? new string[0]).ToArray();
 
 
-            return buildExecutor(runtimeSource, applicationAssembly).ExecuteAsync(args);
+            var commandExecutor = buildExecutor(runtimeSource, applicationAssembly);
+            return commandExecutor.ExecuteAsync(args);
         }
 
 
 
-        private static CommandExecutor buildExecutor(IHostBuilder source, Assembly applicationAssembly)
+        private static CommandExecutor buildExecutor(IHostBuilder source, Assembly? applicationAssembly)
         {
             // SAMPLE: using-extension-assemblies
             return CommandExecutor.For(factory =>

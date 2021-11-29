@@ -133,22 +133,22 @@ namespace Oakton
             return commandLine;
         }
 
-        private IEnumerable<string> readOptions()
+        internal static IEnumerable<string> ReadOptions(string optionsFile)
         {
-            if (OptionsFile.IsEmpty()) return new string[0];
+            if (optionsFile.IsEmpty()) return new string[0];
 
-#if NET451
-            var path = AppDomain.CurrentDomain.BaseDirectory.AppendPath(OptionsFile);
-#else
-            var path = AppContext.BaseDirectory.AppendPath(OptionsFile);
-#endif
+            var path = AppContext.BaseDirectory.AppendPath(optionsFile);
 
             if (File.Exists(path))
             {
+                Console.WriteLine($"Found options in {optionsFile}");
                 var options = OptionReader.Read(path);
 
-                return StringTokenizer.Tokenize(options);
+                var values = StringTokenizer.Tokenize(options);
+                return values;
             }
+            
+            Console.WriteLine($"Did not find expected options file at {path}");
 
             return new string[0];
         }
@@ -193,7 +193,7 @@ namespace Oakton
         /// <returns></returns>
         public Task<int> ExecuteAsync(string[] args)
         {
-            var run = Factory.BuildRun(readOptions().Concat(args));
+            var run = Factory.BuildRun(ReadOptions(OptionsFile).Concat(args));
 
             return execute(run);
         }
