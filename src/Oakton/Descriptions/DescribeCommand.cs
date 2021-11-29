@@ -16,71 +16,74 @@ namespace Oakton.Descriptions
     {
         public override async Task<bool> Execute(DescribeInput input)
         {
-            input.HostBuilder.ConfigureServices(x => x.AddTransient<IDescribedSystemPart, ConfigurationPreview>());
+            using var host = input.BuildHost();
+
+            var config = host.Services.GetRequiredService<IConfiguration>();
+            var configurationPreview = new ConfigurationPreview(config);
             
-            using (var host = input.BuildHost())
-            {
-                var config = host.Services.GetRequiredService<IConfiguration>();
-                var hosting = host.Services.GetService<IHostEnvironment>();
-                var about = new AboutThisAppPart(hosting, config);
+            var hosting = host.Services.GetService<IHostEnvironment>();
+            var about = new AboutThisAppPart(hosting, config);
+            var builtInDescribers = new IDescribedSystemPart[]{about, configurationPreview, new ReferencedAssemblies()};
                 
-                var factories = host.Services.GetServices<IDescribedSystemPartFactory>();
-                var parts = host.Services.GetServices<IDescribedSystemPart>()
-                    .Concat(factories.SelectMany(x => x.Parts()))
-                    .Concat(new IDescribedSystemPart[]{about, new ReferencedAssemblies()}).ToArray();
+            var factories = host.Services.GetServices<IDescribedSystemPartFactory>();
+            
+            var parts = host.Services.GetServices<IDescribedSystemPart>()
+                .Concat(factories.SelectMany(x => x.Parts()))
+                .Concat(builtInDescribers).ToArray();
 
-                foreach (var partWithServices in parts.OfType<IRequiresServices>())
+            foreach (var partWithServices in parts.OfType<IRequiresServices>())
+            {
+                partWithServices.Resolve(host.Services);
+            }
+
+            if (input.ListFlag)
+            {
+                Console.WriteLine("The registered system parts are");
+                foreach (var part in parts)
                 {
-                    partWithServices.Resolve(host.Services);
-                }
-
-                if (input.ListFlag)
-                {
-                    Console.WriteLine("The registered system parts are");
-                    foreach (var part in parts)
-                    {
-                        Console.WriteLine("* " + part.Title);
-                    }
-
-                    return true;
-                }
-
-                if (input.TitleFlag.IsNotEmpty())
-                {
-                    parts = parts.Where(x => x.Title == input.TitleFlag).ToArray();
-                }
-                else if (input.InteractiveFlag)
-                {
-                    var prompt = new MultiSelectionPrompt<string>()
-                        .Title("What part(s) of your application do you wish to view?")
-                        .PageSize(10)
-                        .AddChoices(parts.Select(x => x.Title));
-
-                    var titles = AnsiConsole.Prompt(prompt);
-
-                    parts = parts.Where(x => titles.Contains(x.Title)).ToArray();
-                }
-
-                if (!input.SilentFlag)
-                {
-                    await WriteToConsole(parts);
-                }
-
-                if (input.FileFlag.IsNotEmpty())
-                {
-                    using (var stream = new FileStream(input.FileFlag, FileMode.CreateNew, FileAccess.Write))
-                    {
-                        var writer = new StreamWriter(stream);
-                            
-                        await WriteText(parts, writer);
-                        await writer.FlushAsync();
-                    }
-
-                    Console.WriteLine("Wrote system description to file " + input.FileFlag);
+                    Console.WriteLine("* " + part.Title);
                 }
 
                 return true;
             }
+
+            if (input.TitleFlag.IsNotEmpty())
+            {
+                parts = parts.Where(x => x.Title == input.TitleFlag).ToArray();
+            }
+            else if (input.InteractiveFlag)
+            {
+                var prompt = new MultiSelectionPrompt<string>()
+                    .Title("What part(s) of your application do you wish to view?")
+                    .PageSize(10)
+                    .AddChoices(parts.Select(x => x.Title));
+
+                var titles = AnsiConsole.Prompt(prompt);
+
+                parts = parts.Where(x => titles.Contains(x.Title)).ToArray();
+            }
+
+            if (!input.SilentFlag)
+            {
+                await WriteToConsole(parts);
+            }
+
+            if (!input.FileFlag.IsNotEmpty())
+            {
+                return true;
+            }
+
+            await using (var stream = new FileStream(input.FileFlag, FileMode.CreateNew, FileAccess.Write))
+            {
+                var writer = new StreamWriter(stream);
+                            
+                await WriteText(parts, writer);
+                await writer.FlushAsync();
+            }
+
+            Console.WriteLine("Wrote system description to file " + input.FileFlag);
+
+            return true;
         }
 
 

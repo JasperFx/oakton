@@ -12,7 +12,6 @@ namespace Oakton
     
     public static class CommandLineHostingExtensions
     {
-
         /// <summary>
         /// Execute the extended Oakton command line support for your configured WebHostBuilder.
         /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
@@ -24,6 +23,32 @@ namespace Oakton
         public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args)
         {
             return Execute(builder, Assembly.GetEntryAssembly(), args);
+        }  
+        
+        /// <summary>
+        /// Execute the extended Oakton command line support for your configured IHost.
+        /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+        /// of your AspNetCore application. This usage is appropriate for WebApplication bootstrapping
+        /// </summary>
+        /// <param name="host">An already built IHost</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Task<int> RunOaktonCommands(this IHost host, string[] args)
+        {
+            return Execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args);
+        }  
+        
+        /// <summary>
+        /// Execute the extended Oakton command line support for your configured IHost.
+        /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+        /// of your AspNetCore application. This usage is appropriate for WebApplication bootstrapping
+        /// </summary>
+        /// <param name="host">An already built IHost</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static int RunOaktonCommandsSynchronously(this IHost host, string[] args)
+        {
+            return Execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args).GetAwaiter().GetResult();
         }  
 
 

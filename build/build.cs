@@ -40,6 +40,10 @@ namespace build
                 Directory.SetCurrentDirectory(Path.Combine(original, "src", "EnvironmentCheckDemonstrator"));
                 RunCurrentProject("help");
                 RunCurrentProject("describe");
+                
+                Directory.SetCurrentDirectory(Path.Combine(original, "src", "MinimalApi"));
+                RunCurrentProject("help");
+                RunCurrentProject("describe");
             });
 
 
@@ -105,7 +109,7 @@ namespace build
         
         private static void RunCurrentProject(string args)
         {
-            Run("dotnet", $"run  --framework net5.0 --no-build --no-restore -- {args}");
+            Run("dotnet", $"run --no-build --no-restore -- {args}");
         }
 
 

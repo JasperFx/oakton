@@ -22,10 +22,14 @@ namespace Oakton.Commands
         {
             using var host = input.BuildHost();
             if (input.CheckFlag)
-                (await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services)).Assert();
+            {
+                var checks = await EnvironmentChecker.ExecuteAllEnvironmentChecks(host.Services);
+                checks.Assert();
+            }
                 
             var reset = new ManualResetEventSlim();
-            AssemblyLoadContext.GetLoadContext(typeof (RunCommand).GetTypeInfo().Assembly).Unloading += (Action<AssemblyLoadContext>) (context => reset.Set());
+            // ReSharper disable once PossibleNullReferenceException
+            AssemblyLoadContext.GetLoadContext(typeof (RunCommand).Assembly).Unloading += (Action<AssemblyLoadContext>) (context => reset.Set());
             Console.CancelKeyPress += (ConsoleCancelEventHandler) ((sender, eventArgs) =>
             {
                 reset.Set();
