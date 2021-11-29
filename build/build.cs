@@ -44,6 +44,10 @@ namespace build
                 Directory.SetCurrentDirectory(Path.Combine(original, "src", "MinimalApi"));
                 RunCurrentProject("help");
                 RunCurrentProject("describe");
+                
+                Directory.SetCurrentDirectory(Path.Combine(original, "src", "DotNet6BootstrappedConsole"));
+                RunCurrentProject("help");
+                RunCurrentProject("describe");
             });
 
 
