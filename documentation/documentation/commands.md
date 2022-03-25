@@ -1,8 +1,8 @@
 <!--Building Commands-->
 
-<[info]>
+::: tip warning
 It is perfectly legal to use the same input class across multiple commands
-<[/info]>
+:::
 
 Oakton commands consist of two parts:
 
@@ -11,7 +11,7 @@ Oakton commands consist of two parts:
 
 Looking again at the `NameCommand` from the <[linkto:documentation/getting_started]> topic:
 
-<[sample:NameCommand]>
+snippet: sample_NameCommand
 
 There's only a couple things to note about a command class:
 
@@ -24,7 +24,7 @@ There's only a couple things to note about a command class:
 
 If you want to make use of `async/await`, you can inherit from `OaktonAsyncCommand<T>` instead.  The only difference is signature of the `Execute()` method:
 
-<[sample:async-command]>
+snippet: sample_async_command
 
 
 ## Argument Usages
@@ -33,7 +33,7 @@ As shown in the `NameCommand` in the section above, you can specify the valid co
 in which they should follow in the command line usage by modifying the `Usages` property in the constructor function
 of a command:
 
-<[sample:specifying-usages]>
+snippet: sample_specifying_usages
 
 If you do not explicitly specify usages, Oakton will assume that all arguments are mandatory and in the order in which
 they appear within the input class.
@@ -44,7 +44,7 @@ they appear within the input class.
 By default, Oakton determines the command name for a command class by taking the class name, removing the "Command" suffix, and then using the all lower case remainder of the string. For an example, a command class called `CleanCommand` would have the command name
 *clean*. To override that behavior, you can use the `Alias` property on Oakton's `[Description]` attribute as shown below:
 
-<[sample:command-alias]>
+snippet: sample_command_alias
 
 ## Asynchronous Commands
 
@@ -54,11 +54,11 @@ the ability to use asynchronous `Program.Main()` method signatures in recent ver
 To write an asynchronous command, use the `OaktonAsyncCommand<T>` type as your base class for your
 command as shown below:
 
-<[sample:async-command-sample]>
+snippet: sample_async_command_sample
 
 Likewise, to execute asynchronously from `Program.Main()`, there are new overloads on 
 `CommandExecutor` for async:
 
-<[sample:MultipleCommands.Program.Main.Async]>
+snippet: sample_MultipleCommands.Program.Main.Async
 
 

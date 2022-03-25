@@ -35,9 +35,9 @@ Searching 'AspNetCoreExtensionCommands, Version=1.0.0.0, Culture=neutral, Public
   ------------------------------------------------------------------------
 ```
 
-<[info]>
+::: tip warning
 When you're using the `dotnet run` command, the usage of the double dashes *--* separates command line arguments to the `dotnet run` command itself from the command arguments to your application. The `args` array passed into your application will be any arguments or flags to the right of the *--* separator.
-<[/info]>
+:::
 
 The *run* command shown above is the default command for Oakton and what will be executed unless you explicitly choose another named command.
 

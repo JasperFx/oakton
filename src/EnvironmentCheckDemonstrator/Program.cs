@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Baseline.Dates;
@@ -12,7 +12,7 @@ namespace EnvironmentCheckDemonstrator
 {
     class Program
     {
-        // SAMPLE: extending-describe
+        #region sample_extending_describe
         static Task<int> Main(string[] args)
         {
             return Host.CreateDefaultBuilder()
@@ -43,7 +43,7 @@ namespace EnvironmentCheckDemonstrator
                 })
                 .RunOaktonCommands(args);
         }
-        // ENDSAMPLE
+        #endregion
     }
 
     public class GoodEnvironmentCheck : IEnvironmentCheck

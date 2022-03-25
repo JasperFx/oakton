@@ -20,7 +20,7 @@ In a perfect world that just works and every thing is hunky dory. In the real wo
 
 To build in an environment check for database connectivity in this situation with *Oakton.AspNetCore*, get into your normal ASP.Net Core `Startup` class, and add an environment check in the `Startup.ConfigureServices()` method like this:
 
-<[sample:ConfigureService-with-EnvironmentCheck]>
+snippet: sample_ConfigureService_with_EnvironmentCheck
 
 Now, during deployments or even just pulling down the code to run locally, we can run the environment checks on our application like so:
 
@@ -59,7 +59,7 @@ If you ran this command during continuous deployment scripts, the command should
 
 There's not much to it. *Oakton.AspNetCore* includes this interface:
 
-<[sample:IEnvironmentCheck]>
+snippet: sample_IEnvironmentCheck
 
 *Oakton.AspNetCore* is looking for service registrations of this interface in your application's IoC container. The `CheckEnvironment()` extension method above just adds a service registration for the `IEnvironmentCheck` interface that runs the supplied lambda. When executing the environment checks, *Oakton.AspNetCore* runs each check
 one within `try/catch` blocks. If the execution throws an exception, it's considered to be a failure. Otherwise, it's a passing check and comes out in the output color coded as green. *Oakton.AspNetCore* assumes that you take care of any necessary resource cleanup yourself.
@@ -121,7 +121,7 @@ Which gives the following output:
 
 The easiest thing to do is to use the extension methods on `IServiceCollection` shown below:
 
-<[sample:ConfigureService-with-EnvironmentCheck]>
+snippet: sample_ConfigureService_with_EnvironmentCheck
 
 There are various overloads of `CheckEnvironment()` for both synchronous and asynchronous checks, and specialized
 shortcuts as shown above that let you specify a specific service registered in your IoC container for the check. Otherwise, the overloads take in either
@@ -132,7 +132,7 @@ shortcuts as shown above that let you specify a specific service registered in y
 
 You can create custom, reusable environment checks by implementing the interface below:
 
-<[sample:IEnvironmentCheck]>
+snippet: sample_IEnvironmentCheck
 
 And adding your custom type to your service registrations when you configure your IoC container (`Startup.ConfigureServices()`).
 
@@ -142,7 +142,7 @@ And adding your custom type to your service registrations when you configure you
 
 There's a specialized, built in check for required files like so:
 
-<[sample:CheckThatFileExists]>
+snippet: sample_CheckThatFileExists
 
 
 
@@ -151,4 +151,4 @@ There's a specialized, built in check for required files like so:
 
 There's also a specialized check to ascertain that a required IoC service registration exists:
 
-<[sample:CheckServiceIsRegistered]>
+snippet: sample_CheckServiceIsRegistered

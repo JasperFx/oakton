@@ -60,7 +60,7 @@ namespace Tests
 
     }
 
-    // SAMPLE: EnumerableArguments
+    #region sample_EnumerableArguments
     public class EnumerableArgumentInput
     {
         public IEnumerable<string> Names { get; set; }
@@ -73,5 +73,5 @@ namespace Tests
         public IEnumerable<int> Ages { get; set; }
 
     }
-    // ENDSAMPLE
+    #endregion
 }

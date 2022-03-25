@@ -1,6 +1,6 @@
 namespace Oakton.Descriptions
 {
-    // SAMPLE: IDescribedSystemPartFactory
+    #region sample_IDescribedSystemPartFactory
     /// <summary>
     /// Register implementations of this service to help
     /// the describe command discover additional system parts
@@ -9,5 +9,5 @@ namespace Oakton.Descriptions
     {
         IDescribedSystemPart[] Parts();
     }
-    // ENDSAMPLE
+    #endregion
 }

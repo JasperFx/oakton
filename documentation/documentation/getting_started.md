@@ -1,9 +1,9 @@
 <!--title: Getting Started-->
 
-<[info]>
+::: tip warning
 The power of Oakton really comes into play when it's combined with applications using the `HostBuilder`
 mechanism for bootstrapping .Net applications. See <[linkto:documentation/hostbuilder]> for more information.
-<[/info]>
+:::
 
 Oakton originated in the now defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net
 development team of that time to build robust console line utilities with these attributes:
@@ -22,15 +22,15 @@ Oakton was originally extracted from FubuCore as a new standalone project before
 To get started, simply create a new dotnet console application and add the `Oakton` nuget dependency. For your first command, let's start simple with a command that will simply print out a specified name with an optional color and title. The logical first step is to just
 create the input class for your command that will establish the arguments and an optional flag:
 
-<[sample:NameInput]>
+snippet: sample_NameInput
 
 You'll note that I've added some `[Oakton.Description]` attributes strictly for the purpose of adding user help messages that we'll take a look at later. Now that we've got that out of the way, let's create our first command:
 
-<[sample:NameCommand]>
+snippet: sample_NameCommand
 
 With that in place, let's wire it up to our applications `Program.Main()`:
 
-<[sample:Quickstart.Program1]>
+snippet: sample_Quickstart.Program1
 
 Now, from the command line, I'll just try `dotnet run`, which will give us this (slightly elided) output complaining
 that we're missing a required argument or two:
@@ -82,11 +82,11 @@ dotnet run -- "Alex Smith"
 Which will simply print out *Alex Smith* to the console output. We had to wrap the text in quotations so that Oakton treated
 the full name with spaces as a single argument.
 
-<[info]>
+::: tip warning
 The "--" argument shown in the samples here is only a construct of using the "dotnet run" command to separate arguments that should
 apply to the dotnet tool on the left from arguments that should be passed into our application. If you run the compiled application
 itself, you will not need the "--" separator.
-<[/info]>
+:::
 
 To print the name in blue, we can type `dotnet run -- "Alex Smith" Blue`. To add a title, we can use the signature `dotnet run -- "Alex Smith" --title Mr` or `dotnet run -- "Alex Smith" --t Mr` to get the output "Mr Alex Smith."
 
@@ -101,11 +101,11 @@ signature and flag usage matches the known command syntax.
 Now, let's move on to building a tool with multiple commands. Let's say that we're trying to partially recreate
 the git command line with the `clean` and `checkout` commands:
 
-<[sample:git-commands]>
+snippet: sample_git_commands
 
 In the `Program.Main()`, the setup is just a little bit different to go discover all the commands held in the application:
 
-<[sample:MultipleCommands.Program.Main]>
+snippet: sample_MultipleCommands.Program.Main
 
 Now then, typing `dotnet run` without specifying a valid command will give you this:
 
@@ -122,7 +122,7 @@ Typing `dotnet run -- help` or `dotnet run -- ?` would give you the same informa
 
 Our fake `clean` command has this usage:
 
-<[sample:CleanInput]>
+snippet: sample_CleanInput
 
 To see the specific usage of the `clean` command, try `dotnet run -- help clean` or `dotnet run -- ? clean` to get the usage:
 

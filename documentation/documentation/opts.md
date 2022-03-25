@@ -1,20 +1,20 @@
 <!--title:"Opts" Files-->
 
-<[info]>
+::: tip warning
 This feature is all new in Oakton and was inspired by Javascript tools like Mocha that use "opts" files to make
 their tools much easier to use at the command line
-<[/info]>
+:::
 
 As a contrived example (that probably violates all kind of security best practices), let's say that your console application exposes several commands, but all of the commands may need
 an optional user name and password flag. You might start with a base class for your command inputs like this:
 
-<[sample:SecuredInput]>
+snippet: sample_SecuredInput
 
 To make the tool easier to use, we can take advantage of the "opts" file option by making Oakton look for the presence of an optional text file in the same directory as the command execution with a certain name to pick up default command usages.
 
 We can set that up by declaring the name of the opts file like this:
 
-<[sample:configuring-opts-file]>
+snippet: sample_configuring_opts_file
 
 Now, we could have add a file named `mytool.opts` to the directory where we run the command with this sample content:
 

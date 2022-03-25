@@ -157,12 +157,12 @@ namespace Tests
         public IEnumerable<string> SlagFlag { get; set; }
     }
 
-    // SAMPLE: FileInput
+    #region sample_FileInput
     public class FileInput
     {
         public string[] FilesFlag;
 
         public string[] DirectoriesFlag;
     }
-    // ENDSAMPLE
+    #endregion
 }

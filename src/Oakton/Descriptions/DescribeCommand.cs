@@ -125,7 +125,7 @@ namespace Oakton.Descriptions
         }
     }
 
-    // SAMPLE: AboutThisAppPart
+    #region sample_AboutThisAppPart
     public class AboutThisAppPart : IDescribedSystemPart
     {
         private readonly IHostEnvironment _host;
@@ -150,9 +150,9 @@ namespace Oakton.Descriptions
             return Task.CompletedTask;
         }
     }
-    // ENDSAMPLE
+    #endregion
 
-    // SAMPLE: ReferencedAssemblies
+    #region sample_ReferencedAssemblies
     public class ReferencedAssemblies : IDescribedSystemPart, IWriteToConsole
     {
         public string Title { get; } = "Referenced Assemblies";
@@ -190,5 +190,5 @@ namespace Oakton.Descriptions
             return Task.CompletedTask;
         }
     }
-    // ENDSAMPLE
+    #endregion
 }

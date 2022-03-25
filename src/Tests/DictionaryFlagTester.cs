@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Reflection;
 using Oakton;
 using Shouldly;
@@ -42,12 +42,12 @@ namespace Tests
         }
     }
 
-    // SAMPLE: DictInput
+    #region sample_DictInput
     public class DictInput
     {
         public Dictionary<string, string> PropFlag = new Dictionary<string, string>();
     }
-    // ENDSAMPLE
+    #endregion
 
     public class DictCommand : OaktonCommand<DictInput>
     {

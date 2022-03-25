@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using Oakton;
 using StructureMap;
@@ -7,7 +7,7 @@ namespace OaktonSample
 {
     public class Program
     {
-        // SAMPLE: bootstrapping-command-executor
+        #region sample_bootstrapping_command_executor
         public static int Main(string[] args)
         {
             var executor = CommandExecutor.For(_ =>
@@ -45,10 +45,10 @@ namespace OaktonSample
 
             return executor.Execute(args);
         }
-        // ENDSAMPLE
+        #endregion
         
         
-        // SAMPLE: bootstrapping-with-custom-command-factory
+        #region sample_bootstrapping_with_custom_command_factory
         public static void Bootstrapping(IContainer container)
         {
             var executor = CommandExecutor.For(_ =>
@@ -56,11 +56,11 @@ namespace OaktonSample
                 // do the other configuration of the CommandFactory
             }, new StructureMapCommandCreator(container));
         }
-        // ENDSAMPLE
+        #endregion
     }
     
 
-    // SAMPLE: StructureMapCommandCreator
+    #region sample_StructureMapCommandCreator
     public class StructureMapCommandCreator : ICommandCreator
     {
         private readonly IContainer _container;
@@ -80,7 +80,7 @@ namespace OaktonSample
             return _container.GetInstance(modelType);
         }
     }
-    // ENDSAMPLE
+    #endregion
 
 
 
@@ -135,7 +135,7 @@ namespace OaktonSample
         }
     }
 
-    // SAMPLE: sample-arguments
+    #region sample_sample_arguments
     public class NameInput
     {
         // Arguments can be settable properties
@@ -157,7 +157,7 @@ namespace OaktonSample
         // not an argument
         public bool VerboseFlag { get; set; }
     }
-    // ENDSAMPLE
+    #endregion
     
     
 }

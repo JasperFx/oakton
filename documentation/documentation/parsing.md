@@ -5,7 +5,7 @@
 An argument is any public field or settable property on the input class that is not suffixed with "Flag" or marked
 with the `[IgnoreOnCommandLine]`. Below is a sample:
 
-<[sample:sample-arguments]>
+snippet: sample_sample_arguments
 
 ## Valid Argument Types
 
@@ -26,7 +26,7 @@ The conversions are done via the [Baseline](https://github.com/JasperFx/baseline
 
 You *can* use array or enumerable arguments as shown on this input type:
 
-<[sample:EnumerableArguments]>
+snippet: sample_EnumerableArguments
 
 There's one huge caveat though, **an enumerable or array variable will need to be the very last argument** in your command line usage.
 
@@ -40,12 +40,12 @@ executable command value1 value2 value3 --flag --flag2
 
 Look at the input class from the <[linkto:documentation/getting_started]> tutorial:
 
-<[sample:NameInput]>
+snippet: sample_NameInput
 
 In this particular case, I want users to be able to enter either the `Name` argument or both the `Name` and
 `Color` arguments. In the matching command class for this input, I specify two `Usages` patterns for this command:
 
-<[sample:NameCommand]>
+snippet: sample_NameCommand
 
 The call to `Usage` in the constructor function specifies the valid argument patterns for the command. If that explicit
 `Usage` configuration was omitted, Oakton assumes that every argument is always mandatory and appears in the order of the
@@ -56,13 +56,13 @@ properties or fields in the input class.
 Flags are any public settable property or public field on the input class that are suffixed with 
 *Flag*. Below is an example of several flags:
 
-<[sample:CleanInput]>
+snippet: sample_CleanInput
 
 ## Setting Flag Values
 
 Let's say you're trying to recreate the command line options for the `git checkout` command with this input:
 
-<[sample:CheckoutInput]>
+snippet: sample_CheckoutInput
 
 To specify the name of a newly created branch using the `CreateBranchFlag` property, I can either use:
 
@@ -113,7 +113,7 @@ the field or property is set to `true`.
 
 Consider our recreation of the `git clean` command:
 
-<[sample:CleanInput]>
+snippet: sample_CleanInput
 
 From the command line, I can use these boolean flags like this with the long form for `ForceFlag`:
 
@@ -143,7 +143,7 @@ values for that array.
 
 Let's say we have this input:
 
-<[sample:FileInput]>
+snippet: sample_FileInput
 
 In usage, the flags could be used like:
 
@@ -154,14 +154,14 @@ executable command --files one.txt two.txt "c:\folder\file.txt" --directories c:
 ## Key/Value Flags
 
 
-<[info]>
+::: tip warning
 Key/Value flags have to be of type `Dictionary<string, string>` or `IDictionary<string, string>`
-<[/info]>
+:::
 
 New to Oakton 1.3 is the ability to **finally** express key/value pairs as a special kind of flag. Let's say that we want
 to capture extensible key/value pairs on our input class like this:
 
-<[sample:DictInput]>
+snippet: sample_DictInput
 
 In usage at the command line, the flag is used like this:
 

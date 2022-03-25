@@ -58,23 +58,23 @@ If you have many described parts in your system, you can use the `-i` or `--inte
 
 The `describe` command can be extended by registering custom implemtations of the `IDescribedSystemPart` interface in your application container:
 
-<[sample:IDescribedSystemPart]>
+snippet: sample_IDescribedSystemPart
 
 Or if you have a related group of parts, you can register custom implementations of the `IDescribedSystemPartFactory` as well:
 
-<[sample:IDescribedSystemPartFactory]>
+snippet: sample_IDescribedSystemPartFactory
 
 Oakton adds a couple extension methods on `IServiceCollection` to help you register custom describers:
 
-<[sample:extending-describe]>
+snippet: sample_extending_describe
 
 For an example, here's the implementation for one of the built in described system parts:
 
-<[sample:AboutThisAppPart]>
+snippet: sample_AboutThisAppPart
 
 You can also opt into enhanced formatting in the console output using the [Spectre.Console](https://spectresystems.github.io/spectre.console/) library if your part implements the `IWriteToConsole` interface like this built in part:
 
-<[sample:ReferencedAssemblies]>
+snippet: sample_ReferencedAssemblies
 
 
 

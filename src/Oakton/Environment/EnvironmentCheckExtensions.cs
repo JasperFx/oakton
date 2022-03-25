@@ -73,7 +73,7 @@ namespace Oakton.Environment
             });
         }
         
-        // SAMPLE: CheckThatFileExists
+        #region sample_CheckThatFileExists
         /// <summary>
         /// Issue an environment check for the existence of a named file
         /// </summary>
@@ -84,9 +84,9 @@ namespace Oakton.Environment
             var check = new FileExistsCheck(path);
             services.AddSingleton<IEnvironmentCheck>(check);
         }
-        // ENDSAMPLE
+        #endregion
 
-        // SAMPLE: CheckServiceIsRegistered
+        #region sample_CheckServiceIsRegistered
         /// <summary>
         /// Issue an environment check for the registration of a service in the underlying IoC
         /// container
@@ -108,7 +108,7 @@ namespace Oakton.Environment
         {
             services.CheckEnvironment($"Service {serviceType.FullName} should be registered", s => s.GetRequiredService(serviceType));
         }
-        // ENDSAMPLE
+        #endregion
     }
     
 

@@ -34,7 +34,7 @@ namespace Oakton
 
         public virtual void ApplyHostBuilderInput()
         {
-            // SAMPLE: what-the-cli-is-doing
+            #region sample_what_the_cli_is_doing
 
             // The --log-level flag value overrides your application's
             // LogLevel
@@ -69,7 +69,7 @@ namespace Oakton
             {
                 HostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
             }
-            // ENDSAMPLE
+            #endregion
         }
 
         public IHost BuildHost()

@@ -98,7 +98,7 @@ namespace Oakton
                 b.Host.Start();
             }
             
-            // SAMPLE: using-extension-assemblies
+            #region sample_using_extension_assemblies
             return CommandExecutor.For(factory =>
             {
                 factory.RegisterCommands(typeof(RunCommand).GetTypeInfo().Assembly);
@@ -113,7 +113,7 @@ namespace Oakton
                     if (cmd.Input is IHostBuilderInput i) i.HostBuilder = source;
                 };
             });
-            // ENDSAMPLE
+            #endregion
         }
         
 

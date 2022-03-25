@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Oakton;
 
 namespace quickstart
 {
-    // SAMPLE: Quickstart.Program1
+    #region sample_Quickstart.Program1
     class Program
     {
         static int Main(string[] args)
@@ -14,9 +14,9 @@ namespace quickstart
             return CommandExecutor.ExecuteCommand<NameCommand>(args);
         }
     }
-    // ENDSAMPLE
+    #endregion
 
-    // SAMPLE: NameInput
+    #region sample_NameInput
     public class NameInput
     {
         [Description("The name to be printed to the console output")]
@@ -28,9 +28,9 @@ namespace quickstart
         [Description("Optional title preceeding the name")]
         public string TitleFlag { get; set; }
     }
-    // ENDSAMPLE
+    #endregion
 
-    // SAMPLE: NameCommand
+    #region sample_NameCommand
     [Description("Print somebody's name")]
     public class NameCommand : OaktonCommand<NameInput>
     {
@@ -60,12 +60,12 @@ namespace quickstart
             return true;
         }
     }
-    // ENDSAMPLE
+    #endregion
 
 
     public class OtherNameCommand : OaktonCommand<NameInput>
     {
-        // SAMPLE: specifying-usages
+        #region sample_specifying_usages
         public OtherNameCommand()
         {
             // You can specify multiple usages
@@ -79,7 +79,7 @@ namespace quickstart
                 // flags in this usage
                 .ValidFlags(x => x.TitleFlag);
         }
-        // ENDSAMPLE
+        #endregion
 
         public override bool Execute(NameInput input)
         {
@@ -87,10 +87,10 @@ namespace quickstart
         }
     }
 
-    // SAMPLE: command-alias
+    #region sample_command_alias
     [Description("Say my name differently", Name = "different-name")]
     public class AliasedCommand : OaktonCommand<NameInput>
-    // ENDSAMPLE
+    #endregion
     {
         public override bool Execute(NameInput input)
         {
@@ -98,7 +98,7 @@ namespace quickstart
         }
     }
 
-    // SAMPLE: async-command
+    #region sample_async_command
     public class DoNameThingsCommand : OaktonAsyncCommand<NameInput>
     {
         public override async Task<bool> Execute(NameInput input)
@@ -110,5 +110,5 @@ namespace quickstart
             return true;
         }
     }
-    // ENDSAMPLE
+    #endregion
 }

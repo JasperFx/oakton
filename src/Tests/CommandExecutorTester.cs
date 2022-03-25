@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -179,7 +179,7 @@ namespace Tests
         }
     }
 
-    // SAMPLE: async-command-sample
+    #region sample_async_command_sample
     [Description("Say my name", Name = "say-async-name")]
     public class AsyncSayNameCommand : OaktonAsyncCommand<SayName>
     {
@@ -195,7 +195,7 @@ namespace Tests
             return true;
         }
     }
-    // ENDSAMPLE
+    #endregion
 
     public class ThrowUp
     {

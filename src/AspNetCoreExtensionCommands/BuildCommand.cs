@@ -1,14 +1,14 @@
 using System;
 using Oakton;
 
-// SAMPLE: using-OaktonCommandAssemblyAttribute
+#region sample_using_OaktonCommandAssemblyAttribute
 [assembly:Oakton.OaktonCommandAssembly]
-// ENDSAMPLE
+#endregion
 
 namespace AspNetCoreExtensionCommands
 {
     
-    // SAMPLE: SmokeCommand
+    #region sample_SmokeCommand
     [Description("Simply try to build a web host as a smoke test", Name = "smoke")]
     public class SmokeCommand : OaktonCommand<NetCoreInput>
     {
@@ -24,5 +24,5 @@ namespace AspNetCoreExtensionCommands
             return true;
         }
     }
-    // ENDSAMPLE
+    #endregion
 }

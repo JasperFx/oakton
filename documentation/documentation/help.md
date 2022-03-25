@@ -3,11 +3,11 @@
 Oakton comes with its own `[Description]` attribute that can be applied to fields or properties on
 the input class to provide help information on usage like this:
 
-<[sample:NameInput]>
+snippet: sample_NameInput
 
 or on the command class itself:
 
-<[sample:NameCommand]>
+snippet: sample_NameCommand
 
 Also note the explanatory text in the `Usage()` method above in the case of a command that has multiple valid
 argument patterns.

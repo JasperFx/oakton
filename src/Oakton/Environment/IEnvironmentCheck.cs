@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Oakton.Environment
 {
-    // SAMPLE: IEnvironmentCheck
+    #region sample_IEnvironmentCheck
     /// <summary>
     ///     Executed during bootstrapping time to carry out environment tests
     ///     against the application
@@ -23,5 +23,5 @@ namespace Oakton.Environment
         /// </summary>
         Task Assert(IServiceProvider services, CancellationToken cancellation);
     }
-    // ENDSAMPLE
+    #endregion
 }

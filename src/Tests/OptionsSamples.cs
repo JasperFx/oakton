@@ -1,4 +1,4 @@
-﻿using Oakton;
+using Oakton;
 
 namespace Tests
 {
@@ -6,22 +6,22 @@ namespace Tests
     {
         public static void go()
         {
-            // SAMPLE: configuring-opts-file
+            #region sample_configuring_opts_file
             var executor = CommandExecutor.For(_ =>
             {
                 // configure the command discovery
             });
 
             executor.OptionsFile = "mytool.opts";
-            // ENDSAMPLE
+            #endregion
         }
     }
 
-    // SAMPLE: SecuredInput
+    #region sample_SecuredInput
     public class SecuredInput
     {
         public string UserName { get; set; }
         public string Password { get; set; }
     }
-    // ENDSAMPLE
+    #endregion
 }

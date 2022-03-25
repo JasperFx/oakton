@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace MvcApp
 {
 #if NETCOREAPP2_2
 /*
-    // SAMPLE: using-run-oakton-commands
+    #region sample_using_run_oakton_commands
     public class Program
     {
         public static Task<int> Main(string[] args)
@@ -31,10 +31,10 @@ namespace MvcApp
                 .UseStartup<Startup>();
         
     }
-    // ENDSAMPLE 
+    #endregion
     */
 #else
-    // SAMPLE: using-run-oakton-commands-3
+    #region sample_using_run_oakton_commands_3
     public class Program
     {
         public static Task<int> Main(string[] args)
@@ -51,6 +51,6 @@ namespace MvcApp
                 .ConfigureWebHostDefaults(x => x.UseStartup<Startup>());
         
     }
-    // ENDSAMPLE 
+    #endregion
 #endif
 }
