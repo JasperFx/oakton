@@ -1,7 +1,0 @@
-getting_started
-commands
-hostbuilder
-bootstrapping
-parsing
-help
-opts
