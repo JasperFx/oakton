@@ -1,8 +1,8 @@
 # Getting Started
 
-::: tip warning
+::: tip
 The power of Oakton really comes into play when it's combined with applications using the `HostBuilder`
-mechanism for bootstrapping .Net applications. See <[linkto:documentation/hostbuilder]> for more information.
+mechanism for bootstrapping .Net applications. See [Integration with IHost](/guide/host/) for more information.
 :::
 
 Oakton originated in the now defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net
@@ -14,8 +14,6 @@ development team of that time to build robust console line utilities with these 
 * Easily enable tools to expose multiple commands
 * Completely separate the command line parsing from the actual functionality of the console application for easier testing of the command line tools and cleaner code
 * Validate user input and helpfully tell them when it's invalid and what the correct usage should be
-
-Oakton was originally extracted from FubuCore as a new standalone project before adding some new improvements and support for .Net Core and now .Net 5.0.
 
 ## Your First Command
 

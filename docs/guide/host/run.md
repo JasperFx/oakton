@@ -1,4 +1,4 @@
-<!--title:Improved "Run" Command-->
+# Improved "Run" Command
 
 To run your application normally from a command prompt with all the default configuration **from the project root directory**, there's no real change from what you'd do without *Oakton.AspNetCore*. The command is still just:
 
@@ -119,7 +119,7 @@ See [Logging in .NET Core and ASP.NET Core](https://docs.microsoft.com/en-us/asp
 
 ## Running Environment Checks Before Starting the Application
 
-You can also opt into running any configured <[linkto:documentation/aspnetcore/environment;title=environment checks]> before starting Kestrel. If any of the environment checks fail, the application startup will fail. The goal of this feature is to make deployments be self-diagnosing and fail fast at startup time if the system can detect problems in its configuration or with its dependencies.
+You can also opt into running any configured [environment checks](/guide/host/environment) before starting Kestrel. If any of the environment checks fail, the application startup will fail. The goal of this feature is to make deployments be self-diagnosing and fail fast at startup time if the system can detect problems in its configuration or with its dependencies.
 
 To run the environment checks as part of the run command, just use the *--environment* flag like this:
 

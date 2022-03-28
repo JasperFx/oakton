@@ -1,8 +1,8 @@
-<!--title: Getting Started-->
+# Getting Started
 
 ::: tip warning
 The power of Oakton really comes into play when it's combined with applications using the `HostBuilder`
-mechanism for bootstrapping .Net applications. See <[linkto:documentation/hostbuilder]> for more information.
+mechanism for bootstrapping .Net applications. See [Integration with IHost](/guide/host) for more information.
 :::
 
 Oakton originated in the now defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net
@@ -258,10 +258,3 @@ To see the specific usage of the `clean` command, try `dotnet run -- help clean`
   -------------------------------------------------------------------------------------------
 ```
 
-From here, you probably want to learn more about:
-
-* <[linkto:documentation/commands;title=All about commands]>
-* <[linkto:documentation/arguments;title=Using arguments and argument signatures]>
-* <[linkto:documentation/flags]>
-* <[linkto:documentation/help;title=How the help output works]>
-* <[linkto:documentation/opts]>

@@ -1,4 +1,4 @@
-<!--title:Parsing Arguments and Optional Flags-->
+# Parsing Arguments and Optional Flags
 
 ## Arguments
 
@@ -81,7 +81,7 @@ executable command value1 value2 value3 --flag --flag2
 
 ## Valid Argument Patterns
 
-Look at the input class from the <[linkto:documentation/getting_started]> tutorial:
+Look at the input class from the [getting started](/guide) tutorial:
 
 <!-- snippet: sample_NameInput -->
 <a id='snippet-sample_nameinput'></a>

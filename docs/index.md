@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /oakton.png
-heroText: Add Robust Command Line Options to .Net Applications
+heroText: Oakton
 actionText: Get Started
 actionLink: /guide/
 

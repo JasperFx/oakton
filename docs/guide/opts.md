@@ -1,4 +1,4 @@
-<!--title:"Opts" Files-->
+# "Opts" Files
 
 ::: tip warning
 This feature is all new in Oakton and was inspired by Javascript tools like Mocha that use "opts" files to make

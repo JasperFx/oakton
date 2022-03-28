@@ -1,4 +1,4 @@
-<!--title:The "describe" command-->
+# The "describe" command
 
 The new `describe` command that comes with Oakton V3.0+ can be used as a generic diagnostic capability to look into the configuration of your .Net application that's bootstrapped with `IHostBuilder`. 
 

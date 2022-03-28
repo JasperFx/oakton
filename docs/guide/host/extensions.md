@@ -1,4 +1,4 @@
-<!--title:Writing Extension Commands-->
+# Writing Extension Commands
 
 Oakton has a strong extensibility model to find and activate commands from external assemblies. If an application uses the `RunOaktonCommands(args)` method, Oakton will look for any Oakton commands in any assembly that has this assembly level attribute:
 

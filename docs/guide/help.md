@@ -1,4 +1,4 @@
-<!--title:Help Text-->
+# Help Text
 
 Oakton comes with its own `[Description]` attribute that can be applied to fields or properties on
 the input class to provide help information on usage like this:

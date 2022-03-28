@@ -1,4 +1,4 @@
-<!--title:Command Assembly Discovery-->
+# Command Assembly Discovery
 
 This feature probably won't be commonly used, but there is a mechanism to automatically find and load Oakton commands from other assemblies through file scanning.
 

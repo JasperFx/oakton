@@ -1,4 +1,4 @@
-<!--title:Environment Checks-->
+# Environment Checks
 
 The big out of the box feature with Oakton.AspNetCore is the ability to expose environment checks or environment tests directly
 in your application. Most applications don't live in isolation. Your code probably has to interact with databases, the file system, configuration mechanisms, and other services. And since it's an imperfect world, it's quite possible that you've made a deployment in your career and later found out that configuration items were wrong, your dependencies were down, the database credentials you were using were wrong, or all kinds of sundry run of the mill problems.
