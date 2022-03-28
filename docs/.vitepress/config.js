@@ -39,7 +39,7 @@ function tableOfContents() {
       {text: "Commands", link: '/guide/commands'},
       {
         text: "Integration with IHost",
-        link: '/guide/host',
+        link: '/guide/host/',
         children: [
           {text: "Improved \"Run\" Command", link: '/guide/host/run'},
           {text: "Environment Checks", link: '/guide/host/environment'},
