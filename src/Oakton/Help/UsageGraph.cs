@@ -183,6 +183,14 @@ namespace Oakton.Help
 
                 _parent._usages.Add(_commandUsage);
             }
+            
+            /// <summary>
+            /// Just expresses that this usage has no arguments
+            /// </summary>
+            public UsageExpression<T> NoArguments()
+            {
+                return Arguments();
+            }
 
             
             /// <summary>
@@ -225,6 +233,7 @@ namespace Oakton.Help
                             return _parent.Handlers.FirstOrDefault(x => x.MemberName == member.Name);
                         }).ToArray();
             }
+
 
 
         }
