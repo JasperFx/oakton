@@ -6,6 +6,6 @@ namespace Oakton.Resources
 {
     public interface IStatefulResourceSource
     {
-        Task<IReadOnlyList<IStatefulResource>> FindResources(CancellationToken token);
+        IReadOnlyList<IStatefulResource> FindResources();
     }
 }

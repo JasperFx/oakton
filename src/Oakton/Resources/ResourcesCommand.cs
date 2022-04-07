@@ -161,7 +161,7 @@ namespace Oakton.Resources
             var list = services.GetServices<IStatefulResource>().ToList();
             foreach (var source in services.GetServices<IStatefulResourceSource>())
             {
-                var sources = await source.FindResources(cancellation);
+                var sources = source.FindResources();
                 list.AddRange(sources);
             }
 

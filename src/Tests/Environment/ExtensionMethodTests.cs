@@ -1,10 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Baseline.Dates;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Oakton.Environment;
+using Oakton.Resources;
 using Shouldly;
 using Xunit;
 
@@ -46,6 +51,62 @@ namespace Tests.Environment
             theResults.Successes.Single().ShouldBe("good");
             theResults.Failures.Single().Exception.Message.ShouldBe("Blob");
         }
+
+        [Fact]
+        public void use_a_resource_automatically_success()
+        {
+            var resource = Substitute.For<IStatefulResource>();
+            resource.Name.Returns("Envelopes");
+            resource.Type.Returns("Database");
+            
+            theServices.AddSingleton<IStatefulResource>(resource);
+            
+            theResults.Successes.Single().ShouldBe("Resource Envelopes (Database)");
+        }
+        
+        [Fact]
+        public void use_a_resource_automatically_fail()
+        {
+            var resource = Substitute.For<IStatefulResource>();
+            resource.Name.Returns("Envelopes");
+            resource.Type.Returns("Database");
+            resource.Check(Arg.Any<CancellationToken>()).Throws(new DivideByZeroException());
+            
+            theServices.AddSingleton<IStatefulResource>(resource);
+            
+            theResults.Failures.Single().Description.ShouldBe("Resource Envelopes (Database)");
+        }
+        
+        [Fact]
+        public void use_a_resource_collection_automatically_success()
+        {
+            var resource = Substitute.For<IStatefulResource>();
+            resource.Name.Returns("Envelopes");
+            resource.Type.Returns("Database");
+
+            var collection = Substitute.For<IStatefulResourceSource>();
+            collection.FindResources().Returns(new List<IStatefulResource> { resource });
+            theServices.AddSingleton(collection);
+            
+            theResults.Successes.Single().ShouldBe("Resource Envelopes (Database)");
+        }
+        
+        [Fact]
+        public void use_a_resource_collection_automatically_fail()
+        {
+            var resource = Substitute.For<IStatefulResource>();
+            resource.Name.Returns("Envelopes");
+            resource.Type.Returns("Database");
+            resource.Check(Arg.Any<CancellationToken>()).Throws(new DivideByZeroException());
+            
+            var collection = Substitute.For<IStatefulResourceSource>();
+            collection.FindResources().Returns(new List<IStatefulResource> { resource });
+            theServices.AddSingleton(collection);
+            
+            theResults.Failures.Single().Description.ShouldBe("Resource Envelopes (Database)");
+        }
+        
+
         
         [Fact]
         public void synchronous_action()

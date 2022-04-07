@@ -30,7 +30,7 @@ namespace Oakton.Resources
             {
                 try
                 {
-                    resources.AddRange(await source.FindResources(cancellationToken));
+                    resources.AddRange(source.FindResources());
                 }
                 catch (Exception e)
                 {

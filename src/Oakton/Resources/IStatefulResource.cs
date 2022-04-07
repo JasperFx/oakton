@@ -1,5 +1,7 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Oakton.Environment;
 using Spectre.Console.Rendering;
 
 namespace Oakton.Resources
@@ -57,5 +59,21 @@ namespace Oakton.Resources
         /// Identifier for this resource
         /// </summary>
         string Name { get; }
+    }
+
+    internal class ResourceEnvironmentCheck : IEnvironmentCheck
+    {
+        private readonly IStatefulResource _resource;
+
+        public ResourceEnvironmentCheck(IStatefulResource resource)
+        {
+            _resource = resource;
+        }
+
+        public string Description => $"Resource {_resource.Name} ({_resource.Type})";
+        public Task Assert(IServiceProvider services, CancellationToken cancellation)
+        {
+            return _resource.Check(cancellation);
+        }
     }
 }

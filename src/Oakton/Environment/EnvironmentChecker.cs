@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Oakton.Resources;
 using Spectre.Console;
 
 namespace Oakton.Environment
@@ -77,6 +78,19 @@ namespace Oakton.Environment
                 foreach (var check in factory.Build())
                 {
                     yield return check;
+                }
+            }
+
+            foreach (var resource in services.GetServices<IStatefulResource>())
+            {
+                yield return new ResourceEnvironmentCheck(resource);
+            }
+
+            foreach (var source in services.GetServices<IStatefulResourceSource>())
+            {
+                foreach (var resource in source.FindResources())
+                {
+                    yield return new ResourceEnvironmentCheck(resource);
                 }
             }
         }

@@ -92,9 +92,9 @@ namespace Tests.Resources
                 return resource;
             }
 
-            public Task<IReadOnlyList<IStatefulResource>> FindResources(CancellationToken token)
+            public IReadOnlyList<IStatefulResource> FindResources()
             {
-                return Task.FromResult((IReadOnlyList<IStatefulResource>)_resources);
+                return _resources;
             }
         }
     }
