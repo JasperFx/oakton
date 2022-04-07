@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Baseline;
@@ -20,10 +17,19 @@ namespace Tests.Resources
         protected readonly List<IStatefulResource> AllResources = new List<IStatefulResource>();
         protected ResourceInput theInput = new ResourceInput();
 
+        internal Task<IList<IStatefulResource>>  applyTheResourceFiltering()
+        {
+            theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(s => s.AddRange(_services));
+            var command = new ResourcesCommand();
+            using var host = theInput.BuildHost();
+
+            return command.FilterResources(theInput, host, CancellationToken.None);
+        }
+        
         internal async Task theCommandExecutionShouldSucceed()
         {
             theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(s => s.AddRange(_services));
-            var returnCode = await new ResourceCommand().Execute(theInput);
+            var returnCode = await new ResourcesCommand().Execute(theInput);
             
             returnCode.ShouldBeTrue();
         }
@@ -31,7 +37,7 @@ namespace Tests.Resources
         internal async Task theCommandExecutionShouldFail()
         {
             theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(s => s.AddRange(_services));
-            var returnCode = await new ResourceCommand().Execute(theInput);
+            var returnCode = await new ResourcesCommand().Execute(theInput);
             
             returnCode.ShouldBeFalse();
         }
