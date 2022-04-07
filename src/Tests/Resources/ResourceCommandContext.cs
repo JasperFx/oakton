@@ -17,9 +17,14 @@ namespace Tests.Resources
         protected readonly List<IStatefulResource> AllResources = new List<IStatefulResource>();
         protected ResourceInput theInput = new ResourceInput();
 
+        internal void CopyResources(IServiceCollection services)
+        {
+            services.AddRange(_services);
+        }
+        
         internal Task<IList<IStatefulResource>>  applyTheResourceFiltering()
         {
-            theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(s => s.AddRange(_services));
+            theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(CopyResources);
             var command = new ResourcesCommand();
             using var host = theInput.BuildHost();
 
@@ -28,7 +33,7 @@ namespace Tests.Resources
         
         internal async Task theCommandExecutionShouldSucceed()
         {
-            theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(s => s.AddRange(_services));
+            theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(CopyResources);
             var returnCode = await new ResourcesCommand().Execute(theInput);
             
             returnCode.ShouldBeTrue();
