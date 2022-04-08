@@ -33,8 +33,8 @@ namespace Tests
         [Fact]
         public void to_usage_description_with_a_simple_string_or_number_type()
         {
-            argFor(x => x.Names).ToUsageDescription().ShouldBe("[<names1 names2 names3 ...>]");
-            argFor(x => x.Ages).ToUsageDescription().ShouldBe("[<ages1 ages2 ages3 ...>]");
+            argFor(x => x.Names).ToUsageDescription().ShouldBe("<names1 names2 names3 ...>");
+            argFor(x => x.Ages).ToUsageDescription().ShouldBe("<ages1 ages2 ages3 ...>");
         }
 
         [Fact]

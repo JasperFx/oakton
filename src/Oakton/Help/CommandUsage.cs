@@ -3,6 +3,7 @@ using System.Linq;
 using Baseline;
 using Oakton.Parsing;
 using Oakton.Reporting;
+using Spectre.Console;
 
 namespace Oakton.Help
 {
@@ -29,6 +30,15 @@ namespace Oakton.Help
 
             return $"{appName} {commandName} {arguments}";
         }
+        
+        public void WriteUsage(string appName, string commandName)
+        {
+            var arguments = Arguments.Union(ValidFlags)
+                .Select(x => x.ToUsageDescription())
+                .Join(" ");
+
+            AnsiConsole.MarkupLine($"[bold]{appName}[/] [bold]{commandName}[/] [cyan][{arguments}][/]");
+        }
 
 
         public bool IsValidUsage(IEnumerable<ITokenHandler> handlers)
@@ -44,5 +54,7 @@ namespace Oakton.Help
             var flags = handlers.Where(x => !(x is Argument));
             return flags.All(x => ValidFlags.Contains(x));
         }
+
+
     }
 }

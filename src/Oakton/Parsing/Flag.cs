@@ -60,5 +60,6 @@ namespace Oakton.Parsing
             var name = InputParser.RemoveFlagSuffix(_member.Name).ToLower();
             return $"[{flagAliases} <{name}>]";
         }
+
     }
 }

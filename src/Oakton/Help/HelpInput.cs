@@ -17,7 +17,6 @@ namespace Oakton.Help
         [IgnoreOnCommandLine]
         public UsageGraph Usage { get; set; }
 
-        [IgnoreOnCommandLine]
-        public string AppName { get; set; }
+        [IgnoreOnCommandLine] public string AppName { get; set; } = "dotnet run --";
     }
 }

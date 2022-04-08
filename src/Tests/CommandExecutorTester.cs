@@ -51,30 +51,8 @@ namespace Tests
             theOutput.ToString().ShouldContain("Lebron James");
         }
 
-        [Fact]
-        public void no_command_argument_should_display_the_help()
-        {
-            executor.Execute("").ShouldBe(0);
 
-            theOutput.ToString().ShouldContain("Available commands:");
-            theOutput.ToString().ShouldContain("say-name -> Say my name");
-        }
 
-        [Fact]
-        public void show_help_for_a_single_command()
-        {
-            executor.Execute("help say-name").ShouldBe(1);
-
-            theOutput.ToString().ShouldContain("Usages for 'say-name' (Say my name)");
-        }
-
-        [Fact]
-        public void run_a_command_that_fails()
-        {
-            executor.Execute("throwup").ShouldBe(1);
-
-            theOutput.ToString().ShouldContain("DivideByZeroException");
-        }
 
         [Fact]
         public void run_an_async_command_that_fails()

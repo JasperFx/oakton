@@ -8,6 +8,10 @@ using Baseline.Expressions;
 using Baseline.Reflection;
 using Oakton.Parsing;
 using Oakton.Reporting;
+using Spectre.Console;
+using System.Collections.Generic;
+
+
 
 namespace Oakton.Help
 {
@@ -45,18 +49,6 @@ namespace Oakton.Help
 
                 return new CommandUsage[]{usage};
             });
-        }
-
-        public CommandReport ToReport(string appName)
-        {
-            return new CommandReport
-            {
-                Name = _commandName,
-                Description = _description,
-                Arguments = Arguments.Select(x => x.ToReport()).ToArray(),
-                Flags = Flags.Select(x => new FlagReport(x)).ToArray(),
-                Usages = Usages.Select(x => x.ToReport(appName, _commandName)).ToArray()
-            };
         }
 
         public object BuildInput(Queue<string> tokens, ICommandCreator creator)
@@ -106,30 +98,48 @@ namespace Oakton.Help
         {
             if (!Usages.Any())
             {
-                Console.WriteLine("No documentation for this command");
+                AnsiConsole.MarkupLine("[gray]No documentation for this command[/]");
                 return;
             }
-
-            Console.WriteLine(" Usages for '{0}' ({1})", _commandName, _description);
-
-            if (Usages.Count() == 1)
+            
+            var tree = new Tree(new Markup($"[bold]{_commandName}[/] - [italic]{_description}[/]"));
+            
+            foreach (var usage in Usages)
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine(" " + Usages.Single().ToUsage(appName, _commandName));
-                Console.ResetColor();
+
+                var usageNode = tree.AddNode(usage.Description);
+                var text = $"[italic]{appName} {_commandName}[/] {usage.Arguments.Select(x => x.ToUsageDescription()).Join(" ")}";
+                var execution = usageNode.AddNode(text);
+                foreach (var flag in usage.ValidFlags)
+                {
+                    execution.AddNode(new Markup($"[cyan][{flag.ToUsageDescription()}][/]"));
+                }
+                
+
             }
-            else
+            
+            AnsiConsole.Write(tree);
+            AnsiConsole.WriteLine();
+
+            var table = new Table
             {
-                writeMultipleUsages(appName);
+                Border = TableBorder.SimpleHeavy
+            };
+
+            table.AddColumns("Usage", "Description");
+            table.Columns[0].Alignment = Justify.Right;
+            
+            foreach (var argument in Arguments)
+            {
+                table.AddRow(argument.MemberName.ToLower(), argument.Description);
             }
 
-            if(Arguments.Any())
-                writeArguments();
+            foreach (var flag in Flags)
+            {
+                table.AddRow("[" + flag.ToUsageDescription() + "]", flag.Description);
+            }
 
-
-            if (!Flags.Any()) return;
-
-            writeFlags();
+            AnsiConsole.Write(table);
         }
 
         private void writeMultipleUsages(string appName)
@@ -155,9 +165,16 @@ namespace Oakton.Help
 
         private void writeFlags()
         {
-            var flagReport = new TwoColumnReport("Flags");
-            Flags.Each(x => flagReport.Add(x.ToUsageDescription(), x.Description));
-            flagReport.Write();
+            return;
+            var table = new Table { Border = TableBorder.SimpleHeavy };
+            table.AddColumns("Flag Usage", "Description");
+            table.Columns[0].Alignment = Justify.Right;
+            foreach (var flag in Flags)
+            {
+                table.AddRow(flag.ToUsageDescription(), flag.Description);
+            }
+            
+            AnsiConsole.Write(table);
         }
 
         public UsageExpression<T> AddUsage<T>(string description)

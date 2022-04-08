@@ -9,6 +9,7 @@ using BaselineTypeDiscovery;
 using Microsoft.Extensions.Hosting;
 using Oakton.Help;
 using Oakton.Parsing;
+using Spectre.Console;
 
 namespace Oakton
 {
@@ -350,7 +351,6 @@ namespace Oakton
         ///     Automatically discover any Oakton commands in assemblies marked as
         ///     [assembly: OaktonCommandAssembly]. Also
         /// </summary>
-        /// <param name="applicationAssembly"></param>
         public void RegisterCommandsFromExtensionAssemblies()
         {
             var assemblies = AssemblyFinder
@@ -362,9 +362,11 @@ namespace Oakton
 
             foreach (var assembly in assemblies)
             {
-                Console.WriteLine($"Searching '{assembly.FullName}' for commands");
+                AnsiConsole.MarkupLine($"[gray]Searching '{assembly.FullName}' for commands[/]");
                 RegisterCommands(assembly);
             }
+            
+            AnsiConsole.WriteLine();
         }
     }
 }

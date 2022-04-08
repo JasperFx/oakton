@@ -42,7 +42,7 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            return "[<{0}1 {0}2 {0}3 ...>]".ToFormat(_member.Name.ToLower());
+            return "<{0}1 {0}2 {0}3 ...>".ToFormat(_member.Name.ToLower());
         }
     }
 }

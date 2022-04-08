@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Baseline;
+using Spectre.Console;
 
 namespace Oakton.Help
 {
-    [Description("list all the available commands", Name = "help")]
+    [Description("List all the available commands", Name = "help")]
     public class HelpCommand : OaktonCommand<HelpInput>
     {
         public HelpCommand()
@@ -13,8 +14,6 @@ namespace Oakton.Help
             Usage("Show all the valid usages for a command");
         }
 
-        // TODO -- have it write out its own usage
-        // TODO -- look for command line stuff
         public override bool Execute(HelpInput input)
         {
             if (input.Usage != null)
@@ -41,24 +40,32 @@ namespace Oakton.Help
                 Console.WriteLine("There are no known commands in this executable!");
                 return;
             }
+            
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[bold]The available commands are:[/]");
 
-            var report = new TwoColumnReport("Available commands:");
-            input.CommandTypes.OrderBy(CommandFactory.CommandNameFor).Each(type =>
+            var table = new Table
             {
-                report.Add(CommandFactory.CommandNameFor(type), CommandFactory.DescriptionFor(type));
-            });
+                Border = TableBorder.SimpleHeavy
+            };
+            
+            table.AddColumns("Alias", "Description");
+            foreach (var type in input.CommandTypes.OrderBy(CommandFactory.CommandNameFor))
+            {
+                table.AddRow(CommandFactory.CommandNameFor(type), CommandFactory.DescriptionFor(type));
+            }
 
-            report.Write();
+            AnsiConsole.Write(table);
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("Use [italic]dotnet run -- ? [[command name]][/] or [italic]dotnet run -- help [[command name]][/] to see usage help about a specific command");
         }
 
         private void writeInvalidCommand(string commandName)
         {
-            ConsoleWriter.Line();
-            Console.ForegroundColor = ConsoleColor.Red;
-            ConsoleWriter.Write("'{0}' is not a command.  See available commands.", commandName);
-            Console.ResetColor();
-            ConsoleWriter.Line();
-            ConsoleWriter.Line();
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine($"[red]'{commandName}' is not a command.  See available commands.[/]");
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine();
         }
     }
 }

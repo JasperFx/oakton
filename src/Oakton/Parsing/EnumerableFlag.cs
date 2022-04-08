@@ -6,6 +6,13 @@ using Baseline.Conversion;
 
 namespace Oakton.Parsing
 {
+    public interface IFlag
+    {
+        string ShorthandUsage { get; }
+        string LonghandUsage { get; }
+        string Description { get; }
+    }
+    
     public class EnumerableFlag : Flag
     {
         private readonly MemberInfo _member;
@@ -50,7 +57,7 @@ namespace Oakton.Parsing
             var flagAliases = InputParser.ToFlagAliases(_member);
 
             var name = InputParser.RemoveFlagSuffix(_member.Name).ToLower();
-            return "[{0} [<{1}1 {1}2 {1}3 ...>]]".ToFormat(flagAliases, name);
+            return "[{0} <{1}1 {1}2 {1}3 ...>]".ToFormat(flagAliases, name);
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Tests
         {
             forArg(x => x.HerpDerpFlag)
                 .ToUsageDescription()
-                .ShouldBe("[-h, --herp-derp [<herpderp1 herpderp2 herpderp3 ...>]]");
+                .ShouldBe("[-h, --herp-derp <herpderp1 herpderp2 herpderp3 ...>]");
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Tests
         {
             forArg(x => x.SlagFlag)
                 .ToUsageDescription()
-                .ShouldBe("[-s, --slag [<slag1 slag2 slag3 ...>]]");
+                .ShouldBe("[-s, --slag <slag1 slag2 slag3 ...>]");
         }
     }
 
