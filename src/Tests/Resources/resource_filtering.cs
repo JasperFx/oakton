@@ -8,7 +8,7 @@ namespace Tests.Resources
     public class resource_filtering : ResourceCommandContext
     {
         [Fact]
-        public async Task uses_resource_source()
+        public void uses_resource_source()
         {
             var blue = AddResource("blue", "color");
             var red = AddResource("red", "color");
@@ -25,7 +25,7 @@ namespace Tests.Resources
                 col.Add("white", "color");
             });
             
-            var resources = await applyTheResourceFiltering();
+            var resources = applyTheResourceFiltering();
 
             var colors = resources.Select(x => x.Name).OrderBy(x => x)
                 .ToList();
@@ -34,7 +34,7 @@ namespace Tests.Resources
         }
         
         [Fact]
-        public async Task no_filtering()
+        public void no_filtering()
         {
             var blue = AddResource("blue", "color");
             var red = AddResource("red", "color");
@@ -42,7 +42,7 @@ namespace Tests.Resources
             var tx = AddResource("tx", "state");
             var ar = AddResource("ar", "state");
     
-            var resources = await applyTheResourceFiltering();
+            var resources = applyTheResourceFiltering();
     
             resources.Count.ShouldBe(4);
             
@@ -53,7 +53,7 @@ namespace Tests.Resources
         }
     
         [Fact]
-        public async Task filter_by_name()
+        public void filter_by_name()
         {
             var blue = AddResource("blue", "color");
             var red = AddResource("red", "color");
@@ -63,13 +63,13 @@ namespace Tests.Resources
     
             theInput.NameFlag = "tx";
     
-            var resources = await applyTheResourceFiltering();
+            var resources = applyTheResourceFiltering();
             resources.Single()
                 .ShouldBe(tx);
         }
         
         [Fact]
-        public async Task filter_by_type()
+        public void filter_by_type()
         {
             var blue = AddResource("blue", "color");
             var red = AddResource("red", "color");
@@ -80,7 +80,7 @@ namespace Tests.Resources
             var mo = AddResource("mo", "state");
     
             theInput.TypeFlag = "color";
-            var resources = await applyTheResourceFiltering();
+            var resources = applyTheResourceFiltering();
             
             resources.Count.ShouldBe(3);
             resources.ShouldContain(blue);

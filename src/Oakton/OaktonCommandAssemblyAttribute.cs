@@ -1,4 +1,6 @@
 using System;
+using Baseline;
+using Baseline.Reflection;
 
 namespace Oakton
 {
@@ -10,6 +12,29 @@ namespace Oakton
     [AttributeUsage(AttributeTargets.Assembly)]
     public class OaktonCommandAssemblyAttribute : Attribute
     {
-        
+        public OaktonCommandAssemblyAttribute()
+        {
+        }
+    
+        /// <summary>
+        /// Concrete type implementing the IServiceRegistrations interface that should
+        /// automatically be applied to hosts during environment checks or resource
+        /// commands
+        /// </summary>
+        /// <param name="extensionType"></param>
+        public OaktonCommandAssemblyAttribute(Type extensionType)
+        {
+            if (extensionType.HasDefaultConstructor() && extensionType.CanBeCastTo<IServiceRegistrations>())
+            {
+                ExtensionType = extensionType;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(extensionType),
+                    $"Extension types must have a default, no arg constructor and implement the {nameof(IServiceRegistrations)} interface");
+            }
+        }
+
+        public Type ExtensionType { get; set; }
     }
 }

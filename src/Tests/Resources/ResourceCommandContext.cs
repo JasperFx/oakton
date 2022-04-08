@@ -22,13 +22,13 @@ namespace Tests.Resources
             services.AddRange(_services);
         }
         
-        internal Task<IList<IStatefulResource>>  applyTheResourceFiltering()
+        internal IList<IStatefulResource> applyTheResourceFiltering()
         {
             theInput.HostBuilder = Host.CreateDefaultBuilder().ConfigureServices(CopyResources);
             var command = new ResourcesCommand();
             using var host = theInput.BuildHost();
 
-            return command.FilterResources(theInput, host, CancellationToken.None);
+            return command.FilterResources(theInput, host);
         }
         
         internal async Task theCommandExecutionShouldSucceed()

@@ -110,7 +110,11 @@ namespace Oakton
 
                 factory.ConfigureRun = cmd =>
                 {
-                    if (cmd.Input is IHostBuilderInput i) i.HostBuilder = source;
+                    if (cmd.Input is IHostBuilderInput i)
+                    {
+                        factory.ApplyExtensions(source);
+                        i.HostBuilder = source;
+                    }
                 };
             });
             #endregion

@@ -22,9 +22,13 @@ namespace Oakton.Resources
 
         public override async Task<bool> Execute(ResourceInput input)
         {
+            AnsiConsole.Write(
+                new FigletText("Oakton")
+                    .LeftAligned());
+            
             var cancellation = input.TokenSource.Token;
             using var host = input.BuildHost();
-            var resources = await FilterResources(input, host, cancellation);
+            var resources = FilterResources(input, host);
 
             if (!resources.Any())
             {
@@ -66,13 +70,13 @@ namespace Oakton.Resources
                     return allGood;
                 }),
 
-                _ => false
+                    _ => false
             };
         }
 
-        public async Task<IList<IStatefulResource>> FilterResources(ResourceInput input, IHost host, CancellationToken cancellation)
+        public IList<IStatefulResource> FilterResources(ResourceInput input, IHost host)
         {
-            var resources = await AllResources(host.Services, cancellation);
+            var resources = AllResources(host.Services);
             if (input.NameFlag.IsNotEmpty())
             {
                 resources = resources.Where(x => x.Name.EqualsIgnoreCase(input.NameFlag)).ToList();
@@ -155,8 +159,7 @@ namespace Oakton.Resources
             return false;
         }
 
-        internal async Task<IList<IStatefulResource>> AllResources(IServiceProvider services,
-            CancellationToken cancellation)
+        internal IList<IStatefulResource> AllResources(IServiceProvider services)
         {
             var list = services.GetServices<IStatefulResource>().ToList();
             foreach (var source in services.GetServices<IStatefulResourceSource>())

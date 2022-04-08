@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Extensions.Hosting;
 
 namespace Oakton
 {
@@ -14,5 +15,7 @@ namespace Oakton
         void RegisterCommands(Assembly assembly);
 
         IEnumerable<IOaktonCommand> BuildAllCommands();
+
+        void ApplyExtensions(IHostBuilder builder);
     }
 }

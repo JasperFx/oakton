@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Baseline;
 using ExtensionCommands;
+using Lamar;
+using Lamar.Microsoft.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Oakton;
 using Oakton.Help;
 using Shouldly;
@@ -372,6 +376,26 @@ namespace Tests
           factory.RegisterCommand<NoDefaultConstructorCommand>();
           var run = factory.BuildRun("nodefaultconstructor");
           (await run.Execute()).ShouldBe(true);
+        }
+
+        [Fact]
+        public void discover_and_apply_extension_service()
+        {
+            var factory = new CommandFactory(new NoDefaultConstructorCommandCreator());
+            
+            // There's a marked extension type on this assembly
+            factory.RegisterCommands(typeof(ExtensionInput).Assembly);
+
+            var builder = Host.CreateDefaultBuilder()
+                .UseLamar();
+            
+            factory.ApplyExtensions(builder);
+
+            using var host = builder.Build();
+            var container = (IContainer)host.Services;
+            
+            container.Model.For<IExtensionService>().Default.ImplementationType
+                .ShouldBe(typeof(ExtensionService));
         }
     }
 

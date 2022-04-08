@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Baseline;
 using Baseline.Reflection;
 using BaselineTypeDiscovery;
+using Microsoft.Extensions.Hosting;
 using Oakton.Help;
 using Oakton.Parsing;
 
@@ -32,6 +33,8 @@ namespace Oakton
         ///     Alter the input object or the command object just before executing the command
         /// </summary>
         public Action<CommandRun> ConfigureRun = run => { };
+
+        private IList<Type> _extensionTypes = new List<Type>();
 
         public CommandFactory()
         {
@@ -118,11 +121,35 @@ namespace Oakton
                 .GetExportedTypes()
                 .Where(IsOaktonCommandType)
                 .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
+
+            if (assembly.HasAttribute<OaktonCommandAssemblyAttribute>())
+            {
+                var att = assembly.GetAttribute<OaktonCommandAssemblyAttribute>();
+                if (att.ExtensionType != null)
+                {
+                    _extensionTypes.Add(att.ExtensionType);
+                }
+            }
         }
 
         public IEnumerable<IOaktonCommand> BuildAllCommands()
         {
             return _commandTypes.Select(x => _commandCreator.CreateCommand(x));
+        }
+
+        public void ApplyExtensions(IHostBuilder builder)
+        {
+            if (_extensionTypes.Any())
+            {
+                builder.ConfigureServices(services =>
+                {
+                    foreach (var extensionType in _extensionTypes)
+                    {
+                        var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
+                        extension?.Configure(services);
+                    }
+                });
+            }
         }
 
 

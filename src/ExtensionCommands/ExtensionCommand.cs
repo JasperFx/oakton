@@ -1,13 +1,35 @@
 ﻿using System;
+using ExtensionCommands;
+using Microsoft.Extensions.DependencyInjection;
 using Oakton;
+using Oakton.Resources;
 
-[assembly:OaktonCommandAssembly]
+[assembly:OaktonCommandAssembly(typeof(ExtensionServices))]
 
 namespace ExtensionCommands
 {
+    public class ExtensionServices : IServiceRegistrations
+    {
+        public void Configure(IServiceCollection services)
+        {
+            services.AddSingleton<IExtensionService, ExtensionService>();
+            services.AddSingleton<IStatefulResource>(new ExtensionResource());
+        }
+    }
+    
+    public interface IExtensionService{}
+    public class ExtensionService : IExtensionService{}
+    
     public class ExtensionInput
     {
         
+    }
+
+    public class ExtensionResource : StatefulResourceBase
+    {
+        public ExtensionResource() : base("Extension", "The Extension")
+        {
+        }
     }
     
     [Description("An extension command loaded from another assembly", Name = "extension")]
