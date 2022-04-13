@@ -40,31 +40,31 @@ namespace Oakton.Resources
 
             return input.Action switch
             {
-                ResourceAction.setup => await ExecuteOnEach(resources, cancellation, "Setting up resources...", r =>
+                ResourceAction.setup => await ExecuteOnEach("Resource Setup",resources, cancellation, "Setting up resources...", r =>
                 {
                     r.Setup(cancellation);
                     return r.DetermineStatus(cancellation);
                 }),
 
-                ResourceAction.teardown => await ExecuteOnEach(resources, cancellation, "Tearing down resources...",
+                ResourceAction.teardown => await ExecuteOnEach("Resource Teardown",resources, cancellation, "Tearing down resources...",
                     async r =>
                     {
                         await r.Teardown(cancellation);
                         return allGood;
                     }),
 
-                ResourceAction.statistics => await ExecuteOnEach(resources, cancellation,
+                ResourceAction.statistics => await ExecuteOnEach("Resource Statistics",resources, cancellation,
                     "Determining resource status...",
                     r => r.DetermineStatus(cancellation)),
 
-                ResourceAction.check => await ExecuteOnEach(resources, cancellation, "Checking up on resources...",
+                ResourceAction.check => await ExecuteOnEach("Resource Checks",resources, cancellation, "Checking up on resources...",
                     async r =>
                     {
                         await r.Check(cancellation);
                         return allGood;
                     }),
 
-                ResourceAction.clear => await ExecuteOnEach(resources, cancellation, "Clearing resources...", async r =>
+                ResourceAction.clear => await ExecuteOnEach("Clearing Resource State",resources, cancellation, "Clearing resources...", async r =>
                 {
                     await r.ClearState(cancellation);
                     return allGood;
@@ -90,15 +90,17 @@ namespace Oakton.Resources
             return resources;
         }
 
+        internal class ResourceRecord
+        {
+            public IStatefulResource Resource { get; set; }
+            public IRenderable Status { get; set; }
+        }
 
-        internal async Task<bool> ExecuteOnEach(IList<IStatefulResource> resources, CancellationToken token,
+        internal async Task<bool> ExecuteOnEach(string heading, IList<IStatefulResource> resources, CancellationToken token,
             string progressTitle, Func<IStatefulResource, Task<IRenderable>> execution)
         {
             var exceptions = new List<Exception>();
-            var table = new Table();
-            table.Border(TableBorder.Rounded);
-            table.AddColumns("Resource", "Type", "Status");
-            table.Columns[2].NoWrap();
+            var records = new List<ResourceRecord>();
 
             var timedout = false;
 
@@ -120,11 +122,16 @@ namespace Oakton.Resources
                     try
                     {
                         var status = await execution(resource);
-                        table.AddRow(new Markup(resource.Name), new Markup(resource.Type), status);
+                        var record = new ResourceRecord { Resource = resource, Status = status };
+                        records.Add(record);
                     }
                     catch (Exception e)
                     {
-                        table.AddRow(new Markup(resource.Name), new Markup(resource.Type), new Markup($"[red]{e.Message}[/]"));
+                        AnsiConsole.WriteException(e);
+                        
+                        var record = new ResourceRecord { Resource = resource, Status = new Markup("[red]Failed![/]") };
+                        records.Add(record);
+                        
                         exceptions.Add(e);
                     }
                     finally
@@ -142,21 +149,21 @@ namespace Oakton.Resources
                 return false;
             }
 
-            AnsiConsole.Write(table);
-
-            if (!exceptions.Any())
+            var groups = records.GroupBy(x => x.Resource.Type);
+            var tree = new Tree(heading);
+            foreach (var @group in groups)
             {
-                return true;
+                var groupNode = tree.AddNode(@group.Key);
+                foreach (var @record in @group)
+                {
+                    groupNode.AddNode(@record.Resource.Name).AddNode(@record.Status);
+                }
             }
+            
+            AnsiConsole.Write(tree);
+            
 
-            AnsiConsole.WriteLine("Exceptions:");
-            foreach (var exception in exceptions)
-            {
-                AnsiConsole.WriteException(exception);
-                AnsiConsole.WriteLine();
-            }
-
-            return false;
+            return !exceptions.Any();
         }
 
         internal IList<IStatefulResource> AllResources(IServiceProvider services)
