@@ -138,18 +138,33 @@ namespace Oakton
             return _commandTypes.Select(x => _commandCreator.CreateCommand(x));
         }
 
+        // Only used to disable the console writing on errors
+        private static bool _hasAppliedExtensions = false;
+
         public void ApplyExtensions(IHostBuilder builder)
         {
             if (_extensionTypes.Any())
             {
-                builder.ConfigureServices(services =>
+                try
                 {
-                    foreach (var extensionType in _extensionTypes)
+                    builder.ConfigureServices(services =>
                     {
-                        var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
-                        extension?.Configure(services);
-                    }
-                });
+                        foreach (var extensionType in _extensionTypes)
+                        {
+                            var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
+                            extension?.Configure(services);
+                        }
+                    });
+
+                    _hasAppliedExtensions = true;
+                }
+                catch (Exception)
+                {
+                    // Swallow the error
+                    if (_hasAppliedExtensions) return;
+                    
+                    AnsiConsole.MarkupLine($"[red]Unable to apply Oakton extensions. Try adding IHostBuilder.{nameof(CommandLineHostingExtensions.ApplyOaktonExtensions)}(); to your bootstrapping code to apply Oakton extension loading[/]");
+                }
             }
         }
 
@@ -362,7 +377,10 @@ namespace Oakton
 
             foreach (var assembly in assemblies)
             {
-                AnsiConsole.MarkupLine($"[gray]Searching '{assembly.FullName}' for commands[/]");
+                if (!_hasAppliedExtensions)
+                {
+                    AnsiConsole.MarkupLine($"[gray]Searching '{assembly.FullName}' for commands[/]");
+                }
                 RegisterCommands(assembly);
             }
             

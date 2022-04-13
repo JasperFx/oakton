@@ -5,51 +5,65 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Baseline;
 using Baseline.Expressions;
-using Baseline.Reflection;
 using Oakton.Parsing;
-using Oakton.Reporting;
 using Spectre.Console;
-using System.Collections.Generic;
-
-
 
 namespace Oakton.Help
 {
     public class UsageGraph
     {
-        private readonly string _commandName;
-        private readonly Type _commandType;
-        private readonly IList<CommandUsage> _usages = new List<CommandUsage>();
-        private string _description;
-        private readonly Type _inputType;
         private readonly List<ITokenHandler> _handlers;
-        private readonly Lazy<IEnumerable<CommandUsage>> _validUsages; 
+        private readonly Type _inputType;
+        private readonly IList<CommandUsage> _usages = new List<CommandUsage>();
+        private readonly Lazy<IEnumerable<CommandUsage>> _validUsages;
 
         public UsageGraph(Type commandType)
         {
-            _commandType = commandType;
-            _inputType = commandType.FindInterfaceThatCloses(typeof (IOaktonCommand<>)).GetTypeInfo().GetGenericArguments().First();
+            _inputType = commandType.FindInterfaceThatCloses(typeof(IOaktonCommand<>)).GetTypeInfo()
+                .GetGenericArguments().First();
 
-            _commandName = CommandFactory.CommandNameFor(commandType);
-            _commandType.ForAttribute<DescriptionAttribute>(att => { _description = att.Description; });
+            CommandName = CommandFactory.CommandNameFor(commandType);
+            commandType.ForAttribute<DescriptionAttribute>(att => { Description = att.Description; });
 
-            if (_description == null) _description = _commandType.Name;
+            if (Description == null)
+            {
+                Description = commandType.Name;
+            }
 
             _handlers = InputParser.GetHandlers(_inputType);
 
-            _validUsages = new Lazy<IEnumerable<CommandUsage>>(() => {
-                if (_usages.Any()) return _usages;
-
-                var usage = new CommandUsage()
+            _validUsages = new Lazy<IEnumerable<CommandUsage>>(() =>
+            {
+                if (_usages.Any())
                 {
-                    Description = _description,
+                    return _usages;
+                }
+
+                var usage = new CommandUsage
+                {
+                    Description = Description,
                     Arguments = _handlers.OfType<Argument>(),
                     ValidFlags = _handlers.Where(x => !(x is Argument))
                 };
 
-                return new CommandUsage[]{usage};
+                return new[] { usage };
             });
         }
+
+        public IEnumerable<ITokenHandler> Handlers => _handlers;
+
+        public string CommandName { get; }
+
+        public IEnumerable<Argument> Arguments => _handlers.OfType<Argument>();
+
+        public IEnumerable<ITokenHandler> Flags
+        {
+            get { return _handlers.Where(x => !(x is Argument)); }
+        }
+
+        public IEnumerable<CommandUsage> Usages => _validUsages.Value;
+
+        public string Description { get; private set; }
 
         public object BuildInput(Queue<string> tokens, ICommandCreator creator)
         {
@@ -59,7 +73,11 @@ namespace Oakton.Help
             while (tokens.Any())
             {
                 var handler = _handlers.FirstOrDefault(h => h.Handle(model, tokens));
-                if (handler == null) throw new InvalidUsageException("Unknown argument or flag for value " + tokens.Peek());
+                if (handler == null)
+                {
+                    throw new InvalidUsageException("Unknown argument or flag for value " + tokens.Peek());
+                }
+
                 responding.Add(handler);
             }
 
@@ -73,26 +91,8 @@ namespace Oakton.Help
 
         public bool IsValidUsage(IEnumerable<ITokenHandler> handlers)
         {
-            return _validUsages.Value.Any(x => x.IsValidUsage(handlers));       
+            return _validUsages.Value.Any(x => x.IsValidUsage(handlers));
         }
-
-        public IEnumerable<ITokenHandler> Handlers => _handlers;
-
-        public string CommandName => _commandName;
-
-        public IEnumerable<Argument> Arguments => _handlers.OfType<Argument>();
-
-        public IEnumerable<ITokenHandler> Flags
-        {
-            get
-            {
-                return _handlers.Where(x => !(x is Argument));
-            }
-        }
-
-        public IEnumerable<CommandUsage> Usages => _validUsages.Value;
-
-        public string Description => _description;
 
         public void WriteUsages(string appName)
         {
@@ -101,23 +101,19 @@ namespace Oakton.Help
                 AnsiConsole.MarkupLine("[gray]No documentation for this command[/]");
                 return;
             }
-            
-            var tree = new Tree(new Markup($"[bold]{_commandName}[/] - [italic]{_description}[/]"));
-            
+
+            var tree = new Tree(new Markup($"[bold]{CommandName}[/] - [italic]{Description}[/]"));
+
             foreach (var usage in Usages)
             {
-
                 var usageNode = tree.AddNode(usage.Description);
-                var text = $"[italic]{appName} {_commandName}[/] {usage.Arguments.Select(x => x.ToUsageDescription()).Join(" ")}";
+                var text =
+                    $"[italic]{appName} {CommandName}[/] {usage.Arguments.Select(x => x.ToUsageDescription()).Join(" ")}";
                 var execution = usageNode.AddNode(text);
                 foreach (var flag in usage.ValidFlags)
-                {
                     execution.AddNode(new Markup($"[cyan][{flag.ToUsageDescription()}][/]"));
-                }
-                
-
             }
-            
+
             AnsiConsole.Write(tree);
             AnsiConsole.WriteLine();
 
@@ -128,64 +124,28 @@ namespace Oakton.Help
 
             table.AddColumns("Usage", "Description");
             table.Columns[0].Alignment = Justify.Right;
-            
-            foreach (var argument in Arguments)
-            {
-                table.AddRow(argument.MemberName.ToLower(), argument.Description);
-            }
 
-            foreach (var flag in Flags)
-            {
-                table.AddRow("[" + flag.ToUsageDescription() + "]", flag.Description);
-            }
+            foreach (var argument in Arguments) table.AddRow(argument.MemberName.ToLower(), argument.Description);
 
-            AnsiConsole.Write(table);
-        }
+            foreach (var flag in Flags) table.AddRow("[" + flag.ToUsageDescription() + "]", flag.Description);
 
-        private void writeMultipleUsages(string appName)
-        {
-            var usageReport = new TwoColumnReport("Usages"){
-                SecondColumnColor = ConsoleColor.Cyan
-            };
-
-            Usages.OrderBy(x => x.Arguments.Count()).ThenBy(x => x.ValidFlags.Count()).Each(u =>
-            {
-                usageReport.Add(u.Description, u.ToUsage(appName, _commandName));
-            });
-
-            usageReport.Write();
-        }
-
-        private void writeArguments()
-        {
-            var argumentReport = new TwoColumnReport("Arguments");
-            Arguments.Each(x => argumentReport.Add(x.MemberName.ToLower(), x.Description));
-            argumentReport.Write();
-        }
-
-        private void writeFlags()
-        {
-            return;
-            var table = new Table { Border = TableBorder.SimpleHeavy };
-            table.AddColumns("Flag Usage", "Description");
-            table.Columns[0].Alignment = Justify.Right;
-            foreach (var flag in Flags)
-            {
-                table.AddRow(flag.ToUsageDescription(), flag.Description);
-            }
-            
             AnsiConsole.Write(table);
         }
 
         public UsageExpression<T> AddUsage<T>(string description)
         {
             return new UsageExpression<T>(this, description);
-        } 
+        }
+
+        public CommandUsage FindUsage(string description)
+        {
+            return _usages.FirstOrDefault(x => x.Description == description);
+        }
 
         public class UsageExpression<T>
         {
-            private readonly UsageGraph _parent;
             private readonly CommandUsage _commandUsage;
+            private readonly UsageGraph _parent;
 
             public UsageExpression(UsageGraph parent, string description)
             {
@@ -200,25 +160,23 @@ namespace Oakton.Help
 
                 _parent._usages.Add(_commandUsage);
             }
-            
+
             /// <summary>
-            /// Just expresses that this usage has no arguments
+            ///     Just expresses that this usage has no arguments
             /// </summary>
             public UsageExpression<T> NoArguments()
             {
                 return Arguments();
             }
 
-            
+
             /// <summary>
-            /// The valid arguments for this command usage in exact order
+            ///     The valid arguments for this command usage in exact order
             /// </summary>
             /// <param name="properties"></param>
             /// <returns></returns>
             public UsageExpression<T> Arguments(params Expression<Func<T, object>>[] properties)
             {
-
-
                 _commandUsage.Arguments =
                     properties.Select(
                         expr =>
@@ -233,8 +191,8 @@ namespace Oakton.Help
             }
 
             /// <summary>
-            /// Optional, use this to limit the flags that are valid with this usage.  If this method is not called,
-            /// the CLI support assumes that every possible flag from the input type is valid
+            ///     Optional, use this to limit the flags that are valid with this usage.  If this method is not called,
+            ///     the CLI support assumes that every possible flag from the input type is valid
             /// </summary>
             /// <param name="properties"></param>
             public void ValidFlags(params Expression<Func<T, object>>[] properties)
@@ -243,21 +201,13 @@ namespace Oakton.Help
                     properties.Select(
                         expr =>
                         {
-                            var finder = new Baseline.Expressions.FindMembers();
+                            var finder = new FindMembers();
                             finder.Visit(expr);
                             var member = finder.Members.Last();
 
                             return _parent.Handlers.FirstOrDefault(x => x.MemberName == member.Name);
                         }).ToArray();
             }
-
-
-
-        }
-
-        public CommandUsage FindUsage(string description)
-        {
-            return _usages.FirstOrDefault(x => x.Description == description);
         }
     }
 

@@ -15,6 +15,22 @@ namespace Oakton
     public static class CommandLineHostingExtensions
     {
         /// <summary>
+        /// Discover and apply Oakton extensions to this application during
+        /// bootstrapping. This is only necessary when using the WebApplication
+        /// approach to bootstrapping applications introduced in .Net 6
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IHostBuilder ApplyOaktonExtensions(this IHostBuilder builder)
+        {
+            var factory = new CommandFactory();
+            factory.RegisterCommandsFromExtensionAssemblies();
+            factory.ApplyExtensions(builder);
+
+            return builder;
+        }
+        
+        /// <summary>
         /// Execute the extended Oakton command line support for your configured WebHostBuilder.
         /// This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
         /// of your AspNetCore application
