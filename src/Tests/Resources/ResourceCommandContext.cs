@@ -21,6 +21,11 @@ namespace Tests.Resources
         {
             services.AddRange(_services);
         }
+
+        internal Task<IHost> buildHost()
+        {
+            return Host.CreateDefaultBuilder().ConfigureServices(CopyResources).StartAsync();
+        }
         
         internal IList<IStatefulResource> applyTheResourceFiltering()
         {
@@ -28,7 +33,7 @@ namespace Tests.Resources
             var command = new ResourcesCommand();
             using var host = theInput.BuildHost();
 
-            return command.FilterResources(theInput, host);
+            return command.FindResources(theInput, host);
         }
         
         internal async Task theCommandExecutionShouldSucceed()

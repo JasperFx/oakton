@@ -1,11 +1,13 @@
 ﻿using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using Lamar;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSubstitute;
+using NSubstitute.ReceivedExtensions;
 using Oakton.Resources;
 using Shouldly;
 using Xunit;
@@ -117,6 +119,94 @@ namespace Tests.Resources
                 await resource.Received().Setup(Arg.Any<CancellationToken>());
             }
 
+        }
+
+        [Fact]
+        public async Task setup_all()
+        {
+            var blue = AddResource("blue", "color");
+            var red = AddResource("red", "color");
+
+            AddSource(col =>
+            {
+                col.Add("purple", "color");
+                col.Add("orange", "color");
+            });
+            
+            AddSource(col =>
+            {
+                col.Add("green", "color");
+                col.Add("white", "color");
+            });
+
+            using var host = await buildHost();
+            await host.SetupResources();
+
+            foreach (var resource in AllResources)
+            {
+                await resource.Received().Setup(Arg.Any<CancellationToken>());
+            }
+            
+            
+        }
+        
+        [Fact]
+        public async Task reset_all()
+        {
+            var blue = AddResource("blue", "color");
+            var red = AddResource("red", "color");
+
+            AddSource(col =>
+            {
+                col.Add("purple", "color");
+                col.Add("orange", "color");
+            });
+            
+            AddSource(col =>
+            {
+                col.Add("green", "color");
+                col.Add("white", "color");
+            });
+
+            using var host = await buildHost();
+            await host.ResetResourceState();
+
+            foreach (var resource in AllResources)
+            {
+                await resource.Received().Setup(Arg.Any<CancellationToken>());
+                await resource.Received().ClearState(Arg.Any<CancellationToken>());
+            }
+            
+            
+        }
+        
+        [Fact]
+        public async Task teardown_all()
+        {
+            var blue = AddResource("blue", "color");
+            var red = AddResource("red", "color");
+
+            AddSource(col =>
+            {
+                col.Add("purple", "color");
+                col.Add("orange", "color");
+            });
+            
+            AddSource(col =>
+            {
+                col.Add("green", "color");
+                col.Add("white", "color");
+            });
+
+            using var host = await buildHost();
+            await host.TeardownResources();
+
+            foreach (var resource in AllResources)
+            {
+                await resource.Received().Teardown(Arg.Any<CancellationToken>());
+            }
+            
+            
         }
     }
 }

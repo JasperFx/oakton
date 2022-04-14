@@ -28,7 +28,7 @@ namespace Oakton.Resources
             
             var cancellation = input.TokenSource.Token;
             using var host = input.BuildHost();
-            var resources = FilterResources(input, host);
+            var resources = FindResources(input, host);
 
             if (!resources.Any())
             {
@@ -74,20 +74,9 @@ namespace Oakton.Resources
             };
         }
 
-        public IList<IStatefulResource> FilterResources(ResourceInput input, IHost host)
+        public IList<IStatefulResource> FindResources(ResourceInput input, IHost host)
         {
-            var resources = AllResources(host.Services);
-            if (input.NameFlag.IsNotEmpty())
-            {
-                resources = resources.Where(x => x.Name.EqualsIgnoreCase(input.NameFlag)).ToList();
-            }
-
-            if (input.TypeFlag.IsNotEmpty())
-            {
-                resources = resources.Where(x => x.Type.EqualsIgnoreCase(input.TypeFlag)).ToList();
-            }
-
-            return resources;
+            return FindResources(host.Services, input.TypeFlag, input.NameFlag);
         }
 
         internal class ResourceRecord
@@ -151,6 +140,7 @@ namespace Oakton.Resources
 
             var groups = records.GroupBy(x => x.Resource.Type);
             var tree = new Tree(heading);
+            tree.Guide = TreeGuide.BoldLine;
             foreach (var @group in groups)
             {
                 var groupNode = tree.AddNode(@group.Key);
@@ -166,13 +156,23 @@ namespace Oakton.Resources
             return !exceptions.Any();
         }
 
-        internal IList<IStatefulResource> AllResources(IServiceProvider services)
+        internal static IList<IStatefulResource> FindResources(IServiceProvider services, string typeName, string resourceName)
         {
             var list = services.GetServices<IStatefulResource>().ToList();
             foreach (var source in services.GetServices<IStatefulResourceSource>())
             {
                 var sources = source.FindResources();
                 list.AddRange(sources);
+            }
+
+            if (resourceName.IsNotEmpty())
+            {
+                list = list.Where(x => x.Name.EqualsIgnoreCase(resourceName)).ToList();
+            }
+
+            if (typeName.IsNotEmpty())
+            {
+                list = list.Where(x => x.Type.EqualsIgnoreCase(typeName)).ToList();
             }
 
             return list.OrderBy(x => x.Type).ThenBy(x => x.Name).ToList();
