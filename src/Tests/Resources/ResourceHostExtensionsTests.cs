@@ -117,6 +117,43 @@ namespace Tests.Resources
             foreach (var resource in AllResources)
             {
                 await resource.Received().Setup(Arg.Any<CancellationToken>());
+                await resource.DidNotReceive().ClearState(Arg.Any<CancellationToken>());
+            }
+
+        }
+        
+        
+        [Fact]
+        public async Task runs_all_resources_and_resets()
+        {
+            var blue = AddResource("blue", "color");
+            var red = AddResource("red", "color");
+
+            AddSource(col =>
+            {
+                col.Add("purple", "color");
+                col.Add("orange", "color");
+            });
+            
+            AddSource(col =>
+            {
+                col.Add("green", "color");
+                col.Add("white", "color");
+            });
+
+            using var host = await Host.CreateDefaultBuilder()
+                .UseResourceSetupOnStartup()
+                .ConfigureServices(services =>
+                {
+                    CopyResources(services);
+                    services.AddResourceSetupOnStartup(StartupAction.ResetState);
+                })
+                .StartAsync();
+
+            foreach (var resource in AllResources)
+            {
+                await resource.Received().Setup(Arg.Any<CancellationToken>());
+                await resource.Received().ClearState(Arg.Any<CancellationToken>());
             }
 
         }

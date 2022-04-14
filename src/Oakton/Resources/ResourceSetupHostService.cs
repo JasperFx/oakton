@@ -8,16 +8,23 @@ using Microsoft.Extensions.Logging;
 
 namespace Oakton.Resources
 {
+    internal class ResourceSetupOptions
+    {
+        public StartupAction Action { get; set; } = StartupAction.SetupOnly;
+    }
+    
     internal class ResourceSetupHostService : IHostedService
     {
         private readonly IStatefulResource[] _resources;
         private readonly IStatefulResourceSource[] _sources;
+        private readonly ResourceSetupOptions _options;
         private readonly ILogger<ResourceSetupHostService> _logger;
 
-        public ResourceSetupHostService(IEnumerable<IStatefulResource> resources, IEnumerable<IStatefulResourceSource> sources, ILogger<ResourceSetupHostService> logger)
+        public ResourceSetupHostService(ResourceSetupOptions options, IEnumerable<IStatefulResource> resources, IEnumerable<IStatefulResourceSource> sources, ILogger<ResourceSetupHostService> logger)
         {
             _resources = resources.ToArray();
             _sources = sources.ToArray();
+            _options = options;
             _logger = logger;
         }
 
@@ -39,12 +46,18 @@ namespace Oakton.Resources
                 }
             }
 
-            Func<IStatefulResource, CancellationToken, ValueTask> execute = async (r, t) =>
+            async ValueTask execute(IStatefulResource r, CancellationToken t)
             {
                 try
                 {
                     await r.Setup(cancellationToken).ConfigureAwait(false);
-                    _logger.LogInformation("Ran setup on resource {Name} of type {Type}", r.Name, r.Type);
+                    _logger.LogInformation("Ran Setup() on resource {Name} of type {Type}", r.Name, r.Type);
+
+                    if (_options.Action == StartupAction.ResetState)
+                    {
+                        await r.ClearState(cancellationToken).ConfigureAwait(false);
+                        _logger.LogInformation("Ran ClearState() on resource {Name} of type {Type}", r.Name, r.Type);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -53,7 +66,7 @@ namespace Oakton.Resources
 
                     list.Add(wrapped);
                 }
-            };
+            }
 
 #if NET6_0_OR_GREATER
             await Parallel.ForEachAsync(resources, cancellationToken, execute);

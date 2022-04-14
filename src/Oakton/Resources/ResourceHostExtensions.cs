@@ -7,14 +7,29 @@ using Microsoft.Extensions.Hosting;
 
 namespace Oakton.Resources
 {
+    public enum StartupAction
+    {
+        /// <summary>
+        /// Only check that each resource is set up and functional
+        /// </summary>
+        SetupOnly,
+        
+        /// <summary>
+        /// Check that each resource is set up, functional, and clear off
+        /// any existing state. This is mainly meant for automated testing scenarios
+        /// </summary>
+        ResetState
+    }
+    
     public static class ResourceHostExtensions
     {
         /// <summary>
         /// Add a hosted service that will do setup on all registered stateful resources
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="action">Configure the startup action. The default is SetupOnly</param>
         /// <returns></returns>
-        public static IServiceCollection AddResourceSetupOnStartup(this IServiceCollection services)
+        public static IServiceCollection AddResourceSetupOnStartup(this IServiceCollection services, StartupAction action = StartupAction.SetupOnly)
         {
             if (!services.Any(x =>
                     x.ServiceType == typeof(IHostedService) &&
@@ -24,6 +39,9 @@ namespace Oakton.Resources
                 services.AddLogging();
             }
 
+            var options = new ResourceSetupOptions { Action = action };
+            services.AddSingleton(options);
+
             return services;
         }
         
@@ -31,10 +49,11 @@ namespace Oakton.Resources
         /// Add a hosted service that will do setup on all registered stateful resources
         /// </summary>
         /// <param name="builder"></param>
+        /// <param name="action">Configure the startup action. The default is SetupOnly</param>
         /// <returns></returns>
-        public static IHostBuilder UseResourceSetupOnStartup(this IHostBuilder builder)
+        public static IHostBuilder UseResourceSetupOnStartup(this IHostBuilder builder, StartupAction action = StartupAction.SetupOnly)
         {
-            return builder.ConfigureServices(s => s.AddResourceSetupOnStartup());
+            return builder.ConfigureServices(s => s.AddResourceSetupOnStartup(action));
         }
         
         /// <summary>
@@ -42,15 +61,15 @@ namespace Oakton.Resources
         /// if the environment name is "Development"
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="types"></param>
+        /// <param name="action">Configure the startup action. The default is SetupOnly</param>
         /// <returns></returns>
-        public static IHostBuilder UseResourceSetupOnStartupInDevelopment(this IHostBuilder builder, params string[] types)
+        public static IHostBuilder UseResourceSetupOnStartupInDevelopment(this IHostBuilder builder, StartupAction action = StartupAction.SetupOnly)
         {
             return builder.ConfigureServices((context, services) =>
             {
                 if (context.HostingEnvironment.IsDevelopment())
                 {
-                    services.AddResourceSetupOnStartup();
+                    services.AddResourceSetupOnStartup(action);
                 }
             });
         }
