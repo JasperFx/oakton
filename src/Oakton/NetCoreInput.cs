@@ -6,6 +6,8 @@ using Baseline;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Spectre.Console;
 
 namespace Oakton
 {
@@ -40,8 +42,32 @@ namespace Oakton
             // LogLevel
             if (LogLevelFlag.HasValue)
             {
-                Console.WriteLine($"Overwriting the minimum log level to {LogLevelFlag.Value}");
-                HostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
+                AnsiConsole.MarkupLine($"[gray]Overwriting the minimum log level to {LogLevelFlag.Value}[/]");
+                try
+                {
+                    if (HostBuilder is PreBuiltHostBuilder builder)
+                    {
+                        var options = builder.Host.Services.GetService(typeof(LoggerFilterOptions)) as LoggerFilterOptions;
+                        options ??=
+                            (builder.Host.Services.GetService(typeof(IOptionsMonitor<LoggerFilterOptions>)) as
+                                IOptionsMonitor<LoggerFilterOptions>)
+                            ?.CurrentValue;
+
+                        if (options != null)
+                        {
+                            options.MinLevel = LogLevel.Error;
+                        }
+                    }
+                    else
+                    {
+                        HostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
+                    }
+                }
+                catch (Exception)
+                {
+                    AnsiConsole.Markup("[gray]Unable to override the logging level[/]");
+                }
+                
             }
 
             if (VerboseFlag)
