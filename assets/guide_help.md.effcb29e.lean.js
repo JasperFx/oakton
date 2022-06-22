@@ -1,0 +1,1 @@
+import{_ as n,c as s,o as a,a as t}from"./app.148d2893.js";const h='{"title":"Help Text","description":"","frontmatter":{},"relativePath":"guide/help.md","lastUpdated":1655913929300}',p={},e=t("",15),o=[e];function c(l,u,i,k,r,m){return a(),s("div",null,o)}var g=n(p,[["render",c]]);export{h as __pageData,g as default};
