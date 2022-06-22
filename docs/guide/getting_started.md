@@ -2,7 +2,7 @@
 
 ::: tip warning
 The power of Oakton really comes into play when it's combined with applications using the `HostBuilder`
-mechanism for bootstrapping .Net applications. See [Integration with IHost](/guide/host) for more information.
+mechanism for bootstrapping .Net applications. See [Integration with IHost](/guide/host/) for more information.
 :::
 
 Oakton originated in the now defunct [FubuCore](https://github.com/DarthFubuMVC/fubucore) project in 2010 as a mechanism to allow our .Net

@@ -255,3 +255,5 @@ somewhere.xml
 .DS_Store
 
 doc-target
+
+docs/.vitepress/dist

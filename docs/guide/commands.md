@@ -9,7 +9,7 @@ Oakton commands consist of two parts:
 1. A concrete input class that holds all the argument and flag data inputs
 1. A concrete class that inherits from `OaktonCommand<T>` or `OaktonAsyncCommand<T>` where the "T" is the input class in the first bullet point
 
-Looking again at the `NameCommand` from the [getting started](/guide) topic:
+Looking again at the `NameCommand` from the [getting started](/guide/) topic:
 
 <!-- snippet: sample_NameCommand -->
 <a id='snippet-sample_namecommand'></a>

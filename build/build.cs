@@ -15,6 +15,22 @@ namespace build
         private const string BUILD_VERSION = "4.0.0";
         private const string GITHUB_REPO = "https://github.com/jasperfx/oakton.git";
 
+                private const string Forwards = @"
+documentation/
+documentation/getting_started/
+documentation/commands/
+documentation/hostbuilder/
+documentation/hostbuilder/run/
+documentation/hostbuilder/environment/
+documentation/hostbuilder/extensions/
+documentation/hostbuilder/describe/
+documentation/bootstrapping/
+documentation/parsing/
+documentation/help/
+documentation/opts/
+documentation/discovery/
+
+";
 
         private static void Main(string[] args)
         {
@@ -117,6 +133,7 @@ namespace build
         }
 
 
+
         private static void PublishDocs(string repo, bool isGHActionContext=false)
         {
             var docTargetDir = "doc-target";
@@ -144,10 +161,55 @@ namespace build
 
             CopyFilesRecursively(buildDir, docTargetDir);
 
+            WriteForwards();
+
             Run("git", "add --all", docTargetDir);
             Run("git", $"commit -a -m \"Documentation Update for {BUILD_VERSION}\" --allow-empty", docTargetDir);
             Run("git", $"push origin {branchName}", docTargetDir);
         }
+
+        private static void WriteForwards()
+        {
+            var reader = new StringReader(Forwards);
+            var url = reader.ReadLine();
+            while (url != null)
+            {
+                if (!string.IsNullOrEmpty(url))
+                {
+                    WriteForwardingHtml(url, "oakton/guide");
+                }
+
+                url = reader.ReadLine();
+            }
+        }
+
+        private static void WriteForwardingHtml(string from, string to)
+        {
+            var parts = from.TrimEnd('/').Split('/');
+
+            var directory = "doc-target";
+            for (var i = 0; i < parts.Length - 1; i++)
+            {
+                directory = Path.Combine(directory, parts[i]);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+            }
+
+            var html = $@"<head>
+      <meta http-equiv='refresh' content='5; URL=https://jasperfx.github.io/oakton/guide/' />
+  </head>
+  <body>
+      <p>If you are not redirected in five seconds, <a href='https://jasperfx.github.io/oakton/guide/'>click here</a>.</p>
+</body>
+".Replace("'", "\"");
+
+            var destination = Path.Combine(directory, parts.Last() + ".html");
+            File.WriteAllText(destination, html);
+        }
+
+
 
 
         private static void CopyFilesRecursively(string sourcePath, string targetPath)

@@ -81,7 +81,7 @@ executable command value1 value2 value3 --flag --flag2
 
 ## Valid Argument Patterns
 
-Look at the input class from the [getting started](/guide) tutorial:
+Look at the input class from the [getting started](/guide/) tutorial:
 
 <!-- snippet: sample_NameInput -->
 <a id='snippet-sample_nameinput'></a>
