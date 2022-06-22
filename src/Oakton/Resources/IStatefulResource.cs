@@ -1,11 +1,11 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Oakton.Environment;
 using Spectre.Console.Rendering;
 
 namespace Oakton.Resources
 {
+    #region sample_IStatefulResource
+
     /// <summary>
     /// Adapter interface used by Oakton enabled applications to allow
     /// Oakton to setup/teardown/clear the state/check on stateful external
@@ -61,19 +61,5 @@ namespace Oakton.Resources
         string Name { get; }
     }
 
-    internal class ResourceEnvironmentCheck : IEnvironmentCheck
-    {
-        private readonly IStatefulResource _resource;
-
-        public ResourceEnvironmentCheck(IStatefulResource resource)
-        {
-            _resource = resource;
-        }
-
-        public string Description => $"Resource {_resource.Name} ({_resource.Type})";
-        public Task Assert(IServiceProvider services, CancellationToken cancellation)
-        {
-            return _resource.Check(cancellation);
-        }
-    }
+    #endregion
 }

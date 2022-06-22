@@ -1,6 +1,6 @@
 <!--Building Commands-->
 
-::: tip warning
+::: tip
 It is perfectly legal to use the same input class across multiple commands
 :::
 
@@ -147,7 +147,7 @@ public class AsyncSayNameCommand : OaktonAsyncCommand<SayName>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/CommandExecutorTester.cs#L182-L198' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_async_command_sample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/CommandExecutorTester.cs#L160-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_async_command_sample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Likewise, to execute asynchronously from `Program.Main()`, there are new overloads on 

@@ -100,27 +100,22 @@ that we're missing a required argument or two:
 ```
 Invalid usage
 
- Usages for 'name' (Print somebody's name)
+name - Print somebody's name
+├── Default Color
+│   └── dotnet run -- name <name>
+│       └── [-t, --title <title>]
+└── Print name with specified color
+    └── dotnet run -- name <name>
+        Black|DarkBlue|DarkGreen|DarkCyan|DarkRed|DarkMagenta|DarkYellow|Gray|DarkGray|Blue|Green|Cyan|Red|Magenta|Yello
+        w|White
+        └── [-t, --title <title>]
 
-  ----------------------------------------------------------------------------------------
-    Usages
-  ----------------------------------------------------------------------------------------
-                      Default Color ->  name <name> [-t, --title <title>]
-    Print name with specified color ->  name <name> Black|DarkBlue|DarkGreen|DarkCyan|DarkRed|DarkMagenta|DarkYellow|Gray|DarkGray|Blue|Green|Cyan|Red|Magenta|Yellow|White [-t, --title <title>]
-  ----------------------------------------------------------------------------------------
 
-  ----------------------------------------------------------------------------------------
-    Arguments
-  ----------------------------------------------------------------------------------------
-     name -> The name to be printed to the console output
-    color -> The color of the text. Default is black
-  ----------------------------------------------------------------------------------------
-
-  ----------------------------------------------------------------------------------------
-    Flags
-  ----------------------------------------------------------------------------------------
-    [-t, --title <title>] -> Optional title preceeding the name
-  ----------------------------------------------------------------------------------------
+                  Usage   Description
+────────────────────────────────────────────────────────────────────────
+                   name   The name to be printed to the console output
+                  color   The color of the text. Default is black
+  [-t, --title <title>]   Optional title preceeding the name
 ```
 
 Do note that we could get the same output without the angry "Invalid Usage" message by:

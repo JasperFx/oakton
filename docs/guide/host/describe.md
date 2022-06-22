@@ -112,12 +112,20 @@ static Task<int> Main(string[] args)
     return Host.CreateDefaultBuilder()
         .ConfigureServices(services =>
         {
+            
             for (int i = 0; i < 5; i++)
             {
                 services.AddSingleton<IEnvironmentCheck>(new GoodEnvironmentCheck(i + 1));
                 services.AddSingleton<IEnvironmentCheck>(new BadEnvironmentCheck(i + 1));
-                
+
+                services.AddSingleton<IStatefulResource>(new FakeResource("Database", "Db " + (i + 1)));
             }
+
+            services.AddSingleton<IStatefulResource>(new FakeResource("Bad", "Blows Up")
+            {
+                Failure = new DivideByZeroException()
+            });
+            
             services.CheckEnvironment("Inline, async check", async (services, token) =>
             {
                 await Task.Delay(1.Milliseconds(), token);
@@ -138,7 +146,7 @@ static Task<int> Main(string[] args)
         .RunOaktonCommands(args);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/EnvironmentCheckDemonstrator/Program.cs#L15-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_extending_describe' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/alba/blob/master/src/EnvironmentCheckDemonstrator/Program.cs#L16-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_extending_describe' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 For an example, here's the implementation for one of the built in described system parts:

@@ -28,9 +28,13 @@ return CommandExecutor.For(factory =>
 
     factory.ConfigureRun = cmd =>
     {
-        if (cmd.Input is IHostBuilderInput i) i.HostBuilder = source;
+        if (cmd.Input is IHostBuilderInput i)
+        {
+            factory.ApplyExtensions(source);
+            i.HostBuilder = source;
+        }
     };
 });
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/CommandLineHostingExtensions.cs#L101-L116' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_extension_assemblies' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/CommandLineHostingExtensions.cs#L117-L136' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_extension_assemblies' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

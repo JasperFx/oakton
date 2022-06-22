@@ -40,10 +40,10 @@ namespace Oakton.Resources
 
             return input.Action switch
             {
-                ResourceAction.setup => await ExecuteOnEach("Resource Setup",resources, cancellation, "Setting up resources...", r =>
+                ResourceAction.setup => await ExecuteOnEach("Resource Setup",resources, cancellation, "Setting up resources...", async r =>
                 {
-                    r.Setup(cancellation);
-                    return r.DetermineStatus(cancellation);
+                    await r.Setup(cancellation);
+                    return await r.DetermineStatus(cancellation);
                 }),
 
                 ResourceAction.teardown => await ExecuteOnEach("Resource Teardown",resources, cancellation, "Tearing down resources...",
@@ -69,9 +69,25 @@ namespace Oakton.Resources
                     await r.ClearState(cancellation);
                     return allGood;
                 }),
+                
+                ResourceAction.list => listAll(resources),
 
                     _ => false
             };
+        }
+
+        private bool listAll(IList<IStatefulResource> statefulResources)
+        {
+            var table = new Table();
+            table.AddColumns("Resource Type", "Resource Name");
+            foreach (var resource in statefulResources)
+            {
+                table.AddRow(resource.Type, resource.Name);
+            }
+            
+            AnsiConsole.Write(table);
+            
+            return true;
         }
 
         public IList<IStatefulResource> FindResources(ResourceInput input, IHost host)

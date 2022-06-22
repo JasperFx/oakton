@@ -16,6 +16,69 @@ namespace Tests.Resources
 {
     public class ResourceHostExtensionsTests : ResourceCommandContext
     {
+        public static async Task sample1()
+        {
+            #region sample_using_AddResourceSetupOnStartup
+
+            using var host = await Host.CreateDefaultBuilder()
+                .ConfigureServices(services =>
+                {
+                    // More service registrations like this is a real app!
+
+                    services.AddResourceSetupOnStartup();
+                }).StartAsync();
+
+            #endregion
+        }
+        
+        public static async Task sample2()
+        {
+            #region sample_using_AddResourceSetupOnStartup2
+
+            using var host = await Host.CreateDefaultBuilder()
+                .ConfigureServices(services =>
+                {
+                    // More service registrations like this is a real app!
+                })
+                .UseResourceSetupOnStartup()
+                .StartAsync();
+
+            #endregion
+        }
+        
+        public static async Task sample3()
+        {
+            #region sample_using_AddResourceSetupOnStartup3
+
+            using var host = await Host.CreateDefaultBuilder()
+                .ConfigureServices(services =>
+                {
+                    // More service registrations like this is a real app!
+                })
+                .UseResourceSetupOnStartupInDevelopment()
+                .StartAsync();
+
+            #endregion
+        }
+
+        #region sample_programmatically_control_resources
+
+        public static async Task usages_for_testing(IHost host)
+        {
+            // Programmatically call Setup() on all resources
+            await host.SetupResources();
+            
+            // Maybe between integration tests, clear any
+            // persisted state. For example, I've used this to 
+            // purge Rabbit MQ queues between tests
+            await host.ResetResourceState();
+
+            // Tear it all down!
+            await host.TeardownResources();
+        }
+
+        #endregion
+        
         [Fact]
         public void add_resource_startup()
         {

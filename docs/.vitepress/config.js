@@ -44,7 +44,8 @@ function tableOfContents() {
           {text: "Improved \"Run\" Command", link: '/guide/host/run'},
           {text: "Environment Checks", link: '/guide/host/environment'},
           {text: "Writing Extension Commands", link: '/guide/host/extensions'},
-          {text: "The \"describe\" command", link: '/guide/host/describe'}
+          {text: "The \"describe\" command", link: '/guide/host/describe'},
+          {text: "Stateful Resources", link: '/guide/host/resources'}
 
 
         ]

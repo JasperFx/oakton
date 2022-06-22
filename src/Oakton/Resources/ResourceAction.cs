@@ -6,6 +6,7 @@ namespace Oakton.Resources
         teardown,
         setup,
         statistics,
-        check
+        check,
+        list
     }
 }

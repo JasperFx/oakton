@@ -98,27 +98,22 @@ that we're missing a required argument or two:
 ```
 Invalid usage
 
- Usages for 'name' (Print somebody's name)
+name - Print somebody's name
+├── Default Color
+│   └── dotnet run -- name <name>
+│       └── [-t, --title <title>]
+└── Print name with specified color
+    └── dotnet run -- name <name>
+        Black|DarkBlue|DarkGreen|DarkCyan|DarkRed|DarkMagenta|DarkYellow|Gray|DarkGray|Blue|Green|Cyan|Red|Magenta|Yello
+        w|White
+        └── [-t, --title <title>]
 
-  ----------------------------------------------------------------------------------------
-    Usages
-  ----------------------------------------------------------------------------------------
-                      Default Color ->  name <name> [-t, --title <title>]
-    Print name with specified color ->  name <name> Black|DarkBlue|DarkGreen|DarkCyan|DarkRed|DarkMagenta|DarkYellow|Gray|DarkGray|Blue|Green|Cyan|Red|Magenta|Yellow|White [-t, --title <title>]
-  ----------------------------------------------------------------------------------------
 
-  ----------------------------------------------------------------------------------------
-    Arguments
-  ----------------------------------------------------------------------------------------
-     name -> The name to be printed to the console output
-    color -> The color of the text. Default is black
-  ----------------------------------------------------------------------------------------
-
-  ----------------------------------------------------------------------------------------
-    Flags
-  ----------------------------------------------------------------------------------------
-    [-t, --title <title>] -> Optional title preceeding the name
-  ----------------------------------------------------------------------------------------
+                  Usage   Description
+────────────────────────────────────────────────────────────────────────
+                   name   The name to be printed to the console output
+                  color   The color of the text. Default is black
+  [-t, --title <title>]   Optional title preceeding the name
 ```
 
 Do note that we could get the same output without the angry "Invalid Usage" message by:
@@ -209,12 +204,12 @@ static int Main(string[] args)
 Now then, typing `dotnet run` without specifying a valid command will give you this:
 
 ```
-  ------------------------------------------------------------------
-    Available commands:
-  ------------------------------------------------------------------
-    checkout -> Switch branches or restore working tree files
-       clean -> Remove untracked files from the working tree
-  ------------------------------------------------------------------
+The available commands are:
+
+  Alias      Description
+────────────────────────────────────────────────────────────
+  checkout   Switch branches or restore working tree files
+  clean      Remove untracked files from the working tree
 ```
 
 Typing `dotnet run -- help` or `dotnet run -- ?` would give you the same information.
@@ -244,15 +239,18 @@ public class CleanInput
 To see the specific usage of the `clean` command, try `dotnet run -- help clean` or `dotnet run -- ? clean` to get the usage:
 
 ```
- Usages for 'clean' (Remove untracked files from the working tree)
-  clean [-f, --force] [-d, --remove-untracked-directories] [-x, --do-no-use-standard-ignore-rules]
+clean - Remove untracked files from the working tree
+└── Remove untracked files from the working tree
+    └── dotnet run -- clean
+        ├── [-f, --force]
+        ├── [-d, --remove-untracked-directories]
+        └── [-x, --do-no-use-standard-ignore-rules]
 
-  -------------------------------------------------------------------------------------------
-    Flags
-  -------------------------------------------------------------------------------------------
-                              [-f, --force] -> Do it now!
-       [-d, --remove-untracked-directories] -> Remove untracked directories in addition to untracked files
-    [-x, --do-no-use-standard-ignore-rules] -> Remove only files ignored by Git
-  -------------------------------------------------------------------------------------------
+
+                                    Usage   Description
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+                            [-f, --force]   Do it now!
+     [-d, --remove-untracked-directories]   Remove untracked directories in addition to untracked files
+  [-x, --do-no-use-standard-ignore-rules]   Remove only files ignored by Git
 ```
 
