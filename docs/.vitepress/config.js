@@ -2,6 +2,7 @@ module.exports = {
     title: 'Oakton',
     description: 'Add Robust Command Line Options to .Net Applications',
     head: [],
+    base: '/oakton/',
     themeConfig: {
         logo: null,
         repo: 'JasperFx/oakton',

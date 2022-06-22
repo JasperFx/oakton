@@ -68,14 +68,10 @@ namespace Oakton.Resources
                 }
             }
 
-#if NET6_0_OR_GREATER
-            await Parallel.ForEachAsync(resources, cancellationToken, execute);
-#else
             foreach (var resource in resources)
             {
                 await execute(resource, cancellationToken).ConfigureAwait(false);
             }
-#endif
 
             if (list.Any()) throw new AggregateException(list);
         }
