@@ -48,7 +48,7 @@ namespace Oakton.Descriptions
                     IHasTreeNodes parent = node;
                     if (valuesAndProviders.Count == 0)
                     {
-                        parent = node.AddNode($"[blue]{child.Key}[/]");
+                        parent = node.AddNode($"[blue]{child.Key.EscapeMarkup()}[/]");
                     }
                     else
                     {
@@ -62,7 +62,7 @@ namespace Oakton.Descriptions
                                 .AddColumn("Value")
                                 .AddColumn("Provider")
                                 .HideHeaders()
-                                .AddRow($"[yellow]{child.Key}[/]", finalValue.Value, $@"([grey]{finalValue.Provider}[/])")
+                                .AddRow($"[yellow]{child.Key.EscapeMarkup()}[/]", finalValue.Value.EscapeMarkup(), $@"([grey]{finalValue.Provider.ToString().EscapeMarkup()}[/])")
                         );
 
                         // Loop through the remaining (overridden) values
@@ -76,7 +76,7 @@ namespace Oakton.Descriptions
                                     .AddColumn("Value")
                                     .AddColumn("Provider")
                                     .HideHeaders()
-                                    .AddRow($"[strikethrough]{overriddenValue.Value}[/]", $@"([grey]{overriddenValue.Provider}[/])")
+                                    .AddRow($"[strikethrough]{overriddenValue.Value.EscapeMarkup()}[/]", $@"([grey]{overriddenValue.Provider.ToString().EscapeMarkup()}[/])")
                             );
                         }
                     }

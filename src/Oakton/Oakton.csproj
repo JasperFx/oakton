@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Description>Command Line Parsing and Execution</Description>
     <AssemblyTitle>Oakton</AssemblyTitle>
-    <Version>4.6.1</Version>
+    <Version>4.6.2</Version>
     <Authors>Jeremy D. Miller</Authors>
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <DebugType>portable</DebugType>

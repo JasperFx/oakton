@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Tests
 {
+    [Collection("SetConsoleOutput")]
     public class CommandExecutorTester
     {
         private readonly StringWriter theOutput = new StringWriter();
