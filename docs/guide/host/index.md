@@ -109,3 +109,7 @@ There are just a couple things to note:
    failures.
 1. You will use the `RunOaktonCommands()` method to accept the command line arguments and invoke your system rather than manually
    building and/or starting the `IWebHost` yourself
+
+## Combining Serilog with Oakton
+
+If you're having any issues with Serilog logging while using Oakton, please see this [StackOverflow issue](https://stackoverflow.com/questions/55422528/logging-with-serilog-net-core-not-outputting).
