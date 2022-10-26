@@ -58,7 +58,7 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            return $"[--{_prefix}<prop> <value>]";
+            return $"[{_prefix}<prop> <value>]";
         }
     }
 }
