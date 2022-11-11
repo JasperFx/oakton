@@ -2,9 +2,9 @@
   <PropertyGroup>
     <Description>Command Line Parsing and Execution</Description>
     <AssemblyTitle>Oakton</AssemblyTitle>
-    <Version>4.6.3</Version>
+    <Version>4.7.0</Version>
     <Authors>Jeremy D. Miller</Authors>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>Oakton</AssemblyName>
     <OutputType>Library</OutputType>
@@ -17,9 +17,9 @@
     <PackageIconUrl>https://github.com/JasperFx/oakton/blob/master/documentation/content/images/title.png?raw=true</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Baseline" Version="3.2.2" />
-    <PackageReference Include="BaselineTypeDiscovery" Version="1.1.3" />
-    <PackageReference Include="Spectre.Console" Version="0.42.0" />
+    <PackageReference Include="Baseline" Version="4.0.0" />
+    <PackageReference Include="BaselineTypeDiscovery" Version="2.0.0" />
+    <PackageReference Include="Spectre.Console" Version="0.45.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
@@ -28,6 +28,10 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,)" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="[7.0.0,)" />
   </ItemGroup>
 
 </Project>

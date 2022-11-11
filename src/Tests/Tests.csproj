@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
 
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.0.1" />
+        <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="8.1.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
         <PackageReference Include="NSubstitute" Version="4.3.0" />
         <PackageReference Include="Shouldly" Version="4.0.1" />
