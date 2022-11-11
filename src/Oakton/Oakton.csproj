@@ -17,7 +17,7 @@
     <PackageIconUrl>https://github.com/JasperFx/oakton/blob/master/documentation/content/images/title.png?raw=true</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Baseline" Version="4.0.0" />
+    <PackageReference Include="Baseline" Version="4.1.0" />
     <PackageReference Include="BaselineTypeDiscovery" Version="2.0.0" />
     <PackageReference Include="Spectre.Console" Version="0.45.0" />
   </ItemGroup>
