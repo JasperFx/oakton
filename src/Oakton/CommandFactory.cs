@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Baseline;
-using Baseline.Reflection;
+using JasperFx.Reflection;
+using JasperFx.StringExtensions;
 using JasperFx.TypeDiscovery;
 using Microsoft.Extensions.Hosting;
 using Oakton.Help;
+using Oakton.Internal;
 using Oakton.Parsing;
 using Spectre.Console;
 
@@ -118,10 +119,12 @@ namespace Oakton
         /// <param name="assembly"></param>
         public void RegisterCommands(Assembly assembly)
         {
-            assembly
-                .GetExportedTypes()
-                .Where(IsOaktonCommandType)
-                .Each(t => { _commandTypes[CommandNameFor(t)] = t; });
+            foreach (var type in assembly
+                         .GetExportedTypes()
+                         .Where(IsOaktonCommandType))
+            {
+                _commandTypes[CommandNameFor(type)] = type;
+            }
 
             if (assembly.HasAttribute<OaktonCommandAssemblyAttribute>())
             {
@@ -216,20 +219,19 @@ namespace Oakton
             }
             catch (InvalidUsageException e)
             {
-                ConsoleWriter.Write(ConsoleColor.Red, "Invalid usage");
-
+                AnsiConsole.Write("[red]Invalid usage[/]");
 
                 if (e.Message.IsNotEmpty())
                 {
-                    ConsoleWriter.Write(ConsoleColor.Yellow, e.Message);
+                    AnsiConsole.Write($"[yellow]{e.Message.EscapeMarkup()}[/]");
                 }
 
                 Console.WriteLine();
             }
             catch (Exception e)
             {
-                ConsoleWriter.Write(ConsoleColor.Red, "Error parsing input");
-                ConsoleWriter.Write(ConsoleColor.Yellow, e.ToString());
+                AnsiConsole.Write("[red]Error parsing input[/]");
+                AnsiConsole.WriteException(e);
 
                 Console.WriteLine();
             }

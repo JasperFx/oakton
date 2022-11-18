@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Baseline;
-using Baseline.Conversion;
+using JasperFx.Reflection;
+using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing
 {
@@ -42,7 +42,8 @@ namespace Oakton.Parsing
 
         public override string ToUsageDescription()
         {
-            return "<{0}1 {0}2 {0}3 ...>".ToFormat(_member.Name.ToLower());
+            var name = _member.Name.ToLower();
+            return $"<{name}1 {name}2 {name}3 ...>";
         }
     }
 }

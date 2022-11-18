@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Baseline;
-using Baseline.Conversion;
+using JasperFx.Reflection;
+using JasperFx.StringExtensions;
+using Oakton.Internal.Conversion;
 using Oakton.Parsing;
-using Oakton.Reporting;
 
 namespace Oakton
 {
@@ -21,16 +21,7 @@ namespace Oakton
             _memberType = member.GetMemberType();
             _converter = conversions.FindConverter(_memberType);
         }
-
-        public ArgumentReport ToReport()
-        {
-            return new ArgumentReport
-            {
-                Description = Description,
-                Name = _member.Name.ToLower()
-            };
-        }
-
+        
         public override bool Handle(object input, Queue<string> tokens)
         {
             if (_isLatched) return false;

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Baseline;
+using JasperFx.StringExtensions;
 using Oakton.Parsing;
+using Spectre.Console;
 
 namespace Oakton
 {
@@ -40,13 +41,15 @@ namespace Oakton
             }
             catch (CommandFailureException e)
             {
-                ConsoleWriter.Write(ConsoleColor.Red, "ERROR: " + e.Message);
+                AnsiConsole.Write($"[red]ERROR:[/]");
+                AnsiConsole.WriteException(e);
 
                 return 1;
             }
             catch (Exception ex)
             {
-                ConsoleWriter.Write(ConsoleColor.Red, "ERROR: " + ex);
+                AnsiConsole.Write($"[red]ERROR:[/]");
+                AnsiConsole.WriteException(ex);
 
                 return 1;
             }

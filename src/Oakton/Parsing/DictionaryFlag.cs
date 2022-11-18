@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Baseline;
+using JasperFx.Reflection;
 
 namespace Oakton.Parsing
 {
@@ -29,7 +29,7 @@ namespace Oakton.Parsing
             {
                 var flag = tokens.Dequeue();
 
-                if( tokens.Count == 0 ) throw new InvalidUsageException("No value specified for flag {0}.".ToFormat(flag));
+                if( tokens.Count == 0 ) throw new InvalidUsageException($"No value specified for flag {flag}.");
 
                 var key = flag.Split(':').Last().Trim();
                 var rawValue = tokens.Dequeue();

@@ -1,6 +1,5 @@
 using System;
-using Baseline;
-using Baseline.Reflection;
+using JasperFx.Reflection;
 
 namespace Oakton
 {

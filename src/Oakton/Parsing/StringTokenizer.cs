@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Baseline;
 
 namespace Oakton.Parsing
 {
@@ -11,7 +10,11 @@ namespace Oakton.Parsing
             if (searchString.Length == 0) return new string[0];
 
             var parser = new TokenParser();
-            content.ToCharArray().Each(parser.Read);
+
+            foreach (var c in content.ToCharArray())
+            {
+                parser.Read(c);
+            }
 
             // Gotta force the parser to know it's done
             parser.Read('\n');

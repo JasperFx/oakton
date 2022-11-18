@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Baseline;
+using JasperFx.StringExtensions;
 using Oakton.Parsing;
-using Oakton.Reporting;
 using Spectre.Console;
 
 namespace Oakton.Help
@@ -12,15 +11,6 @@ namespace Oakton.Help
         public string Description { get; set; }
         public IEnumerable<Argument> Arguments { get; set; }
         public IEnumerable<ITokenHandler> ValidFlags { get; set; }
-
-        public UsageReport ToReport(string appName, string commandName)
-        {
-            return new UsageReport
-            {
-                Description = Description,
-                Usage = ToUsage(appName, commandName)
-            };
-        }
 
         public string ToUsage(string appName, string commandName)
         {

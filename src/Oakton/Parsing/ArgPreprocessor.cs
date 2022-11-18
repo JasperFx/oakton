@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Baseline;
 
 namespace Oakton.Parsing
 {
@@ -9,17 +8,20 @@ namespace Oakton.Parsing
         {
             var newArgs = new List<string>();
 
-            incomingArgs.Each(arg =>
+            foreach (var arg in incomingArgs)
             {
                 if (isMultiArg(arg))
                 {
-                    arg.TrimStart('-').Each(c => newArgs.Add("-" + c));
+                    foreach (var c in arg.TrimStart('-'))
+                    {
+                        newArgs.Add("-" + c);
+                    }
                 }
                 else
                 {
                     newArgs.Add(arg);
                 }
-            });
+            }
 
             return newArgs;
         }

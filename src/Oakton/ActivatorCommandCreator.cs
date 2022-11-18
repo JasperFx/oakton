@@ -1,5 +1,4 @@
-﻿using Baseline;
-using System;
+﻿using System;
 
 namespace Oakton
 {
@@ -7,7 +6,7 @@ namespace Oakton
     {
         public IOaktonCommand CreateCommand(Type commandType)
         {
-            return Activator.CreateInstance(commandType).As<IOaktonCommand>();
+            return (IOaktonCommand)Activator.CreateInstance(commandType);
         }
 
         public object CreateModel(Type modelType)

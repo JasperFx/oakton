@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Baseline;
+using JasperFx.StringExtensions;
 using Oakton.Environment;
 using Spectre.Console;
 
@@ -35,11 +35,11 @@ namespace Oakton.Commands
 
             if (results.Failures.Any())
             {
-                ConsoleWriter.Write(ConsoleColor.Red, "Some environment checks failed!");
+                AnsiConsole.Write("[red]Some environment checks failed![/]");
                 return false;
             }
 
-            ConsoleWriter.Write(ConsoleColor.Green, "All environment checks are good!");
+            AnsiConsole.Write("[green]All environment checks are good![/]");
             return true;
         }
 

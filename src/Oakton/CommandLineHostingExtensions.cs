@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Baseline;
+using JasperFx.StringExtensions;
 using Microsoft.Extensions.Hosting;
 using Oakton.Commands;
 using Oakton.Internal;

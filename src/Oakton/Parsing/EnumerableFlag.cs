@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Baseline;
-using Baseline.Conversion;
+using JasperFx.Reflection;
+using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing
 {
-    public interface IFlag
-    {
-        string ShorthandUsage { get; }
-        string LonghandUsage { get; }
-        string Description { get; }
-    }
-    
+
     public class EnumerableFlag : Flag
     {
         private readonly MemberInfo _member;
@@ -43,7 +37,7 @@ namespace Oakton.Parsing
 
                 if(!wasHandled)
                 {
-                    throw new InvalidUsageException("No values specified for flag {0}.".ToFormat(flag));
+                    throw new InvalidUsageException($"No values specified for flag {flag}.");
                 }
 
                 setValue(input, list);
@@ -57,7 +51,7 @@ namespace Oakton.Parsing
             var flagAliases = InputParser.ToFlagAliases(_member);
 
             var name = InputParser.RemoveFlagSuffix(_member.Name).ToLower();
-            return "[{0} <{1}1 {1}2 {1}3 ...>]".ToFormat(flagAliases, name);
+            return $"[{flagAliases} <{name}1 {name}2 {name}3 ...>]";
         }
     }
 }

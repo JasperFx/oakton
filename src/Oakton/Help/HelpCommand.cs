@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Baseline;
 using Spectre.Console;
 
 namespace Oakton.Help

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Baseline;
-using Baseline.Conversion;
+using JasperFx.StringExtensions;
+using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing
 {
@@ -33,7 +33,7 @@ namespace Oakton.Parsing
             {
                 var flag = tokens.Dequeue();
 
-                if( tokens.Count == 0 ) throw new InvalidUsageException("No value specified for flag {0}.".ToFormat(flag));
+                if( tokens.Count == 0 ) throw new InvalidUsageException($"No value specified for flag {flag}.");
 
                 var rawValue = tokens.Dequeue();
                 var value = Converter(rawValue);

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Baseline;
-using Baseline.Conversion;
-using Baseline.Reflection;
+using JasperFx.Reflection;
+using JasperFx.StringExtensions;
+using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing
 {
     public static class InputParser
     {
         private static readonly string LONG_FLAG_PREFIX = "--";
-        private static readonly Regex LONG_FLAG_REGEX = new Regex("^{0}[^-]+".ToFormat(LONG_FLAG_PREFIX));
+        private static readonly Regex LONG_FLAG_REGEX = new Regex($"^{LONG_FLAG_PREFIX}[^-]+");
         
         private static readonly string SHORT_FLAG_PREFIX = "-";
-        private static readonly Regex SHORT_FLAG_REGEX = new Regex("^{0}[^-]+".ToFormat(SHORT_FLAG_PREFIX)); 
+        private static readonly Regex SHORT_FLAG_REGEX = new Regex($"^{SHORT_FLAG_PREFIX}[^-]+"); 
         
         private static readonly string FLAG_SUFFIX = "Flag";
         private static readonly Conversions _converter = new Conversions();
