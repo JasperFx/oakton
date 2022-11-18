@@ -6,7 +6,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>Jeremy D. Miller</Authors>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <AssemblyName>dotnet-assemblyinfo</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>CommonAssemblyInfo</PackageId>

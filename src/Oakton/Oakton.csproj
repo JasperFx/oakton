@@ -2,9 +2,9 @@
   <PropertyGroup>
     <Description>Command Line Parsing and Execution</Description>
     <AssemblyTitle>Oakton</AssemblyTitle>
-    <Version>4.7.0</Version>
+    <Version>5.0.0</Version>
     <Authors>Jeremy D. Miller</Authors>
-    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>Oakton</AssemblyName>
     <OutputType>Library</OutputType>
@@ -18,19 +18,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Baseline" Version="4.1.0" />
-    <PackageReference Include="BaselineTypeDiscovery" Version="2.0.0" />
     <PackageReference Include="Spectre.Console" Version="0.45.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="[5.0.0,)" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+    <PackageReference Include="JasperFx.TypeDiscovery" Version="0.9.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,)" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <PackageReference Include="JasperFx.TypeDiscovery" Version="0.9.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="[7.0.0,)" />
   </ItemGroup>
 

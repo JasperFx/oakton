@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Baseline;
 using Baseline.Reflection;
-using BaselineTypeDiscovery;
+using JasperFx.TypeDiscovery;
 using Microsoft.Extensions.Hosting;
 using Oakton.Help;
 using Oakton.Parsing;
@@ -369,7 +369,7 @@ namespace Oakton
         public void RegisterCommandsFromExtensionAssemblies()
         {
             var assemblies = AssemblyFinder
-                .FindAssemblies(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic, txt => { })
+                .FindAssemblies(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic)
                 .Concat(AppDomain.CurrentDomain.GetAssemblies())
                 .Where(a => a.HasAttribute<OaktonCommandAssemblyAttribute>() && !a.IsDynamic)
                 .Distinct()
