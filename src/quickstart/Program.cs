@@ -1,7 +1,7 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Oakton;
+using Spectre.Console;
 
 namespace quickstart
 {
@@ -50,10 +50,7 @@ namespace quickstart
                 text = input.TitleFlag + " " + text;
             }
 
-            // This is a little helper in Oakton for getting
-            // cute with colors in the console output
-            ConsoleWriter.Write(input.Color, text);
-
+            AnsiConsole.Write($"[{input.Color}]{text}[/]");
 
             // Just telling the OS that the command
             // finished up okay
@@ -103,10 +100,10 @@ namespace quickstart
     {
         public override async Task<bool> Execute(NameInput input)
         {
-            ConsoleWriter.Write(input.Color, "Starting...");
+            AnsiConsole.Write($"[{input.Color}]Starting...[/]");
             await Task.Delay(TimeSpan.FromSeconds(3));
 
-            ConsoleWriter.Write(input.Color, $"Done! Hello {input.Name}");
+            AnsiConsole.Write($"[{input.Color}]Done! Hello {input.Name}[/]");
             return true;
         }
     }

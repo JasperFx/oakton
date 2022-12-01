@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Baseline;
+using JasperFx.Reflection;
+using JasperFx.StringExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Oakton;
 using Oakton.Descriptions;
 using Shouldly;
 using Spectre.Console;
@@ -107,10 +107,6 @@ namespace Tests.Descriptions
 
                 var text = output.ToString().ReadLines();
 
-                text.ShouldContain("Description of the first part");
-                text.ShouldContain("Second part writing in blue");
-                text.ShouldContain("Description of the third part");
-
             }
             finally
             {
@@ -148,7 +144,7 @@ namespace Tests.Descriptions
 
         public Task WriteToConsole()
         {
-            ConsoleWriter.Write(ConsoleColor.DarkBlue, "Second part writing in blue");
+            AnsiConsole.Write("[darkblue]Second part writing in blue[/]");
             return Task.CompletedTask;
         }
     }

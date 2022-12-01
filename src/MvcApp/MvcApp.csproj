@@ -8,7 +8,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCoreExtensionCommands\AspNetCoreExtensionCommands.csproj" />
     <ProjectReference Include="..\Oakton\Oakton.csproj" />
   </ItemGroup>
 

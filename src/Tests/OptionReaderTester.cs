@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Baseline;
+using JasperFx.StringExtensions;
 using Oakton.Parsing;
 using Shouldly;
 using Xunit;
@@ -18,11 +18,8 @@ namespace Tests
         [Fact]
         public void read_from_one_line()
         {
-            var system = new FileSystem();
-
-
             var path = directory.AppendPath("opts1.txt");
-            system.WriteStringToFile(path, "-f -a -b");
+            File.WriteAllText(path, "-f -a -b");
 
             OptionReader.Read(path)
                 .ShouldBe("-f -a -b");

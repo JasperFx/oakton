@@ -1,8 +1,8 @@
 using System;
 using System.Linq.Expressions;
-using Baseline.Conversion;
-using Baseline.Reflection;
+using JasperFx.Reflection;
 using Oakton;
+using Oakton.Internal.Conversion;
 using Shouldly;
 using Xunit;
 
@@ -13,7 +13,7 @@ namespace Tests
     {
         private Argument argFor(Expression<Func<ArgumentTarget, object>> property)
         {
-            return new Argument(property.ToAccessor().InnerProperty, new Conversions());
+            return new Argument(ReflectionHelper.GetProperty(property), new Conversions());
         }
 
         [Fact]

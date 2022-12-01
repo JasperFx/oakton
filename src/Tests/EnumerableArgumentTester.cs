@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Baseline.Conversion;
-using Baseline.Reflection;
+using JasperFx.Reflection;
 using Oakton;
+using Oakton.Internal.Conversion;
 using Oakton.Parsing;
 using Shouldly;
 using Xunit;
@@ -15,7 +15,7 @@ namespace Tests
     {
         private EnumerableArgument argFor(Expression<Func<EnumerableArgumentInput, object>> property)
         {
-            return new EnumerableArgument(property.ToAccessor().InnerProperty, new Conversions());
+            return new EnumerableArgument(ReflectionHelper.GetProperty(property), new Conversions());
         }
 
         [Fact]

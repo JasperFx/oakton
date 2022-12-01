@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Baseline.Reflection;
+using JasperFx.Reflection;
 using Oakton;
 using Oakton.Help;
 using Oakton.Parsing;
@@ -18,7 +18,7 @@ namespace Tests
 
         private ITokenHandler handlerFor(Expression<Func<InputModel, object>> expression)
         {
-            var property = expression.ToAccessor().InnerProperty;
+            var property = ReflectionHelper.GetProperty(expression);
             return InputParser.BuildHandler(property);
         }
 

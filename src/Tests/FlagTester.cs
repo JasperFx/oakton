@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Baseline.Conversion;
-using Baseline.Reflection;
+using JasperFx.Reflection;
 using Oakton;
+using Oakton.Internal.Conversion;
 using Oakton.Parsing;
 using Shouldly;
 using Xunit;
@@ -14,12 +14,12 @@ namespace Tests
     {
         private Flag forProp(Expression<Func<FlagTarget, object>> expression)
         {
-            return new Flag(expression.ToAccessor().InnerProperty, new Conversions());
+            return new Flag(ReflectionHelper.GetProperty(expression), new Conversions());
         }
 
         private EnumerableFlag forArg(Expression<Func<FlagTarget, object>> expression)
         {
-            return new EnumerableFlag(expression.ToAccessor().InnerProperty, new Conversions());
+            return new EnumerableFlag(ReflectionHelper.GetProperty(expression), new Conversions());
         }
 
         [Fact]

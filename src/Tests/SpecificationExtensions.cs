@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Baseline;
 using Shouldly;
 
 namespace Tests
@@ -27,7 +26,10 @@ namespace Tests
             catch (Exception)
             {
                 Debug.WriteLine("Actual values were:");
-                actual.Each(x => Debug.WriteLine((object) x));
+                foreach (var x in actual)
+                {
+                    Debug.WriteLine((object)x);
+                }
                 throw;
             }
         }

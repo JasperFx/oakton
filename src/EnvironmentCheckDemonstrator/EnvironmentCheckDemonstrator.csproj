@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ExtensionCommands\ExtensionCommands.csproj" />
       <ProjectReference Include="..\Oakton\Oakton.csproj" />
     </ItemGroup>
 

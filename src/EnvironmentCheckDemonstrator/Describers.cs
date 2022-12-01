@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Oakton;
 using Oakton.Descriptions;
+using Spectre.Console;
 
 namespace EnvironmentCheckDemonstrator
 {
@@ -27,7 +28,7 @@ namespace EnvironmentCheckDemonstrator
 
         public Task WriteToConsole()
         {
-            ConsoleWriter.Write(ConsoleColor.DarkBlue, "Second part writing in blue");
+            AnsiConsole.Write("[darkblue]Second part writing in blue[/]");
             return Task.CompletedTask;
         }
     }

@@ -1,6 +1,6 @@
 using System;
 using System.Linq.Expressions;
-using Baseline.Reflection;
+using JasperFx.Reflection;
 using Oakton;
 using Oakton.Parsing;
 using Shouldly;
@@ -14,7 +14,7 @@ namespace Tests
 
         private BooleanFlag getFlag(Expression<Func<BooleanFlagTarget, object>> expression)
         {
-            return new BooleanFlag(expression.ToAccessor().InnerProperty);
+            return new BooleanFlag(ReflectionHelper.GetProperty(expression));
         }
 
 

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Baseline;
+using JasperFx.StringExtensions;
 using Oakton;
 using Shouldly;
 using Xunit;
@@ -78,7 +78,7 @@ namespace Tests
         public void use_options_file_if_it_exists()
         {
             var path = directory.AppendPath("good.opts");
-            new FileSystem().WriteStringToFile(path, "say-name Klay Thompson");
+            File.WriteAllText(path, "say-name Klay Thompson");
 
             executor.OptionsFile = "good.opts";
 
@@ -92,7 +92,7 @@ namespace Tests
         public void can_set_flags_in_combination_with_opts()
         {
             var path = directory.AppendPath("override.opts");
-            new FileSystem().WriteStringToFile(path, "option -b -n 1");
+            File.WriteAllText(path, "option -b -n 1");
 
             executor.OptionsFile = "override.opts";
 
