@@ -1,7 +1,6 @@
-namespace Oakton.Environment
+namespace Oakton.Environment;
+
+public interface IEnvironmentCheckFactory
 {
-    public interface IEnvironmentCheckFactory
-    {
-        IEnvironmentCheck[] Build();
-    }
+    IEnvironmentCheck[] Build();
 }

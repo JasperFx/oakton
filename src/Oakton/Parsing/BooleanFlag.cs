@@ -1,29 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Oakton.Parsing
+namespace Oakton.Parsing;
+
+public class BooleanFlag : TokenHandlerBase
 {
-    public class BooleanFlag : TokenHandlerBase
+    private readonly MemberInfo _member;
+
+    public BooleanFlag(MemberInfo member) : base(member)
     {
-        private readonly MemberInfo _member;
+        _member = member;
+    }
 
-        public BooleanFlag(MemberInfo member) : base(member)
+    public override bool Handle(object input, Queue<string> tokens)
+    {
+        if (!tokens.NextIsFlagFor(_member))
         {
-            _member = member;
+            return false;
         }
 
-        public override bool Handle(object input, Queue<string> tokens)
-        {
-            if (!tokens.NextIsFlagFor(_member)) return false;
-            tokens.Dequeue();
-            setValue(input, true);
+        tokens.Dequeue();
+        setValue(input, true);
 
-            return true;
-        }
+        return true;
+    }
 
-        public override string ToUsageDescription()
-        {
-            return $"[{InputParser.ToFlagAliases(_member)}]";
-        }
+    public override string ToUsageDescription()
+    {
+        return $"[{InputParser.ToFlagAliases(_member)}]";
     }
 }

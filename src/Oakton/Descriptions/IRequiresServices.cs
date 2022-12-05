@@ -1,9 +1,8 @@
 using System;
 
-namespace Oakton.Descriptions
+namespace Oakton.Descriptions;
+
+internal interface IRequiresServices
 {
-    internal interface IRequiresServices
-    {
-        void Resolve(IServiceProvider services);
-    }
+    void Resolve(IServiceProvider services);
 }

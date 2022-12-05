@@ -2,106 +2,102 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JasperFx.StringExtensions;
+using JasperFx.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Spectre.Console;
 
-namespace Oakton
+namespace Oakton;
+
+public class NetCoreInput : IHostBuilderInput
 {
-    public class NetCoreInput : IHostBuilderInput
+    [Description("Overwrite individual configuration items")]
+    public Dictionary<string, string> ConfigFlag = new();
+
+    [Description("Use to override the ASP.Net Environment name")]
+    public string EnvironmentFlag { get; set; }
+
+    [Description("Write out much more information at startup and enables console logging")]
+    public bool VerboseFlag { get; set; }
+
+    [Description("Override the log level")]
+    public LogLevel? LogLevelFlag { get; set; }
+
+    [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
+
+    /// <summary>
+    ///     The IHostBuilder configured by your application. Can be used to build or start
+    ///     up the application
+    /// </summary>
+    [IgnoreOnCommandLine]
+    public IHostBuilder HostBuilder { get; set; }
+
+    public virtual void ApplyHostBuilderInput()
     {
+        #region sample_what_the_cli_is_doing
 
-        [Description("Use to override the ASP.Net Environment name")]
-        public string EnvironmentFlag { get; set; }
-
-        [Description("Write out much more information at startup and enables console logging")]
-        public bool VerboseFlag { get; set; }
-
-        [Description("Override the log level")]
-        public LogLevel? LogLevelFlag { get; set; }
-
-        [Description("Overwrite individual configuration items")]
-        public Dictionary<string, string> ConfigFlag = new Dictionary<string, string>();
-
-        /// <summary>
-        /// The IHostBuilder configured by your application. Can be used to build or start
-        /// up the application
-        /// </summary>
-        [IgnoreOnCommandLine] public IHostBuilder HostBuilder { get; set; }
-
-        [IgnoreOnCommandLine] public Assembly ApplicationAssembly { get; set; }
-
-        public virtual void ApplyHostBuilderInput()
+        // The --log-level flag value overrides your application's
+        // LogLevel
+        if (LogLevelFlag.HasValue)
         {
-            #region sample_what_the_cli_is_doing
-
-            // The --log-level flag value overrides your application's
-            // LogLevel
-            if (LogLevelFlag.HasValue)
+            AnsiConsole.MarkupLine($"[gray]Overwriting the minimum log level to {LogLevelFlag.Value}[/]");
+            try
             {
-                AnsiConsole.MarkupLine($"[gray]Overwriting the minimum log level to {LogLevelFlag.Value}[/]");
-                try
+                if (HostBuilder is PreBuiltHostBuilder builder)
                 {
-                    if (HostBuilder is PreBuiltHostBuilder builder)
-                    {
-                        var options = builder.Host.Services.GetService(typeof(LoggerFilterOptions)) as LoggerFilterOptions;
-                        options ??=
-                            (builder.Host.Services.GetService(typeof(IOptionsMonitor<LoggerFilterOptions>)) as
-                                IOptionsMonitor<LoggerFilterOptions>)
-                            ?.CurrentValue;
+                    var options = builder.Host.Services.GetService(typeof(LoggerFilterOptions)) as LoggerFilterOptions;
+                    options ??=
+                        (builder.Host.Services.GetService(typeof(IOptionsMonitor<LoggerFilterOptions>)) as
+                            IOptionsMonitor<LoggerFilterOptions>)
+                        ?.CurrentValue;
 
-                        if (options != null)
-                        {
-                            options.MinLevel = LogLevel.Error;
-                        }
-                    }
-                    else
+                    if (options != null)
                     {
-                        HostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
+                        options.MinLevel = LogLevel.Error;
                     }
                 }
-                catch (Exception)
+                else
                 {
-                    AnsiConsole.Markup("[gray]Unable to override the logging level[/]");
+                    HostBuilder.ConfigureLogging(x => x.SetMinimumLevel(LogLevelFlag.Value));
                 }
-                
             }
-
-            if (VerboseFlag)
+            catch (Exception)
             {
-                Console.WriteLine("Verbose flag is on.");
-
-                // The --verbose flag adds console and
-                // debug logging, as well as setting
-                // the minimum logging level down to debug
-                HostBuilder.ConfigureLogging(x =>
-                {
-                    x.SetMinimumLevel(LogLevel.Debug);
-                });
+                AnsiConsole.Markup("[gray]Unable to override the logging level[/]");
             }
-
-            // The --environment flag is used to set the environment
-            // property on the IHostedEnvironment within your system
-            if (EnvironmentFlag.IsNotEmpty())
-            {
-                Console.WriteLine($"Overwriting the environment to `{EnvironmentFlag}`");
-                HostBuilder.UseEnvironment(EnvironmentFlag);
-            }
-
-            if (ConfigFlag.Any())
-            {
-                HostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
-            }
-            #endregion
         }
 
-        public IHost BuildHost()
+        if (VerboseFlag)
         {
-            ApplyHostBuilderInput();
-            return HostBuilder.Build();
+            Console.WriteLine("Verbose flag is on.");
+
+            // The --verbose flag adds console and
+            // debug logging, as well as setting
+            // the minimum logging level down to debug
+            HostBuilder.ConfigureLogging(x => { x.SetMinimumLevel(LogLevel.Debug); });
         }
+
+        // The --environment flag is used to set the environment
+        // property on the IHostedEnvironment within your system
+        if (EnvironmentFlag.IsNotEmpty())
+        {
+            Console.WriteLine($"Overwriting the environment to `{EnvironmentFlag}`");
+            HostBuilder.UseEnvironment(EnvironmentFlag);
+        }
+
+        if (ConfigFlag.Any())
+        {
+            HostBuilder.ConfigureAppConfiguration(c => c.AddInMemoryCollection(ConfigFlag));
+        }
+
+        #endregion
+    }
+
+    public IHost BuildHost()
+    {
+        ApplyHostBuilderInput();
+        return HostBuilder.Build();
     }
 }

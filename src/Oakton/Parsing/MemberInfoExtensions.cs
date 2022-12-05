@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Oakton.Parsing
+namespace Oakton.Parsing;
+
+public static class MemberInfoExtensions
 {
-    public static class MemberInfoExtensions
+    public static Type GetMemberType(this MemberInfo member)
     {
-        public static Type GetMemberType(this MemberInfo member)
-        {
-            return (member as PropertyInfo)?.PropertyType ?? (member as FieldInfo)?.FieldType;
-        }   
+        return (member as PropertyInfo)?.PropertyType ?? (member as FieldInfo)?.FieldType;
     }
 }

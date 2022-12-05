@@ -1,27 +1,26 @@
-﻿namespace Oakton.Parsing
+﻿namespace Oakton.Parsing;
+
+public class FlagAliases
 {
-    public class FlagAliases
+    public string LongForm { get; set; }
+    public string ShortForm { get; set; }
+
+    public bool LongFormOnly { get; set; }
+
+    public bool Matches(string token)
     {
-        public string LongForm { get; set; }
-        public string ShortForm { get; set; }
-
-        public bool LongFormOnly { get; set; }
-
-        public bool Matches(string token)
+        if (!LongFormOnly && InputParser.IsShortFlag(token))
         {
-            if(!LongFormOnly && InputParser.IsShortFlag(token))
-            {
-                return token == ShortForm;
-            }
-
-            var lowerToken = token.ToLower();
-
-            return lowerToken == LongForm.ToLower();
+            return token == ShortForm;
         }
 
-        public override string ToString()
-        {
-            return LongFormOnly ? $"{LongForm}" : $"{ShortForm}, {LongForm}";
-        }
+        var lowerToken = token.ToLower();
+
+        return lowerToken == LongForm.ToLower();
+    }
+
+    public override string ToString()
+    {
+        return LongFormOnly ? $"{LongForm}" : $"{ShortForm}, {LongForm}";
     }
 }

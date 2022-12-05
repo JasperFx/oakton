@@ -2,69 +2,67 @@
 using System.Linq;
 using Spectre.Console;
 
-namespace Oakton.Help
+namespace Oakton.Help;
+
+[Description("List all the available commands", Name = "help")]
+public class HelpCommand : OaktonCommand<HelpInput>
 {
-    [Description("List all the available commands", Name = "help")]
-    public class HelpCommand : OaktonCommand<HelpInput>
+    public HelpCommand()
     {
-        public HelpCommand()
+        Usage("List all the available commands").Arguments(x => x.Name);
+        Usage("Show all the valid usages for a command");
+    }
+
+    public override bool Execute(HelpInput input)
+    {
+        if (input.Usage != null)
         {
-            Usage("List all the available commands").Arguments(x => x.Name);
-            Usage("Show all the valid usages for a command");
+            input.Usage.WriteUsages(input.AppName);
+            return false;
         }
 
-        public override bool Execute(HelpInput input)
+        if (input.InvalidCommandName)
         {
-            if (input.Usage != null)
-            {
-                input.Usage.WriteUsages(input.AppName);
-                return false;
-            }
-
-            if (input.InvalidCommandName)
-            {
-                writeInvalidCommand(input.Name);
-                listAllCommands(input);
-                return false;
-            }
-
+            writeInvalidCommand(input.Name);
             listAllCommands(input);
-            return true;
+            return false;
         }
 
-        private void listAllCommands(HelpInput input)
+        listAllCommands(input);
+        return true;
+    }
+
+    private void listAllCommands(HelpInput input)
+    {
+        if (!input.CommandTypes.Any())
         {
-            if (!input.CommandTypes.Any())
-            {
-                Console.WriteLine("There are no known commands in this executable!");
-                return;
-            }
-            
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[bold]The available commands are:[/]");
-
-            var table = new Table
-            {
-                Border = TableBorder.SimpleHeavy
-            };
-            
-            table.AddColumns("Alias", "Description");
-            foreach (var type in input.CommandTypes.OrderBy(CommandFactory.CommandNameFor))
-            {
-                table.AddRow(CommandFactory.CommandNameFor(type), CommandFactory.DescriptionFor(type));
-            }
-
-            AnsiConsole.Write(table);
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("Use [italic]dotnet run -- ? [[command name]][/] or [italic]dotnet run -- help [[command name]][/] to see usage help about a specific command");
+            Console.WriteLine("There are no known commands in this executable!");
+            return;
         }
 
-        private void writeInvalidCommand(string commandName)
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine("[bold]The available commands are:[/]");
+
+        var table = new Table
         {
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[red]'{commandName}' is not a command.  See available commands.[/]");
-            AnsiConsole.WriteLine();
-            AnsiConsole.WriteLine();
-        }
+            Border = TableBorder.SimpleHeavy
+        };
+
+        table.AddColumns("Alias", "Description");
+        foreach (var type in input.CommandTypes.OrderBy(CommandFactory.CommandNameFor))
+            table.AddRow(CommandFactory.CommandNameFor(type), CommandFactory.DescriptionFor(type));
+
+        AnsiConsole.Write(table);
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine(
+            "Use [italic]dotnet run -- ? [[command name]][/] or [italic]dotnet run -- help [[command name]][/] to see usage help about a specific command");
+    }
+
+    private void writeInvalidCommand(string commandName)
+    {
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine($"[red]'{commandName}' is not a command.  See available commands.[/]");
+        AnsiConsole.WriteLine();
+        AnsiConsole.WriteLine();
     }
 }

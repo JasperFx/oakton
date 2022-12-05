@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using JasperFx.Reflection;
+using JasperFx.Core.Reflection;
 using Oakton;
 using Oakton.Help;
 using Oakton.Parsing;

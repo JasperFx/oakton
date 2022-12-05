@@ -3,30 +3,32 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Oakton.Environment
+namespace Oakton.Environment;
+
+public class FileExistsCheck : IEnvironmentCheck
 {
-    public class FileExistsCheck : IEnvironmentCheck
+    private readonly string _file;
+
+    public FileExistsCheck(string file)
     {
-        private readonly string _file;
+        _file = file;
+    }
 
-        public FileExistsCheck(string file)
-        {
-            _file = file;
-        }
-        
-        
 
-        public Task Assert(IServiceProvider services, CancellationToken cancellation)
+    public Task Assert(IServiceProvider services, CancellationToken cancellation)
+    {
+        if (!File.Exists(_file))
         {
-            if (!File.Exists(_file)) throw new Exception($"File '{_file}' cannot be found!");
-            return Task.CompletedTask;
+            throw new Exception($"File '{_file}' cannot be found!");
         }
 
-        public string Description => ToString();
+        return Task.CompletedTask;
+    }
 
-        public override string ToString()
-        {
-            return $"File '{_file}' exists";
-        }
+    public string Description => ToString();
+
+    public override string ToString()
+    {
+        return $"File '{_file}' exists";
     }
 }

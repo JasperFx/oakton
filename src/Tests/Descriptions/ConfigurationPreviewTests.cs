@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using JasperFx.StringExtensions;
+using JasperFx.Core;
 using Microsoft.Extensions.Configuration;
 using Oakton.Descriptions;
-using Shouldly;
 using Xunit;
 
 namespace Tests.Descriptions;

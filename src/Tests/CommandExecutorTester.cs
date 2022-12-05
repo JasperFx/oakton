@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using JasperFx.StringExtensions;
+using JasperFx.Core;
 using Oakton;
 using Shouldly;
 using Xunit;

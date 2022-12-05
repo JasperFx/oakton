@@ -6,79 +6,79 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Oakton.Resources
+namespace Oakton.Resources;
+
+internal class ResourceSetupOptions
 {
-    internal class ResourceSetupOptions
+    public StartupAction Action { get; set; } = StartupAction.SetupOnly;
+}
+
+internal class ResourceSetupHostService : IHostedService
+{
+    private readonly ILogger<ResourceSetupHostService> _logger;
+    private readonly ResourceSetupOptions _options;
+    private readonly IStatefulResource[] _resources;
+    private readonly IStatefulResourceSource[] _sources;
+
+    public ResourceSetupHostService(ResourceSetupOptions options, IEnumerable<IStatefulResource> resources,
+        IEnumerable<IStatefulResourceSource> sources, ILogger<ResourceSetupHostService> logger)
     {
-        public StartupAction Action { get; set; } = StartupAction.SetupOnly;
+        _resources = resources.ToArray();
+        _sources = sources.ToArray();
+        _options = options;
+        _logger = logger;
     }
-    
-    internal class ResourceSetupHostService : IHostedService
+
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        private readonly IStatefulResource[] _resources;
-        private readonly IStatefulResourceSource[] _sources;
-        private readonly ResourceSetupOptions _options;
-        private readonly ILogger<ResourceSetupHostService> _logger;
+        var list = new List<Exception>();
+        var resources = new List<IStatefulResource>(_resources);
 
-        public ResourceSetupHostService(ResourceSetupOptions options, IEnumerable<IStatefulResource> resources, IEnumerable<IStatefulResourceSource> sources, ILogger<ResourceSetupHostService> logger)
+        foreach (var source in _sources)
         {
-            _resources = resources.ToArray();
-            _sources = sources.ToArray();
-            _options = options;
-            _logger = logger;
+            try
+            {
+                resources.AddRange(source.FindResources());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to find resource sources from {Source}", source);
+                list.Add(new ResourceSetupException(source, e));
+            }
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        async ValueTask execute(IStatefulResource r, CancellationToken t)
         {
-            var list = new List<Exception>();
-            var resources = new List<IStatefulResource>(_resources);
-
-            foreach (var source in _sources)
+            try
             {
-                try
+                await r.Setup(cancellationToken).ConfigureAwait(false);
+                _logger.LogInformation("Ran Setup() on resource {Name} of type {Type}", r.Name, r.Type);
+
+                if (_options.Action == StartupAction.ResetState)
                 {
-                    resources.AddRange(source.FindResources());
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Failed to find resource sources from {Source}", source);
-                    list.Add(new ResourceSetupException(source, e));
+                    await r.ClearState(cancellationToken).ConfigureAwait(false);
+                    _logger.LogInformation("Ran ClearState() on resource {Name} of type {Type}", r.Name, r.Type);
                 }
             }
-
-            async ValueTask execute(IStatefulResource r, CancellationToken t)
+            catch (Exception e)
             {
-                try
-                {
-                    await r.Setup(cancellationToken).ConfigureAwait(false);
-                    _logger.LogInformation("Ran Setup() on resource {Name} of type {Type}", r.Name, r.Type);
+                var wrapped = new ResourceSetupException(r, e);
+                _logger.LogError(e, "Failed to setup resource {Name} of type {Type}", r.Name, r.Type);
 
-                    if (_options.Action == StartupAction.ResetState)
-                    {
-                        await r.ClearState(cancellationToken).ConfigureAwait(false);
-                        _logger.LogInformation("Ran ClearState() on resource {Name} of type {Type}", r.Name, r.Type);
-                    }
-                }
-                catch (Exception e)
-                {
-                    var wrapped = new ResourceSetupException(r, e);
-                    _logger.LogError(e, "Failed to setup resource {Name} of type {Type}", r.Name, r.Type);
-
-                    list.Add(wrapped);
-                }
+                list.Add(wrapped);
             }
-
-            foreach (var resource in resources)
-            {
-                await execute(resource, cancellationToken).ConfigureAwait(false);
-            }
-
-            if (list.Any()) throw new AggregateException(list);
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        foreach (var resource in resources) await execute(resource, cancellationToken).ConfigureAwait(false);
+
+        if (list.Any())
         {
-            return Task.CompletedTask;
+            throw new AggregateException(list);
         }
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

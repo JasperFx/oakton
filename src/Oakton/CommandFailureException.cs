@@ -1,11 +1,10 @@
 using System;
 
-namespace Oakton
+namespace Oakton;
+
+public class CommandFailureException : Exception
 {
-    public class CommandFailureException : Exception
+    public CommandFailureException(string message) : base(message)
     {
-        public CommandFailureException(string message) : base(message)
-        {
-        }
     }
 }

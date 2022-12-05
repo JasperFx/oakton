@@ -1,6 +1,6 @@
 using System;
 using System.Linq.Expressions;
-using JasperFx.Reflection;
+using JasperFx.Core.Reflection;
 using Oakton;
 using Oakton.Parsing;
 using Shouldly;

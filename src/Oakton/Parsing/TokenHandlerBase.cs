@@ -1,64 +1,83 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using JasperFx.Reflection;
+using JasperFx.Core.Reflection;
 
-namespace Oakton.Parsing
+namespace Oakton.Parsing;
+
+public abstract class TokenHandlerBase : ITokenHandler
 {
-    public abstract class TokenHandlerBase : ITokenHandler
+    protected TokenHandlerBase(MemberInfo member)
     {
-        protected TokenHandlerBase(MemberInfo member)
+        Member = member;
+    }
+
+    public MemberInfo Member { get; }
+
+    public string Description
+    {
+        get
         {
-            Member = member;
+            var name = Member.Name;
+            Member.ForAttribute<DescriptionAttribute>(att => name = att.Description);
+
+            return name;
+        }
+    }
+
+    public string MemberName => Member.Name;
+
+    public abstract bool Handle(object input, Queue<string> tokens);
+    public abstract string ToUsageDescription();
+
+    protected void setValue(object target, object value)
+    {
+        (Member as PropertyInfo)?.SetValue(target, value);
+        (Member as FieldInfo)?.SetValue(target, value);
+    }
+
+    protected object getValue(object target)
+    {
+        return (Member as PropertyInfo)?.GetValue(target)
+               ?? (Member as FieldInfo)?.GetValue(target);
+    }
+
+    public bool Equals(TokenHandlerBase other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
         }
 
-        protected void setValue(object target, object value)
+        if (ReferenceEquals(this, other))
         {
-            (Member as PropertyInfo)?.SetValue(target, value);
-            (Member as FieldInfo)?.SetValue(target, value);
-        }
-        
-        protected object getValue(object target)
-        {
-            return (Member as PropertyInfo)?.GetValue(target)
-                ?? (Member as FieldInfo)?.GetValue(target);
+            return true;
         }
 
-        public string Description
-        {
-            get
-            {
-                var name = Member.Name;
-                Member.ForAttribute<DescriptionAttribute>(att => name = att.Description);
+        return other.Member.Equals(Member);
+    }
 
-                return name;
-            }
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(null, obj))
+        {
+            return false;
         }
 
-        public MemberInfo Member { get; }
-
-        public string MemberName => Member.Name;
-
-        public abstract bool Handle(object input, Queue<string> tokens);
-        public abstract string ToUsageDescription();
-
-        public bool Equals(TokenHandlerBase other)
+        if (ReferenceEquals(this, obj))
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return other.Member.Equals(Member);
+            return true;
         }
 
-        public override bool Equals(object obj)
+        if (obj.GetType() != typeof(TokenHandlerBase))
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (TokenHandlerBase)) return false;
-            return Equals((TokenHandlerBase) obj);
+            return false;
         }
 
-        public override int GetHashCode()
-        {
-            return (Member != null ? Member.GetHashCode() : 0);
-        }
+        return Equals((TokenHandlerBase)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return Member != null ? Member.GetHashCode() : 0;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using JasperFx.StringExtensions;
+using JasperFx.Core;
 using Oakton.Parsing;
 using Shouldly;
 using Xunit;

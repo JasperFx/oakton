@@ -1,18 +1,18 @@
 using System;
 
-namespace Oakton
+namespace Oakton;
+
+public class InvalidUsageException : Exception
 {
-    public class InvalidUsageException : Exception
+    public InvalidUsageException() : base(string.Empty)
     {
-        public InvalidUsageException() : base(string.Empty) {}
+    }
 
-        public InvalidUsageException(string message) : base(message)
-        {
-            
-        }
+    public InvalidUsageException(string message) : base(message)
+    {
+    }
 
-        public InvalidUsageException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+    public InvalidUsageException(string message, Exception innerException) : base(message, innerException)
+    {
     }
 }

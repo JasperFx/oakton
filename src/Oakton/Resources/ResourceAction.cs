@@ -1,12 +1,11 @@
-namespace Oakton.Resources
+namespace Oakton.Resources;
+
+public enum ResourceAction
 {
-    public enum ResourceAction
-    {
-        clear,
-        teardown,
-        setup,
-        statistics,
-        check,
-        list
-    }
+    clear,
+    teardown,
+    setup,
+    statistics,
+    check,
+    list
 }
