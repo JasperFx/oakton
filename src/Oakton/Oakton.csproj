@@ -3,7 +3,7 @@
         <Description>Command Line Parsing and Execution</Description>
         <AssemblyTitle>Oakton</AssemblyTitle>
         <VersionPrefix>6.0.0</VersionPrefix>
-        <VersionSuffix>alpha-1</VersionSuffix>
+        <VersionSuffix>alpha</VersionSuffix>
         <Authors>Jeremy D. Miller</Authors>
         <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <DebugType>portable</DebugType>
