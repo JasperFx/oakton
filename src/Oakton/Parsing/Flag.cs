@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using JasperFx.Core;
+using JasperFx.Core.Reflection;
 using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing;

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JasperFx.Core;
 
 namespace Oakton.Internal.Conversion;
 
 public class Conversions
 {
-    private readonly LightweightCache<Type, Func<string, object?>?> _convertors;
+    private readonly LightweightCache<Type, Func<string, object>> _convertors;
     private readonly IList<IConversionProvider> _providers = new List<IConversionProvider>();
 
 
@@ -76,6 +77,6 @@ public class Conversions
 
     public bool Has(Type type)
     {
-        return _convertors.Has(type) || providers().Any(x => x.ConverterFor(type) != null);
+        return _convertors.Contains(type) || providers().Any(x => x.ConverterFor(type) != null);
     }
 }

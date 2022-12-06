@@ -14,7 +14,7 @@
         <PackageLicenseUrl>https://github.com/jasperfx/oakton/raw/master/LICENSE.TXT</PackageLicenseUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/jasperfx/oakton</RepositoryUrl>
-        <PackageIconUrl>https://github.com/JasperFx/oakton/blob/master/documentation/content/images/title.png?raw=true</PackageIconUrl>
+        <PackageIcon>jasper-icon.png</PackageIcon>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="JasperFx.TypeDiscovery" Version="1.0.0" />

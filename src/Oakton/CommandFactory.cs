@@ -56,7 +56,7 @@ public class CommandFactory : ICommandFactory
     /// </summary>
     public Type DefaultCommand
     {
-        get => _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.GetAll().Single() : null);
+        get => _defaultCommand ?? (_commandTypes.Count == 1 ? _commandTypes.Single() : null);
         set
         {
             _defaultCommand = value;
@@ -102,7 +102,7 @@ public class CommandFactory : ICommandFactory
             return HelpRun(queue);
         }
 
-        if (_commandTypes.Has(firstArg))
+        if (_commandTypes.Contains(firstArg))
         {
             queue.Dequeue();
             return buildRun(queue, firstArg);
@@ -176,7 +176,7 @@ public class CommandFactory : ICommandFactory
 
     public IEnumerable<Type> AllCommandTypes()
     {
-        return _commandTypes.GetAll();
+        return _commandTypes;
     }
 
     public CommandRun InvalidCommandRun(string commandName)
@@ -188,7 +188,7 @@ public class CommandFactory : ICommandFactory
             {
                 AppName = _appName,
                 Name = commandName,
-                CommandTypes = _commandTypes.GetAll(),
+                CommandTypes = _commandTypes.ToArray(),
                 InvalidCommandName = true
             }
         };
@@ -309,7 +309,7 @@ public class CommandFactory : ICommandFactory
     public virtual CommandRun HelpRun(Queue<string> queue)
     {
         var input = (HelpInput)new HelpCommand().Usages.BuildInput(queue, _commandCreator);
-        input.CommandTypes = _commandTypes.GetAll();
+        input.CommandTypes = _commandTypes.ToArray();
 
         // Little hokey, but show the detailed help for the default command
         if (DefaultCommand != null && input.CommandTypes.Count() == 1)
@@ -322,14 +322,15 @@ public class CommandFactory : ICommandFactory
         {
             input.InvalidCommandName = true;
             input.Name = input.Name.ToLowerInvariant();
-            _commandTypes.WithValue(input.Name, type =>
+
+            if (_commandTypes.TryFind(input.Name, out var type))
             {
                 input.InvalidCommandName = false;
 
                 var cmd = _commandCreator.CreateCommand(type);
 
                 input.Usage = cmd.Usages;
-            });
+            }
         }
 
         return new CommandRun
