@@ -1,3 +1,3 @@
 # oakton
 
-[![Gitter](https://badges.gitter.im/JasperFx/oakton.svg)](https://gitter.im/JasperFx/oakton?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![Discord](https://img.shields.io/discord/1074998995086225460?color=blue&label=Chat%20on%20Discord)
