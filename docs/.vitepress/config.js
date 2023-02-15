@@ -13,7 +13,7 @@ module.exports = {
         base: '/oakton/',
         nav: [
             { text: 'Guide', link: '/guide/' },
-            { text: 'Gitter | Join Chat', link: 'https://gitter.im/JasperFx/oakton?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge' }
+            { text: 'Discord | Join Chat', link: 'https://discord.com/channels/1074998995086225460/1075015939977904168' }
         ],
 
         algolia: {
