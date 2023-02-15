@@ -1,8 +1,7 @@
 {
   "index_name": "oakton_index",
   "start_urls": [
-    "https://jasperfx.github.io/oakton/guide",
-    "https://jasperfx.github.io/oakton/scenarios"
+    "https://jasperfx.github.io/oakton/guide"
   ],
   "selectors": {
     "lvl0": {
