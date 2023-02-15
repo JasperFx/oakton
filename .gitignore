@@ -257,3 +257,4 @@ somewhere.xml
 doc-target
 
 docs/.vitepress/dist
+docs/.vitepress/cache
