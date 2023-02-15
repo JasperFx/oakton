@@ -30,7 +30,7 @@ public class NameInput
     public bool VerboseFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/OaktonSample/Program.cs#L138-L160' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_sample_arguments' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/OaktonSample/Program.cs#L138-L160' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_sample_arguments' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ## Valid Argument Types
@@ -68,7 +68,7 @@ public class EnumerableArgumentInput
 
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/EnumerableArgumentTester.cs#L63-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_enumerablearguments' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/EnumerableArgumentTester.cs#L63-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_enumerablearguments' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 There's one huge caveat though, **an enumerable or array variable will need to be the very last argument** in your command line usage.
@@ -98,7 +98,7 @@ public class NameInput
     public string TitleFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L19-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_nameinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L19-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_nameinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In this particular case, I want users to be able to enter either the `Name` argument or both the `Name` and
@@ -136,7 +136,7 @@ public class NameCommand : OaktonCommand<NameInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The call to `Usage` in the constructor function specifies the valid argument patterns for the command. If that explicit
@@ -165,7 +165,7 @@ public class CleanInput
     public bool DoNoUseStandardIgnoreRulesFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L76-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_cleaninput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L76-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_cleaninput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ## Setting Flag Values
@@ -185,7 +185,7 @@ public class CheckoutInput
     public bool ForceFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L63-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_checkoutinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L63-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_checkoutinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 To specify the name of a newly created branch using the `CreateBranchFlag` property, I can either use:
@@ -254,7 +254,7 @@ public class CleanInput
     public bool DoNoUseStandardIgnoreRulesFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L76-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_cleaninput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L76-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_cleaninput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 From the command line, I can use these boolean flags like this with the long form for `ForceFlag`:
@@ -295,7 +295,7 @@ public class FileInput
     public string[] DirectoriesFlag;
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/FlagTester.cs#L160-L167' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_fileinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/FlagTester.cs#L160-L167' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_fileinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In usage, the flags could be used like:
@@ -322,7 +322,7 @@ public class DictInput
     public Dictionary<string, string> PropFlag = new Dictionary<string, string>();
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/DictionaryFlagTester.cs#L45-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_dictinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/DictionaryFlagTester.cs#L45-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_dictinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In usage at the command line, the flag is used like this:

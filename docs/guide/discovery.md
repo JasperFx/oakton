@@ -9,7 +9,7 @@ The first step is to mark any assembly containing Oakton commands you want disco
 ```cs
 [assembly:Oakton.OaktonCommandAssembly]
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/AspNetCoreExtensionCommands/BuildCommand.cs#L4-L6' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_oaktoncommandassemblyattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/AspNetCoreExtensionCommands/BuildCommand.cs#L4-L6' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_oaktoncommandassemblyattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Next, when you build a `CommandFactory`, you need to explicitly opt into the auto-discovery of commands by using the `RegisterCommandsFromExtensionAssemblies()` option as shown below in the Oakton.AspNetCore code:
@@ -36,5 +36,5 @@ return CommandExecutor.For(factory =>
     };
 });
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/CommandLineHostingExtensions.cs#L117-L136' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_extension_assemblies' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/CommandLineHostingExtensions.cs#L117-L136' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_extension_assemblies' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

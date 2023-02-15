@@ -18,7 +18,7 @@ public class NameInput
     public string TitleFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L19-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_nameinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L19-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_nameinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 or on the command class itself:
@@ -55,7 +55,7 @@ public class NameCommand : OaktonCommand<NameInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Also note the explanatory text in the `Usage()` method above in the case of a command that has multiple valid

@@ -86,7 +86,7 @@ public interface IStatefulResource
     string Name { get; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/Resources/IStatefulResource.cs#L7-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresource' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Resources/IStatefulResource.cs#L7-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresource' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 You can create a new adapter for your infrastructure by implementing this interface and registering
@@ -109,7 +109,7 @@ public interface IStatefulResourceSource
     IReadOnlyList<IStatefulResource> FindResources();
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/Resources/IStatefulResourceSource.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresourcesource' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Resources/IStatefulResourceSource.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresourcesource' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 To make the implementations easier, there is also an `Oakton.Resources.StatefulResourceBase` base
@@ -139,7 +139,7 @@ using var host = await Host.CreateDefaultBuilder()
         services.AddResourceSetupOnStartup();
     }).StartAsync();
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L21-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L21-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The code above adds a custom `IHostedService` at the front of the line to call the `Setup()`
@@ -158,7 +158,7 @@ using var host = await Host.CreateDefaultBuilder()
     .UseResourceSetupOnStartup()
     .StartAsync();
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L36-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup2' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L36-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup2' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Or, you can only have this applied when the system is running in "Development" mode:
@@ -174,7 +174,7 @@ using var host = await Host.CreateDefaultBuilder()
     .UseResourceSetupOnStartupInDevelopment()
     .StartAsync();
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L51-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup3' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L51-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup3' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ## At Testing Time
@@ -199,7 +199,7 @@ public static async Task usages_for_testing(IHost host)
     await host.TeardownResources();
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L64-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_programmatically_control_resources' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L64-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_programmatically_control_resources' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

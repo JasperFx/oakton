@@ -43,7 +43,7 @@ public class NameCommand : OaktonCommand<NameInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 There's only a couple things to note about a command class:
@@ -72,7 +72,7 @@ public class DoNameThingsCommand : OaktonAsyncCommand<NameInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L101-L113' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_async_command' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L101-L113' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_async_command' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -99,7 +99,7 @@ public OtherNameCommand()
         .ValidFlags(x => x.TitleFlag);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L68-L82' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_specifying_usages' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L68-L82' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_specifying_usages' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If you do not explicitly specify usages, Oakton will assume that all arguments are mandatory and in the order in which
@@ -117,7 +117,7 @@ By default, Oakton determines the command name for a command class by taking the
 [Description("Say my name differently", Name = "different-name")]
 public class AliasedCommand : OaktonCommand<NameInput>
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L90-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_command_alias' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L90-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_command_alias' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ## Asynchronous Commands
@@ -147,7 +147,7 @@ public class AsyncSayNameCommand : OaktonAsyncCommand<SayName>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/CommandExecutorTester.cs#L160-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_async_command_sample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/CommandExecutorTester.cs#L160-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_async_command_sample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Likewise, to execute asynchronously from `Program.Main()`, there are new overloads on 
@@ -168,7 +168,7 @@ static Task<int> Main(string[] args)
     return executor.ExecuteAsync(args);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L26-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_multiplecommands.program.main.async' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L26-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_multiplecommands.program.main.async' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

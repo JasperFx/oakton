@@ -41,7 +41,7 @@ app.MapGet("/", () => "Hello World!");
 // Program.Main() method to be asynchronous
 return await app.RunOaktonCommands(args);
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MinimalApi/Program.cs#L1-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_bootstrapping_minimal_api' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MinimalApi/Program.cs#L1-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_bootstrapping_minimal_api' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Just note that the `return await app.RunOaktonCommands(args);` line at the bottom is important because:
@@ -74,7 +74,7 @@ public class Program
     
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MvcApp/Program.cs#L37-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands_3' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Program.cs#L37-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands_3' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 or with `IWebHostBuilder`:
@@ -99,7 +99,7 @@ public class Program
     
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MvcApp/Program.cs#L17-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Program.cs#L17-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 There are just a couple things to note:

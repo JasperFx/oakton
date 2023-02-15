@@ -22,7 +22,7 @@ class Program
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_quickstart.program1' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_quickstart.program1' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ## Multiple Commands
@@ -71,7 +71,7 @@ public static int Main(string[] args)
     return executor.Execute(args);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/OaktonSample/Program.cs#L10-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_bootstrapping_command_executor' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/OaktonSample/Program.cs#L10-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_bootstrapping_command_executor' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Note the usage of `ConfigureRun`. See the [Marten.CommandLine](https://github.com/JasperFx/marten/blob/master/src/Marten.CommandLine/MartenCommands.cs#L16-L21) usage of this extension point as an example.
@@ -110,7 +110,7 @@ public class StructureMapCommandCreator : ICommandCreator
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/OaktonSample/Program.cs#L63-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_structuremapcommandcreator' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/OaktonSample/Program.cs#L63-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_structuremapcommandcreator' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 To use this custom command creator, just tell `CommandExecutor` about it like this:
@@ -126,7 +126,7 @@ public static void Bootstrapping(IContainer container)
     }, new StructureMapCommandCreator(container));
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/OaktonSample/Program.cs#L51-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_bootstrapping_with_custom_command_factory' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/OaktonSample/Program.cs#L51-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_bootstrapping_with_custom_command_factory' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

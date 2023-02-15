@@ -82,7 +82,7 @@ public interface IDescribedSystemPart
     Task Write(TextWriter writer);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/Descriptions/IDescribedSystemPart.cs#L6-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempart' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/IDescribedSystemPart.cs#L6-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempart' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Or if you have a related group of parts, you can register custom implementations of the `IDescribedSystemPartFactory` as well:
@@ -99,7 +99,7 @@ public interface IDescribedSystemPartFactory
     IDescribedSystemPart[] Parts();
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/Descriptions/IDescribedSystemPartFactory.cs#L3-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempartfactory' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/IDescribedSystemPartFactory.cs#L3-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempartfactory' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Oakton adds a couple extension methods on `IServiceCollection` to help you register custom describers:
@@ -146,7 +146,7 @@ static Task<int> Main(string[] args)
         .RunOaktonCommands(args);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/EnvironmentCheckDemonstrator/Program.cs#L16-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_extending_describe' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/EnvironmentCheckDemonstrator/Program.cs#L16-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_extending_describe' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 For an example, here's the implementation for one of the built in described system parts:
@@ -179,7 +179,7 @@ public class AboutThisAppPart : IDescribedSystemPart
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L128-L153' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_aboutthisapppart' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L128-L153' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_aboutthisapppart' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 You can also opt into enhanced formatting in the console output using the [Spectre.Console](https://spectresystems.github.io/spectre.console/) library if your part implements the `IWriteToConsole` interface like this built in part:
@@ -225,7 +225,7 @@ public class ReferencedAssemblies : IDescribedSystemPart, IWriteToConsole
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L155-L193' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_referencedassemblies' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L155-L193' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_referencedassemblies' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

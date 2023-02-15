@@ -7,7 +7,7 @@ Oakton has a strong extensibility model to find and activate commands from exter
 ```cs
 [assembly:Oakton.OaktonCommandAssembly]
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/AspNetCoreExtensionCommands/BuildCommand.cs#L4-L6' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_oaktoncommandassemblyattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/AspNetCoreExtensionCommands/BuildCommand.cs#L4-L6' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_oaktoncommandassemblyattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ::: tip warning
@@ -35,7 +35,7 @@ public class SmokeCommand : OaktonCommand<NetCoreInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/AspNetCoreExtensionCommands/BuildCommand.cs#L11-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_smokecommand' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/AspNetCoreExtensionCommands/BuildCommand.cs#L11-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_smokecommand' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The `NetCoreInput` carries the `IHostBuilder` of your application, but does **not** start up or build the `IHost` by itself. You would have to explicitly do so, but making that lazy gives you the ability to alter or extend the application configuration before calling `IHostBuilder.Build()` or `IHostBuilder.Start()`.

@@ -35,7 +35,7 @@ public class NameInput
     public string TitleFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L19-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_nameinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L19-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_nameinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 You'll note that I've added some `[Oakton.Description]` attributes strictly for the purpose of adding user help messages that we'll take a look at later. Now that we've got that out of the way, let's create our first command:
@@ -72,7 +72,7 @@ public class NameCommand : OaktonCommand<NameInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 With that in place, let's wire it up to our applications `Program.Main()`:
@@ -89,7 +89,7 @@ class Program
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/quickstart/Program.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_quickstart.program1' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_quickstart.program1' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Now, from the command line, I'll just try `dotnet run`, which will give us this (slightly elided) output complaining
@@ -178,7 +178,7 @@ public class CleanCommand : OaktonCommand<CleanInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L42-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_git_commands' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L42-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_git_commands' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In the `Program.Main()`, the setup is just a little bit different to go discover all the commands held in the application:
@@ -198,7 +198,7 @@ static int Main(string[] args)
     return executor.Execute(args);
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L11-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_multiplecommands.program.main' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L11-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_multiplecommands.program.main' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Now then, typing `dotnet run` without specifying a valid command will give you this:
@@ -233,7 +233,7 @@ public class CleanInput
     public bool DoNoUseStandardIgnoreRulesFlag { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/MultipleCommands/Program.cs#L76-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_cleaninput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MultipleCommands/Program.cs#L76-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_cleaninput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 To see the specific usage of the `clean` command, try `dotnet run -- help clean` or `dotnet run -- ? clean` to get the usage:

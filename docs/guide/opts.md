@@ -17,7 +17,7 @@ public class SecuredInput
     public string Password { get; set; }
 }
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/OptionsSamples.cs#L20-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_securedinput' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/OptionsSamples.cs#L20-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_securedinput' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 To make the tool easier to use, we can take advantage of the "opts" file option by making Oakton look for the presence of an optional text file in the same directory as the command execution with a certain name to pick up default command usages.
@@ -34,7 +34,7 @@ var executor = CommandExecutor.For(_ =>
 
 executor.OptionsFile = "mytool.opts";
 ```
-<sup><a href='https://github.com/JasperFx/alba/blob/master/src/Tests/OptionsSamples.cs#L9-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_configuring_opts_file' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/OptionsSamples.cs#L9-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_configuring_opts_file' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Now, we could have add a file named `mytool.opts` to the directory where we run the command with this sample content:
