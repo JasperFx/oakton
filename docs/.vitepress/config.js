@@ -17,8 +17,8 @@ module.exports = {
         ],
 
         algolia: {
-            appId: '2V5OM390DF',
-            apiKey: '674cd4f3e6b6ebe232a980c7cc5a0270',
+            appId: '5G434AGRPI',
+            apiKey: 'daed9f557ebf95072747f226f6117220',
             indexName: 'oakton_index'
         },
 
