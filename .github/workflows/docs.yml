@@ -43,7 +43,7 @@ jobs:
           cp -R ../docs/.vitepress/dist/* .
           touch .nojekyll
           git add --all
-          DOCS_VERSION="$(xmllint --xpath "/Project/PropertyGroup/Version/text()" ../src/Oakton/Oakton.csproj)"
+          DOCS_VERSION="$(xmllint --xpath "/Project/PropertyGroup/PackageVersion/text()" ../src/Oakton/Oakton.csproj)"
           git commit -a -m "Documentation Update for ${DOCS_VERSION}" --allow-empty
           git push origin ${TARGET_BRANCH}
 
