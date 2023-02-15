@@ -1,1 +1,0 @@
-import{_ as s,c as a,o as e,a as n}from"./app.148d2893.js";const h='{"title":"\\"Opts\\" Files","description":"","frontmatter":{},"relativePath":"guide/opts.md","lastUpdated":1655913929308}',t={},o=n("",16),p=[o];function c(i,l,r,u,d,m){return e(),a("div",null,p)}var f=s(t,[["render",c]]);export{h as __pageData,f as default};
