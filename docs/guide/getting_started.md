@@ -1,6 +1,6 @@
 # Getting Started
 
-::: tip warning
+::: tip
 The power of Oakton really comes into play when it's combined with applications using the `HostBuilder`
 mechanism for bootstrapping .Net applications. See [Integration with IHost](/guide/host/) for more information.
 :::
@@ -14,8 +14,6 @@ development team of that time to build robust console line utilities with these 
 * Easily enable tools to expose multiple commands
 * Completely separate the command line parsing from the actual functionality of the console application for easier testing of the command line tools and cleaner code
 * Validate user input and helpfully tell them when it's invalid and what the correct usage should be
-
-Oakton was originally extracted from FubuCore as a new standalone project before adding some new improvements and support for .Net Core and now .Net 5.0.
 
 ## Your First Command
 
@@ -206,15 +204,15 @@ static int Main(string[] args)
 Now then, typing `dotnet run` without specifying a valid command will give you this:
 
 ```
-  ------------------------------------------------------------------
-    Available commands:
-  ------------------------------------------------------------------
-    checkout -> Switch branches or restore working tree files
-       clean -> Remove untracked files from the working tree
-  ------------------------------------------------------------------
+The available commands are:
+
+  Alias      Description
+────────────────────────────────────────────────────────────
+  checkout   Switch branches or restore working tree files
+  clean      Remove untracked files from the working tree
 ```
 
-Typing `dotnet run -- help` or `dotnet run -- ?` would give you the same information. 
+Typing `dotnet run -- help` or `dotnet run -- ?` would give you the same information.
 
 Our fake `clean` command has this usage:
 
@@ -241,15 +239,18 @@ public class CleanInput
 To see the specific usage of the `clean` command, try `dotnet run -- help clean` or `dotnet run -- ? clean` to get the usage:
 
 ```
- Usages for 'clean' (Remove untracked files from the working tree)
-  clean [-f, --force] [-d, --remove-untracked-directories] [-x, --do-no-use-standard-ignore-rules]
+clean - Remove untracked files from the working tree
+└── Remove untracked files from the working tree
+    └── dotnet run -- clean
+        ├── [-f, --force]
+        ├── [-d, --remove-untracked-directories]
+        └── [-x, --do-no-use-standard-ignore-rules]
 
-  -------------------------------------------------------------------------------------------
-    Flags
-  -------------------------------------------------------------------------------------------
-                              [-f, --force] -> Do it now!
-       [-d, --remove-untracked-directories] -> Remove untracked directories in addition to untracked files
-    [-x, --do-no-use-standard-ignore-rules] -> Remove only files ignored by Git
-  -------------------------------------------------------------------------------------------
+
+                                    Usage   Description
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+                            [-f, --force]   Do it now!
+     [-d, --remove-untracked-directories]   Remove untracked directories in addition to untracked files
+  [-x, --do-no-use-standard-ignore-rules]   Remove only files ignored by Git
 ```
 

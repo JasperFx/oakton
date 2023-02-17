@@ -41,11 +41,11 @@ module.exports = {
 
 function tableOfContents() {
     return [
-      {text: 'What is Oakton', link: '/guide/'},
+      {text: 'What is Oakton', link: '/guide/getting_started'},
       {text: "Commands", link: '/guide/commands'},
       {
         text: "Integration with IHost",
-        link: '/guide/host/',
+        link: '/guide/host/integration_with_i_host',
         collapsible: true,
         collapsed: true,
         items: [
