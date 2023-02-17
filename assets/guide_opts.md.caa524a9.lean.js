@@ -1,0 +1,1 @@
+import{_ as s,c as a,o as e,a as n}from"./app.38dc4654.js";const m=JSON.parse('{"title":"\\"Opts\\" Files","description":"","frontmatter":{},"headers":[],"relativePath":"guide/opts.md"}'),o={name:"guide/opts.md"},t=n("",16),p=[t];function l(c,r,i,y,d,u){return e(),a("div",null,p)}const D=s(o,[["render",l]]);export{m as __pageData,D as default};
