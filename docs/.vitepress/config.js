@@ -13,7 +13,7 @@ module.exports = {
         base: '/oakton/',
         nav: [
             { text: 'Guide', link: '/guide/' },
-            { text: 'Discord | Join Chat', link: 'https://discord.com/channels/1074998995086225460/1075015939977904168' }
+            { text: 'Discord | Join Chat', link: 'https://discord.gg/WMxrvegf8H' }
         ],
 
         algolia: {
@@ -22,13 +22,17 @@ module.exports = {
             indexName: 'oakton_index'
         },
 
-        sidebar: [
-            {
-                text: 'Getting Started',
-                link: '/guide/',
-                children: tableOfContents()
-            }
-        ]
+        sidebar: {
+            '/': 
+            [
+                {
+                    text: 'Getting Started',
+                    collapsible: false,
+                    collapsed: false,
+                    items: tableOfContents()
+                }
+            ]
+        }
     },
     markdown: {
         linkify: false
@@ -37,18 +41,20 @@ module.exports = {
 
 function tableOfContents() {
     return [
+      {text: 'What is Oakton', link: '/guide/'},
       {text: "Commands", link: '/guide/commands'},
       {
         text: "Integration with IHost",
         link: '/guide/host/',
-        children: [
+        collapsible: true,
+        collapsed: true,
+        items: [
+          {text: "Integration with IHost", link: '/guide/host'},
           {text: "Improved \"Run\" Command", link: '/guide/host/run'},
           {text: "Environment Checks", link: '/guide/host/environment'},
           {text: "Writing Extension Commands", link: '/guide/host/extensions'},
           {text: "The \"describe\" command", link: '/guide/host/describe'},
           {text: "Stateful Resources", link: '/guide/host/resources'}
-
-
         ]
       },
       {text: "Bootstrapping with CommandExecutor", link: '/guide/bootstrapping'},
@@ -56,7 +62,5 @@ function tableOfContents() {
       {text: "Help Text", link: '/guide/help'},
       {text: "\"Opts\" Files", link: '/guide/opts'},
       {text: "Command Assembly Discovery", link: '/guide/discovery'},
-
-
     ]
 }
