@@ -2,6 +2,10 @@ using System;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 using Oakton.Environment;
 
 namespace Oakton.Commands;
@@ -33,6 +37,9 @@ public class RunCommand : OaktonAsyncCommand<RunInput>
             reset.Set();
             eventArgs.Cancel = true;
         });
+
+        var lifetime = host.Services.GetService<IHostApplicationLifetime>();
+        lifetime?.ApplicationStopping.Register(() => reset.Set());
 
         await host.StartAsync();
         reset.Wait();
