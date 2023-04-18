@@ -23,8 +23,7 @@ public class ResourcesCommand : OaktonAsyncCommand<ResourceInput>
     public override async Task<bool> Execute(ResourceInput input)
     {
         AnsiConsole.Write(
-            new FigletText("Oakton")
-                .LeftAligned());
+            new FigletText("Oakton"){Justification = Justify.Left});
 
         var cancellation = input.TokenSource.Token;
         using var host = input.BuildHost();

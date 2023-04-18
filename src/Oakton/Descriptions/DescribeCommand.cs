@@ -99,7 +99,7 @@ public class DescribeCommand : OaktonAsyncCommand<DescribeInput>
         {
             var rule = new Rule($"[blue]{part.Title}[/]")
             {
-                Alignment = Justify.Left
+                Justification = Justify.Left
             };
 
             AnsiConsole.Write(rule);

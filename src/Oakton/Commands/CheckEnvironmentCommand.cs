@@ -19,8 +19,7 @@ public class CheckEnvironmentCommand : OaktonAsyncCommand<CheckEnvironmentInput>
     public override async Task<bool> Execute(CheckEnvironmentInput input)
     {
         AnsiConsole.Write(
-            new FigletText("Oakton")
-                .LeftAligned());
+            new FigletText("Oakton"){Justification = Justify.Left});
 
 
         using var host = input.BuildHost();
