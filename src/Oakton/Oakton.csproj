@@ -19,7 +19,7 @@
     <ItemGroup>
         <PackageReference Include="JasperFx.TypeDiscovery" Version="1.0.0" />
         <PackageReference Include="JasperFx.Core" Version="1.0.0" />
-        <PackageReference Include="Spectre.Console" Version="0.45.0" />
+        <PackageReference Include="Spectre.Console" Version="0.46.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,8.0.0)" />
     </ItemGroup>
 
