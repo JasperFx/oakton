@@ -1,0 +1,1 @@
+import{_ as s,c as a,o as n,a as o}from"./app.3751b049.js";const m=JSON.parse('{"title":"Command Assembly Discovery","description":"","frontmatter":{},"headers":[],"relativePath":"guide/discovery.md"}'),p={name:"guide/discovery.md"},l=o("",10),e=[l];function t(c,r,i,y,D,F){return n(),a("div",null,e)}const A=s(p,[["render",t]]);export{m as __pageData,A as default};

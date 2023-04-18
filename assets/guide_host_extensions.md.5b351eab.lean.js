@@ -1,0 +1,1 @@
+import{_ as s,c as a,o as n,a as o}from"./app.3751b049.js";const m=JSON.parse('{"title":"Writing Extension Commands","description":"","frontmatter":{},"headers":[],"relativePath":"guide/host/extensions.md"}'),e={name:"guide/host/extensions.md"},t=o("",11),l=[t];function p(c,r,i,y,d,F){return n(),a("div",null,l)}const C=s(e,[["render",p]]);export{m as __pageData,C as default};
