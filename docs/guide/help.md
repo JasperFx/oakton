@@ -45,9 +45,7 @@ public class NameCommand : OaktonCommand<NameInput>
             text = input.TitleFlag + " " + text;
         }
 
-        // This is a little helper in Oakton for getting
-        // cute with colors in the console output
-        ConsoleWriter.Write(input.Color, text);
+        AnsiConsole.Write($"[{input.Color}]{text}[/]");
 
         // Just telling the OS that the command
         // finished up okay
@@ -55,7 +53,7 @@ public class NameCommand : OaktonCommand<NameInput>
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L33-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/quickstart/Program.cs#L33-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_namecommand' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Also note the explanatory text in the `Usage()` method above in the case of a command that has multiple valid

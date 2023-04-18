@@ -74,7 +74,7 @@ public class Program
     
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Program.cs#L37-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands_3' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Program.cs#L36-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands_3' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 or with `IWebHostBuilder`:
@@ -99,7 +99,7 @@ public class Program
     
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Program.cs#L17-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Program.cs#L16-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_run_oakton_commands' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 There are just a couple things to note:

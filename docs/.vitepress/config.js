@@ -49,7 +49,7 @@ function tableOfContents() {
         collapsible: true,
         collapsed: true,
         items: [
-          {text: "Integration with IHost", link: '/guide/host'},
+          {text: "Integration with IHost", link: '/guide/host/'},
           {text: "Improved \"Run\" Command", link: '/guide/host/run'},
           {text: "Environment Checks", link: '/guide/host/environment'},
           {text: "Writing Extension Commands", link: '/guide/host/extensions'},

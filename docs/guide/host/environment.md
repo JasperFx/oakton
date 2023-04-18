@@ -46,7 +46,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddSingleton<IDescribedSystemPart, Describer3>();
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Startup.cs#L30-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_configureservice_with_environmentcheck' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Startup.cs#L29-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_configureservice_with_environmentcheck' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Now, during deployments or even just pulling down the code to run locally, we can run the environment checks on our application like so:
@@ -108,7 +108,7 @@ public interface IEnvironmentCheck
     Task Assert(IServiceProvider services, CancellationToken cancellation);
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/IEnvironmentCheck.cs#L7-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_ienvironmentcheck' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/IEnvironmentCheck.cs#L7-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_ienvironmentcheck' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 *Oakton.AspNetCore* is looking for service registrations of this interface in your application's IoC container. The `CheckEnvironment()` extension method above just adds a service registration for the `IEnvironmentCheck` interface that runs the supplied lambda. When executing the environment checks, *Oakton.AspNetCore* runs each check
@@ -197,7 +197,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddSingleton<IDescribedSystemPart, Describer3>();
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Startup.cs#L30-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_configureservice_with_environmentcheck' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/MvcApp/Startup.cs#L29-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_configureservice_with_environmentcheck' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 There are various overloads of `CheckEnvironment()` for both synchronous and asynchronous checks, and specialized
@@ -231,7 +231,7 @@ public interface IEnvironmentCheck
     Task Assert(IServiceProvider services, CancellationToken cancellation);
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/IEnvironmentCheck.cs#L7-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_ienvironmentcheck' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/IEnvironmentCheck.cs#L7-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_ienvironmentcheck' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 And adding your custom type to your service registrations when you configure your IoC container (`Startup.ConfigureServices()`).
@@ -246,7 +246,7 @@ There's a specialized, built in check for required files like so:
 <a id='snippet-sample_checkthatfileexists'></a>
 ```cs
 /// <summary>
-/// Issue an environment check for the existence of a named file
+///     Issue an environment check for the existence of a named file
 /// </summary>
 /// <param name="services"></param>
 /// <param name="path"></param>
@@ -256,7 +256,7 @@ public static void CheckThatFileExists(this IServiceCollection services, string 
     services.AddSingleton<IEnvironmentCheck>(check);
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/EnvironmentCheckExtensions.cs#L76-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_checkthatfileexists' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/EnvironmentCheckExtensions.cs#L74-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_checkthatfileexists' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -270,8 +270,8 @@ There's also a specialized check to ascertain that a required IoC service regist
 <a id='snippet-sample_checkserviceisregistered'></a>
 ```cs
 /// <summary>
-/// Issue an environment check for the registration of a service in the underlying IoC
-/// container
+///     Issue an environment check for the registration of a service in the underlying IoC
+///     container
 /// </summary>
 /// <param name="services"></param>
 /// <typeparam name="T"></typeparam>
@@ -281,15 +281,16 @@ public static void CheckServiceIsRegistered<T>(this IServiceCollection services)
 }
 
 /// <summary>
-/// Issue an environment check for the registration of a service in the underlying IoC
-/// container
+///     Issue an environment check for the registration of a service in the underlying IoC
+///     container
 /// </summary>
 /// <param name="services"></param>
 /// <param name="serviceType"></param>
 public static void CheckServiceIsRegistered(this IServiceCollection services, Type serviceType)
 {
-    services.CheckEnvironment($"Service {serviceType.FullName} should be registered", s => s.GetRequiredService(serviceType));
+    services.CheckEnvironment($"Service {serviceType.FullName} should be registered",
+        s => s.GetRequiredService(serviceType));
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/EnvironmentCheckExtensions.cs#L89-L111' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_checkserviceisregistered' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Environment/EnvironmentCheckExtensions.cs#L89-L114' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_checkserviceisregistered' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -62,27 +62,27 @@ The `describe` command can be extended by registering custom implemtations of th
 <a id='snippet-sample_idescribedsystempart'></a>
 ```cs
 /// <summary>
-/// Base class for a "described" part of your application.
-/// Implementations of this type should be registered in your
-/// system's DI container to be exposed through the "describe"
-/// command
+///     Base class for a "described" part of your application.
+///     Implementations of this type should be registered in your
+///     system's DI container to be exposed through the "describe"
+///     command
 /// </summary>
 public interface IDescribedSystemPart
 {
     /// <summary>
-    /// A descriptive title to be shown in the rendered output
+    ///     A descriptive title to be shown in the rendered output
     /// </summary>
     string Title { get; }
 
     /// <summary>
-    /// Write markdown formatted text to describe this system part
+    ///     Write markdown formatted text to describe this system part
     /// </summary>
     /// <param name="writer"></param>
     /// <returns></returns>
     Task Write(TextWriter writer);
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/IDescribedSystemPart.cs#L6-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempart' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/IDescribedSystemPart.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempart' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Or if you have a related group of parts, you can register custom implementations of the `IDescribedSystemPartFactory` as well:
@@ -91,15 +91,15 @@ Or if you have a related group of parts, you can register custom implementations
 <a id='snippet-sample_idescribedsystempartfactory'></a>
 ```cs
 /// <summary>
-/// Register implementations of this service to help
-/// the describe command discover additional system parts
+///     Register implementations of this service to help
+///     the describe command discover additional system parts
 /// </summary>
 public interface IDescribedSystemPartFactory
 {
     IDescribedSystemPart[] Parts();
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/IDescribedSystemPartFactory.cs#L3-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempartfactory' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/IDescribedSystemPartFactory.cs#L3-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_idescribedsystempartfactory' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Oakton adds a couple extension methods on `IServiceCollection` to help you register custom describers:
@@ -146,7 +146,7 @@ static Task<int> Main(string[] args)
         .RunOaktonCommands(args);
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/EnvironmentCheckDemonstrator/Program.cs#L16-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_extending_describe' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/EnvironmentCheckDemonstrator/Program.cs#L15-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_extending_describe' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 For an example, here's the implementation for one of the built in described system parts:
@@ -165,9 +165,10 @@ public class AboutThisAppPart : IDescribedSystemPart
     }
 
     public string Title { get; }
+
     public Task Write(TextWriter writer)
     {
-        var entryAssembly = Assembly.GetEntryAssembly();    
+        var entryAssembly = Assembly.GetEntryAssembly();
         writer.WriteLine($"          Entry Assembly: {entryAssembly.GetName().Name}");
         writer.WriteLine($"                 Version: {entryAssembly.GetName().Version}");
         writer.WriteLine($"        Application Name: {_host.ApplicationName}");
@@ -179,7 +180,7 @@ public class AboutThisAppPart : IDescribedSystemPart
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L128-L153' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_aboutthisapppart' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L122-L150' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_aboutthisapppart' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 You can also opt into enhanced formatting in the console output using the [Spectre.Console](https://spectresystems.github.io/spectre.console/) library if your part implements the `IWriteToConsole` interface like this built in part:
@@ -190,16 +191,13 @@ You can also opt into enhanced formatting in the console output using the [Spect
 public class ReferencedAssemblies : IDescribedSystemPart, IWriteToConsole
 {
     public string Title { get; } = "Referenced Assemblies";
-    
+
     // If you're writing to a file, this method will be called to 
     // write out markdown formatted text
     public Task Write(TextWriter writer)
     {
         var referenced = Assembly.GetEntryAssembly().GetReferencedAssemblies();
-        foreach (var assemblyName in referenced)
-        {
-            writer.WriteLine("* " + assemblyName);
-        }
+        foreach (var assemblyName in referenced) writer.WriteLine("* " + assemblyName);
 
         return Task.CompletedTask;
     }
@@ -212,20 +210,17 @@ public class ReferencedAssemblies : IDescribedSystemPart, IWriteToConsole
         var table = new Table();
         table.AddColumn("Assembly Name");
         table.AddColumn("Version");
-        
+
         var referenced = Assembly.GetEntryAssembly().GetReferencedAssemblies();
-        foreach (var assemblyName in referenced)
-        {
-            table.AddRow(assemblyName.Name, assemblyName.Version.ToString());
-        }
-        
+        foreach (var assemblyName in referenced) table.AddRow(assemblyName.Name, assemblyName.Version.ToString());
+
         AnsiConsole.Write(table);
 
         return Task.CompletedTask;
     }
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L155-L193' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_referencedassemblies' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Descriptions/DescribeCommand.cs#L152-L186' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_referencedassemblies' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

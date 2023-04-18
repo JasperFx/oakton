@@ -20,7 +20,10 @@ Next, when you build a `CommandFactory`, you need to explicitly opt into the aut
 return CommandExecutor.For(factory =>
 {
     factory.RegisterCommands(typeof(RunCommand).GetTypeInfo().Assembly);
-    if (applicationAssembly != null) factory.RegisterCommands(applicationAssembly);
+    if (applicationAssembly != null)
+    {
+        factory.RegisterCommands(applicationAssembly);
+    }
 
     // This method will direct the CommandFactory to go look for extension
     // assemblies with Oakton commands
@@ -36,5 +39,5 @@ return CommandExecutor.For(factory =>
     };
 });
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/CommandLineHostingExtensions.cs#L117-L136' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_extension_assemblies' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/CommandLineHostingExtensions.cs#L119-L143' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_extension_assemblies' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

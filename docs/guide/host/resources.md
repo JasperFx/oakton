@@ -32,58 +32,58 @@ The first element is the `Oakton.Resources.IStatefulResource` interface shown be
 <a id='snippet-sample_istatefulresource'></a>
 ```cs
 /// <summary>
-/// Adapter interface used by Oakton enabled applications to allow
-/// Oakton to setup/teardown/clear the state/check on stateful external
-/// resources of the system like databases or messaging queues
+///     Adapter interface used by Oakton enabled applications to allow
+///     Oakton to setup/teardown/clear the state/check on stateful external
+///     resources of the system like databases or messaging queues
 /// </summary>
 public interface IStatefulResource
 {
     /// <summary>
-    /// Check whether the configuration for this resource is valid. An exception
-    /// should be thrown if the check is invalid
+    ///     Categorical type name of this resource for filtering
+    /// </summary>
+    string Type { get; }
+
+    /// <summary>
+    ///     Identifier for this resource
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
+    ///     Check whether the configuration for this resource is valid. An exception
+    ///     should be thrown if the check is invalid
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     Task Check(CancellationToken token);
-    
+
     /// <summary>
-    /// Clear any persisted state within this resource
+    ///     Clear any persisted state within this resource
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     Task ClearState(CancellationToken token);
-    
+
     /// <summary>
-    /// Tear down the stateful resource represented by this implementation
+    ///     Tear down the stateful resource represented by this implementation
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     Task Teardown(CancellationToken token);
-    
+
     /// <summary>
-    /// Make any necessary configuration to this stateful resource
-    /// to make the system function correctly
+    ///     Make any necessary configuration to this stateful resource
+    ///     to make the system function correctly
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     Task Setup(CancellationToken token);
-    
+
     /// <summary>
-    /// Optionally return a report of the current state of this resource
+    ///     Optionally return a report of the current state of this resource
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
     Task<IRenderable> DetermineStatus(CancellationToken token);
-    
-    /// <summary>
-    /// Categorical type name of this resource for filtering
-    /// </summary>
-    string Type { get; }
-    
-    /// <summary>
-    /// Identifier for this resource
-    /// </summary>
-    string Name { get; }
 }
 ```
 <sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Resources/IStatefulResource.cs#L7-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresource' title='Start of snippet'>anchor</a></sup>
@@ -102,14 +102,14 @@ adapter to "find" all the known Weasel managed databases to enable Oakton's stat
 <a id='snippet-sample_istatefulresourcesource'></a>
 ```cs
 /// <summary>
-/// Expose multiple stateful resources
+///     Expose multiple stateful resources
 /// </summary>
 public interface IStatefulResourceSource
 {
     IReadOnlyList<IStatefulResource> FindResources();
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Resources/IStatefulResourceSource.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresourcesource' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Oakton/Resources/IStatefulResourceSource.cs#L5-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_istatefulresourcesource' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 To make the implementations easier, there is also an `Oakton.Resources.StatefulResourceBase` base
@@ -139,7 +139,7 @@ using var host = await Host.CreateDefaultBuilder()
         services.AddResourceSetupOnStartup();
     }).StartAsync();
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L21-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L19-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The code above adds a custom `IHostedService` at the front of the line to call the `Setup()`
@@ -158,7 +158,7 @@ using var host = await Host.CreateDefaultBuilder()
     .UseResourceSetupOnStartup()
     .StartAsync();
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L36-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup2' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L34-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup2' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Or, you can only have this applied when the system is running in "Development" mode:
@@ -174,7 +174,7 @@ using var host = await Host.CreateDefaultBuilder()
     .UseResourceSetupOnStartupInDevelopment()
     .StartAsync();
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L51-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup3' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L49-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_using_addresourcesetuponstartup3' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 ## At Testing Time
@@ -199,7 +199,7 @@ public static async Task usages_for_testing(IHost host)
     await host.TeardownResources();
 }
 ```
-<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L64-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_programmatically_control_resources' title='Start of snippet'>anchor</a></sup>
+<sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L62-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_programmatically_control_resources' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
