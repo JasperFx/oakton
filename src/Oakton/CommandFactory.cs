@@ -5,10 +5,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using JasperFx.Core;
 using JasperFx.Core.Reflection;
-using JasperFx.TypeDiscovery;
+using JasperFx.Core.TypeScanning;
 using Microsoft.Extensions.Hosting;
 using Oakton.Help;
-using Oakton.Internal;
 using Oakton.Parsing;
 using Spectre.Console;
 
