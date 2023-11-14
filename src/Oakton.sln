@@ -33,6 +33,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet6BootstrappedConsole"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptsFileUsageDemo", "OptsFileUsageDemo\OptsFileUsageDemo.csproj", "{A0EA6072-88AB-493C-A955-55D73C33853D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3209057B-F40B-4474-BBBB-93B0B5E89E73}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\docs.yml = ..\.github\workflows\docs.yml
+		..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
+		..\.github\workflows\publish_nuget.yml = ..\.github\workflows\publish_nuget.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
