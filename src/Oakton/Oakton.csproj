@@ -11,7 +11,7 @@
         <PackageId>Oakton</PackageId>
         <PackageTags>Command Line Parsing</PackageTags>
         <PackageProjectUrl>https://jasperfx.github.io/oakton</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/jasperfx/oakton/raw/master/LICENSE.TXT</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/jasperfx/oakton</RepositoryUrl>
         <PackageIconUrl>https://raw.githubusercontent.com/JasperFx/JasperFx.Core/main/jasperfx-logo.jpg?raw=true</PackageIconUrl>
