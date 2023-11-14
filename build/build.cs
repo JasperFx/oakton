@@ -263,7 +263,7 @@ documentation/discovery/
 
         private static void RunTests(string projectName, string directoryName = "src")
         {
-            Run("dotnet", $"test --no-build {directoryName}/{projectName}/{projectName}.csproj");
+            Run("dotnet", $"test --no-build {directoryName}/{projectName}/{projectName}.csproj --framework net8.0");
         }
         
         private static string GetEnvironmentVariable(string variableName)
