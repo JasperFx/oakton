@@ -129,7 +129,7 @@ documentation/discovery/
         
         private static void RunCurrentProject(string args)
         {
-            Run("dotnet", $"run --no-build --no-restore --framework net6.0 -- {args}");
+            Run("dotnet", $"run --no-build --no-restore --framework net8.0 -- {args}");
         }
 
 
