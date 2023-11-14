@@ -283,13 +283,6 @@ documentation/discovery/
             return val;
         }
 
-        private static string GetFramework()
-        {
-            var frameworkName = Assembly.GetEntryAssembly().GetCustomAttribute<TargetFrameworkAttribute>().FrameworkName;
-            var version = float.Parse(frameworkName.Split('=')[1].Replace("v",""), InvariantCulture.NumberFormat);
-
-            return version < 5.0 ? $"netcoreapp{version.ToString("N1", InvariantCulture.NumberFormat)}" : $"net{version.ToString("N1", InvariantCulture.NumberFormat)}";
-        }
 
         private static Action IgnoreIfFailed(Action action)
         {
