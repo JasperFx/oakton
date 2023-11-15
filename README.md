@@ -1,4 +1,6 @@
-# oakton
+# Oakton
+
+Parsing and Utilities for Command Line Tools in .Net
 
 [![Discord](https://img.shields.io/discord/1074998995086225460?color=blue&label=Chat%20on%20Discord)](https://discord.gg/WMxrvegf8H)
 
