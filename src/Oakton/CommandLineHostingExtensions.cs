@@ -36,10 +36,12 @@ public static class CommandLineHostingExtensions
     /// <param name="builder"></param>
     /// <param name="args"></param>
     /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
-    public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args, string? optionsFile = null)
+    public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args, string? optionsFile = null,
+        ICommandCreator? commandCreator = null)
     {
-        return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile);
+        return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile, commandCreator);
     }
 
     /// <summary>
@@ -50,11 +52,12 @@ public static class CommandLineHostingExtensions
     /// <param name="builder"></param>
     /// <param name="args"></param>
     /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
     public static int RunOaktonCommandsSynchronously(this IHostBuilder builder, string[] args,
-        string? optionsFile = null)
+        string? optionsFile = null, ICommandCreator? commandCreator = null)
     {
-        return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile).GetAwaiter().GetResult();
+        return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile, commandCreator).GetAwaiter().GetResult();
     }
 
     /// <summary>
@@ -65,10 +68,12 @@ public static class CommandLineHostingExtensions
     /// <param name="host">An already built IHost</param>
     /// <param name="args"></param>
     /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
-    public static Task<int> RunOaktonCommands(this IHost host, string[] args, string? optionsFile = null)
+    public static Task<int> RunOaktonCommands(this IHost host, string[] args, string? optionsFile = null,
+        ICommandCreator? commandCreator = null)
     {
-        return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile);
+        return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile, commandCreator);
     }
 
     /// <summary>
@@ -79,16 +84,18 @@ public static class CommandLineHostingExtensions
     /// <param name="host">An already built IHost</param>
     /// <param name="args"></param>
     /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
-    public static int RunOaktonCommandsSynchronously(this IHost host, string[] args, string? optionsFile = null)
+    public static int RunOaktonCommandsSynchronously(this IHost host, string[] args, string? optionsFile = null,
+        ICommandCreator? commandCreator = null)
     {
-        return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile).GetAwaiter()
+        return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile, commandCreator).GetAwaiter()
             .GetResult();
     }
 
 
     private static Task<int> execute(IHostBuilder runtimeSource, Assembly? applicationAssembly, string[] args,
-        string? optionsFile)
+        string? optionsFile, ICommandCreator? commandCreator)
     {
         // Workaround for IISExpress / VS2019 erroneously putting crap arguments
         args = args.FilterLauncherArgs();
@@ -105,11 +112,11 @@ public static class CommandLineHostingExtensions
         }
 
 
-        var commandExecutor = buildExecutor(runtimeSource, applicationAssembly);
+        var commandExecutor = buildExecutor(runtimeSource, applicationAssembly, commandCreator);
         return commandExecutor.ExecuteAsync(args);
     }
 
-    private static CommandExecutor buildExecutor(IHostBuilder source, Assembly? applicationAssembly)
+    private static CommandExecutor buildExecutor(IHostBuilder source, Assembly? applicationAssembly, ICommandCreator? commandCreator)
     {
         if (OaktonEnvironment.AutoStartHost && source is PreBuiltHostBuilder b)
         {
@@ -138,7 +145,7 @@ public static class CommandLineHostingExtensions
                     i.HostBuilder = source;
                 }
             };
-        });
+        }, commandCreator);
 
         #endregion
     }
