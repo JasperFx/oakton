@@ -38,7 +38,6 @@ public static class ResourceHostExtensions
                 x.KeyedImplementationType == typeof(ResourceSetupHostService) &&
 #else
                 x.ImplementationType == typeof(ResourceSetupHostService)))
-
 #endif
         {
             services.Insert(0,

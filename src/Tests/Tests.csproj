@@ -22,11 +22,11 @@
         </PackageReference>
     </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'NET8_0_OR_GREATER'">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-	</ItemGroup>
+    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'NET8_0_OR_GREATER'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    </ItemGroup>
 
-	<ItemGroup>
+    <ItemGroup>
       <ProjectReference Include="..\ExtensionCommands\ExtensionCommands.csproj" />
       <ProjectReference Include="..\Oakton\Oakton.csproj" />
     </ItemGroup>

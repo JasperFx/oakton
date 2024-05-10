@@ -22,11 +22,11 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,9.0.0)" />
     </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'NET8_0_OR_GREATER'">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-	</ItemGroup>
+    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'NET8_0_OR_GREATER'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    </ItemGroup>
 
-	<ItemGroup>
+    <ItemGroup>
         <None Include="jasper-icon.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
