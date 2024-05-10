@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Oakton.Resources;
 
@@ -33,7 +33,13 @@ public static class ResourceHostExtensions
     {
         if (!services.Any(x =>
                 x.ServiceType == typeof(IHostedService) &&
+#if NET8_0_OR_GREATER
+                x.ServiceKey is not null ?
+                x.KeyedImplementationType == typeof(ResourceSetupHostService) &&
+#else
                 x.ImplementationType == typeof(ResourceSetupHostService)))
+
+#endif
         {
             services.Insert(0,
                 new ServiceDescriptor(typeof(IHostedService), typeof(ResourceSetupHostService),
