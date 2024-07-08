@@ -85,7 +85,7 @@ public class DescribeCommand : OaktonAsyncCommand<DescribeInput>
     {
         foreach (var part in parts)
         {
-            await writer.WriteLineAsync("##" + part.Title);
+            await writer.WriteLineAsync("## " + part.Title);
             await writer.WriteLineAsync();
             await part.Write(writer);
             await writer.WriteLineAsync();
