@@ -31,7 +31,7 @@ namespace Tests.Descriptions
             writer.ToString().ShouldContain(theParts[0].Title);
             
             writer.ToString().ShouldContain(theParts[1].As<DescribedPart>().Body);
-            writer.ToString().ShouldContain(theParts[1].Title);
+            writer.ToString().ShouldContain("## " + theParts[1].Title);
         }
 
         [Fact]
