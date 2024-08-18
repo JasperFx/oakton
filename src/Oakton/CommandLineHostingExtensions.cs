@@ -36,12 +36,41 @@ public static class CommandLineHostingExtensions
     /// <param name="builder"></param>
     /// <param name="args"></param>
     /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <returns></returns>
+    public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args, string? optionsFile = null)
+    {
+        return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile, null);
+    }
+
+    /// <summary>
+    ///     Execute the extended Oakton command line support for your configured WebHostBuilder.
+    ///     This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+    ///     of your AspNetCore application
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="args"></param>
+    /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
     /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
-    public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args, string? optionsFile = null,
-        ICommandCreator? commandCreator = null)
+    public static Task<int> RunOaktonCommands(this IHostBuilder builder, string[] args,
+        ICommandCreator commandCreator, string? optionsFile = null)
     {
         return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile, commandCreator);
+    }
+
+    /// <summary>
+    ///     Execute the extended Oakton command line support for your configured WebHostBuilder.
+    ///     This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+    ///     of your AspNetCore application
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="args"></param>
+    /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <returns></returns>
+    public static int RunOaktonCommandsSynchronously(this IHostBuilder builder, string[] args,
+        string? optionsFile = null)
+    {
+        return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile, null).GetAwaiter().GetResult();
     }
 
     /// <summary>
@@ -55,7 +84,7 @@ public static class CommandLineHostingExtensions
     /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
     public static int RunOaktonCommandsSynchronously(this IHostBuilder builder, string[] args,
-        string? optionsFile = null, ICommandCreator? commandCreator = null)
+        ICommandCreator commandCreator, string? optionsFile = null)
     {
         return execute(builder, Assembly.GetEntryAssembly(), args, optionsFile, commandCreator).GetAwaiter().GetResult();
     }
@@ -68,12 +97,41 @@ public static class CommandLineHostingExtensions
     /// <param name="host">An already built IHost</param>
     /// <param name="args"></param>
     /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <returns></returns>
+    public static Task<int> RunOaktonCommands(this IHost host, string[] args, string? optionsFile = null)
+    {
+        return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile, null);
+    }
+
+    /// <summary>
+    ///     Execute the extended Oakton command line support for your configured IHost.
+    ///     This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+    ///     of your AspNetCore application. This usage is appropriate for WebApplication bootstrapping
+    /// </summary>
+    /// <param name="host">An already built IHost</param>
+    /// <param name="args"></param>
+    /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
     /// <param name="commandCreator">Optionally configure a custom ICommandCreator</param>
     /// <returns></returns>
-    public static Task<int> RunOaktonCommands(this IHost host, string[] args, string? optionsFile = null,
-        ICommandCreator? commandCreator = null)
+    public static Task<int> RunOaktonCommands(this IHost host, string[] args,
+        ICommandCreator commandCreator, string? optionsFile = null)
     {
         return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile, commandCreator);
+    }
+
+    /// <summary>
+    ///     Execute the extended Oakton command line support for your configured IHost.
+    ///     This method would be called within the Task&lt;int&gt; Program.Main(string[] args) method
+    ///     of your AspNetCore application. This usage is appropriate for WebApplication bootstrapping
+    /// </summary>
+    /// <param name="host">An already built IHost</param>
+    /// <param name="args"></param>
+    /// <param name="optionsFile">Optionally configure an expected "opts" file</param>
+    /// <returns></returns>
+    public static int RunOaktonCommandsSynchronously(this IHost host, string[] args, string? optionsFile = null)
+    {
+        return execute(new PreBuiltHostBuilder(host), Assembly.GetEntryAssembly(), args, optionsFile, null).GetAwaiter()
+            .GetResult();
     }
 
     /// <summary>
