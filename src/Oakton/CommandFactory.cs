@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using JasperFx.Core;
+﻿using JasperFx.Core;
 using JasperFx.Core.Reflection;
 using JasperFx.Core.TypeScanning;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Oakton.Help;
 using Oakton.Parsing;
 using Spectre.Console;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Oakton;
 
@@ -141,20 +142,17 @@ public class CommandFactory : ICommandFactory
         return _commandTypes.Select(x => _commandCreator.CreateCommand(x));
     }
 
-    public void ApplyExtensions(IHostBuilder builder)
+    public void ApplyExtensions(IServiceCollection services)
     {
         if (_extensionTypes.Any())
         {
             try
             {
-                builder.ConfigureServices(services =>
+                foreach (var extensionType in _extensionTypes)
                 {
-                    foreach (var extensionType in _extensionTypes)
-                    {
-                        var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
-                        extension?.Configure(services);
-                    }
-                });
+                    var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
+                    extension?.Configure(services);
+                }
 
                 _hasAppliedExtensions = true;
             }
@@ -172,6 +170,10 @@ public class CommandFactory : ICommandFactory
         }
     }
 
+    public void ApplyExtensions(IHostBuilder builder)
+    {
+        builder.ConfigureServices(ApplyExtensions);
+    }
 
     public IEnumerable<Type> AllCommandTypes()
     {

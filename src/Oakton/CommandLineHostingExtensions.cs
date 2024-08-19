@@ -1,12 +1,13 @@
 #nullable enable
 
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using JasperFx.Core;
 using Microsoft.Extensions.Hosting;
 using Oakton.Commands;
 using Oakton.Internal;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Oakton;
 
@@ -86,9 +87,7 @@ public static class CommandLineHostingExtensions
             .GetResult();
     }
 
-
-    private static Task<int> execute(IHostBuilder runtimeSource, Assembly? applicationAssembly, string[] args,
-        string? optionsFile)
+    internal static string[] ApplyArgumentDefaults(this string[] args, string? optionsFile)
     {
         // Workaround for IISExpress / VS2019 erroneously putting crap arguments
         args = args.FilterLauncherArgs();
@@ -99,11 +98,30 @@ public static class CommandLineHostingExtensions
             args = CommandExecutor.ReadOptions(optionsFile).Concat(args).ToArray();
         }
 
-        if (args == null || args.Length == 0 || args[0].StartsWith("-"))
+        if (args == null || args.Length == 0 || args[0].StartsWith('-'))
         {
-            args = new[] { "run" }.Concat(args ?? new string[0]).ToArray();
+            args = new[] { "run" }.Concat(args ?? Array.Empty<string>()).ToArray();
         }
 
+        return args;
+    }
+
+    internal static void ApplyFactoryDefaults(this CommandFactory factory, Assembly? applicationAssembly)
+    {
+        factory.RegisterCommands(typeof(RunCommand).GetTypeInfo().Assembly);
+
+        if (applicationAssembly != null)
+        {
+            factory.RegisterCommands(applicationAssembly);
+        }
+
+        factory.RegisterCommandsFromExtensionAssemblies();
+    }
+
+    private static Task<int> execute(IHostBuilder runtimeSource, Assembly? applicationAssembly, string[] args,
+        string? optionsFile)
+    {
+        args = args.ApplyArgumentDefaults(optionsFile);
 
         var commandExecutor = buildExecutor(runtimeSource, applicationAssembly);
         return commandExecutor.ExecuteAsync(args);
@@ -120,15 +138,7 @@ public static class CommandLineHostingExtensions
 
         return CommandExecutor.For(factory =>
         {
-            factory.RegisterCommands(typeof(RunCommand).GetTypeInfo().Assembly);
-            if (applicationAssembly != null)
-            {
-                factory.RegisterCommands(applicationAssembly);
-            }
-
-            // This method will direct the CommandFactory to go look for extension
-            // assemblies with Oakton commands
-            factory.RegisterCommandsFromExtensionAssemblies();
+            factory.ApplyFactoryDefaults(applicationAssembly);
 
             factory.ConfigureRun = cmd =>
             {
