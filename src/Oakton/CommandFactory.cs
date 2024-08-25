@@ -144,35 +144,35 @@ public class CommandFactory : ICommandFactory
 
     public void ApplyExtensions(IServiceCollection services)
     {
-        if (_extensionTypes.Any())
+        try
         {
-            try
+            foreach (var extensionType in _extensionTypes)
             {
-                foreach (var extensionType in _extensionTypes)
-                {
-                    var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
-                    extension?.Configure(services);
-                }
-
-                _hasAppliedExtensions = true;
+                var extension = Activator.CreateInstance(extensionType) as IServiceRegistrations;
+                extension?.Configure(services);
             }
-            catch (Exception)
+
+            _hasAppliedExtensions = true;
+        }
+        catch (Exception)
+        {
+            // Swallow the error
+            if (_hasAppliedExtensions)
             {
-                // Swallow the error
-                if (_hasAppliedExtensions)
-                {
-                    return;
-                }
-
-                AnsiConsole.MarkupLine(
-                    $"[red]Unable to apply Oakton extensions. Try adding IHostBuilder.{nameof(CommandLineHostingExtensions.ApplyOaktonExtensions)}(); to your bootstrapping code to apply Oakton extension loading[/]");
+                return;
             }
+
+            AnsiConsole.MarkupLine(
+                $"[red]Unable to apply Oakton extensions. Try adding IHostBuilder.{nameof(CommandLineHostingExtensions.ApplyOaktonExtensions)}(); to your bootstrapping code to apply Oakton extension loading[/]");
         }
     }
 
     public void ApplyExtensions(IHostBuilder builder)
     {
-        builder.ConfigureServices(ApplyExtensions);
+        if (_extensionTypes.Any())
+        {
+            builder.ConfigureServices(ApplyExtensions);
+        }
     }
 
     public IEnumerable<Type> AllCommandTypes()
