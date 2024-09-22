@@ -1,10 +1,13 @@
 ﻿#nullable enable
 
-using JasperFx.Core.Reflection;
+using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Oakton.Internal;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -16,29 +19,20 @@ public static class HostedCommandExtensions
     /// Register Oakton commands and services with the application's service collection.
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="factoryBuilder"></param>
-    public static void AddOakton(this IServiceCollection services, Action<CommandFactory>? factoryBuilder = null)
+    public static void AddOakton(this IServiceCollection services, Action<OaktonOptions>? options = null)
     {
-        var registrationFactory = new CommandFactory();
-        registrationFactory.ApplyFactoryDefaults(factoryBuilder);
-        registrationFactory.ApplyExtensions(services);
-
-        var commands = registrationFactory.AllCommandTypes();
-        foreach (var commandType in commands)
-        {
-            if (commandType.IsConcrete() && commandType.CanBeCastTo<IOaktonCommand>())
-            {
-                services.AddScoped(commandType);
-            }
-        }
+        services.Configure(options);
 
         services.TryAddSingleton<ICommandCreator, DependencyInjectionCommandCreator>();
 
         services.TryAddSingleton<ICommandFactory>((ctx) =>
         {
             var creator = ctx.GetRequiredService<ICommandCreator>();
+            var oaktonOptions = ctx.GetRequiredService<IOptions<OaktonOptions>>().Value;
+
             var factory = new CommandFactory(creator);
-            factory.ApplyFactoryDefaults(factoryBuilder);
+            factory.ApplyFactoryDefaults(Assembly.GetEntryAssembly());
+            oaktonOptions.Factory?.Invoke(factory);
             return factory;
         });
 
@@ -52,11 +46,10 @@ public static class HostedCommandExtensions
     /// </summary>
     /// <param name="host">An already built IHost</param>
     /// <param name="args"></param>
-    /// <param name="builder">Optionally configure additional command options</param>
     /// <returns></returns>
-    public static int RunHostedOaktonCommands(this IHost host, string[] args, Action<HostedCommandOptions>? builder = null)
+    public static int RunHostedOaktonCommands(this IHost host, string[] args)
     {
-        return RunHostedOaktonCommandsAsync(host, args, builder).GetAwaiter().GetResult();
+        return RunHostedOaktonCommandsAsync(host, args).GetAwaiter().GetResult();
     }
 
     /// <summary>
@@ -68,12 +61,10 @@ public static class HostedCommandExtensions
     /// <param name="args"></param>
     /// <param name="builder">Optionally configure additional command options</param>
     /// <returns></returns>
-    public static Task<int> RunHostedOaktonCommandsAsync(this IHost host, string[] args, Action<HostedCommandOptions>? builder = null)
+    public static Task<int> RunHostedOaktonCommandsAsync(this IHost host, string[] args)
     {
-        var options = new HostedCommandOptions();
-        builder?.Invoke(options);
-
-        args = args.ApplyArgumentDefaults(options.OptionsFile);
+        var options = host.Services.GetRequiredService<IOptions<OaktonOptions>>().Value;
+        args = ApplyArgumentDefaults(args, options);
 
         var executor = host.Services.GetRequiredService<CommandExecutor>();
 
@@ -94,9 +85,22 @@ public static class HostedCommandExtensions
         return executor.ExecuteAsync(args);
     }
 
-    private static void ApplyFactoryDefaults(this CommandFactory factory, Action<CommandFactory>? builder = null)
+    private static string[] ApplyArgumentDefaults(string[] args, OaktonOptions options)
     {
-        factory.ApplyFactoryDefaults(Assembly.GetEntryAssembly());
-        builder?.Invoke(factory);
+        // Workaround for IISExpress / VS2019 erroneously putting crap arguments
+        args = args.FilterLauncherArgs();
+
+        // Gotta apply the options file here before the magic "run" gets in
+        if (options.OptionsFile.IsNotEmpty())
+        {
+            args = CommandExecutor.ReadOptions(options.OptionsFile).Concat(args).ToArray();
+        }
+
+        if (args == null || args.Length == 0 || args[0].StartsWith('-'))
+        {
+            args = new[] { options.DefaultCommand }.Concat(args ?? Array.Empty<string>()).ToArray();
+        }
+
+        return args;
     }
 }
