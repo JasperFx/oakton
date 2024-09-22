@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Oakton;
+using System;
 using Xunit;
 
 namespace Tests;
@@ -14,15 +15,19 @@ public class HostedCommandsTester
             .ConfigureServices(services =>
             {
                 services.AddSingleton<TestDependency>();
-                services.AddOakton(factory =>
+                services.AddOakton(options =>
                 {
-                    factory.RegisterCommand<TestDICommand>();
+                    options.Factory = factory =>
+                    {
+                        factory.RegisterCommand<TestDICommand>();
+                    };
+                    options.DefaultCommand = "TestDI";
                 });
             });
 
         var app = builder.Build();
 
-        app.RunHostedOaktonCommands(new string[] { "TestDI" });
+        app.RunHostedOaktonCommands(Array.Empty<string>());
 
         Assert.Equal(1, TestDICommand.Value);
     }
@@ -33,17 +38,25 @@ public class HostedCommandsTester
 
     public record TestDependency(int Value = 1);
 
-    public class TestDICommand : OaktonCommand<TestInput>
+    public class TestDICommand : OaktonCommand<TestInput>, IDisposable
     {
         public static int Value { get; set; } = 0;
+        private readonly TestDependency _dep;
         public TestDICommand(TestDependency dep)
         {
-            Value = dep.Value;
+            _dep = dep;
         }
 
         public override bool Execute(TestInput input)
         {
+            Value = _dep.Value;
             return true;
+        }
+
+        public void Dispose()
+        {
+            Value = 0;
+            GC.SuppressFinalize(this);
         }
     }
 }
