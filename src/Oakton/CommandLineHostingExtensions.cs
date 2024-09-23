@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using JasperFx.Core.Reflection;
 
 namespace Oakton;
 
@@ -140,13 +141,25 @@ public static class CommandLineHostingExtensions
         {
             factory.ApplyFactoryDefaults(applicationAssembly);
 
-            factory.ConfigureRun = cmd =>
+            factory.ConfigureRun = commandRun =>
             {
-                if (cmd.Input is IHostBuilderInput i)
+                if (commandRun.Input is IHostBuilderInput i)
                 {
                     factory.ApplyExtensions(source);
                     i.HostBuilder = source;
                 }
+                else
+                {
+                    var props = commandRun.Command.GetType().GetProperties().Where(x => x.HasAttribute<InjectServiceAttribute>())
+                        .ToArray();
+
+                    if (props.Any())
+                    {
+                        commandRun.Command = new HostWrapperCommand(commandRun.Command, source.Build, props);
+                    }
+                }
+                
+                
             };
         });
 

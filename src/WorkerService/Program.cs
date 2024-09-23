@@ -7,6 +7,8 @@ using Oakton;
 
 namespace WorkerService
 {
+    #region sample_using_ihost_activation
+
     public class Program
     {
         public static Task<int> Main(string[] args)
@@ -16,7 +18,10 @@ namespace WorkerService
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+            // This is a little old-fashioned, but still valid .NET core code:
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) => { services.AddHostedService<Worker>(); });
     }
+
+    #endregion
 }
