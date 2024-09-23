@@ -183,7 +183,18 @@ public class ResourcesCommand : OaktonAsyncCommand<ResourceInput>
             list = list.Where(x => x.Type.EqualsIgnoreCase(typeName)).ToList();
         }
 
-        return list.OrderBy(x => x.Type).ThenBy(x => x.Name).ToList();
+        // Initial sort
+        list =  list.OrderBy(x => x.Type).ThenBy(x => x.Name).ToList();
+
+        if (!list.OfType<IStatefulResourceWithDependencies>().Any()) return list;
+
+        IEnumerable<IStatefulResource> FindDependencies(IStatefulResource resource) =>
+            resource is IStatefulResourceWithDependencies x
+                ? x.FindDependencies(list)
+                : Array.Empty<IStatefulResource>();
+
+        // Again on dependencies
+        return list.TopologicalSort(FindDependencies).ToList();
     }
 
     internal class ResourceRecord
