@@ -13,8 +13,7 @@ internal class DependencyInjectionCommandCreator : ICommandCreator
 
     public IOaktonCommand CreateCommand(Type commandType)
     {
-        using var scope = _serviceProvider.CreateScope();
-        return ActivatorUtilities.CreateInstance(scope.ServiceProvider, commandType) as IOaktonCommand;
+        return ActivatorUtilities.CreateInstance(_serviceProvider, commandType) as IOaktonCommand;
     }
 
     public object CreateModel(Type modelType)
