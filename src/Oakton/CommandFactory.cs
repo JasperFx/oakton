@@ -222,18 +222,18 @@ public class CommandFactory : ICommandFactory
         }
         catch (InvalidUsageException e)
         {
-            AnsiConsole.Write("[red]Invalid usage[/]");
+            AnsiConsole.MarkupLine("[red]Invalid usage[/]");
 
             if (e.Message.IsNotEmpty())
             {
-                AnsiConsole.Write($"[yellow]{e.Message.EscapeMarkup()}[/]");
+                AnsiConsole.MarkupLine($"[yellow]{e.Message.EscapeMarkup()}[/]");
             }
 
             Console.WriteLine();
         }
         catch (Exception e)
         {
-            AnsiConsole.Write("[red]Error parsing input[/]");
+            AnsiConsole.MarkupLine("[red]Error parsing input[/]");
             AnsiConsole.WriteException(e);
 
             Console.WriteLine();

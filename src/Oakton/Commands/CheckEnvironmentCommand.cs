@@ -33,11 +33,11 @@ public class CheckEnvironmentCommand : OaktonAsyncCommand<CheckEnvironmentInput>
 
         if (results.Failures.Any())
         {
-            AnsiConsole.Write("[red]Some environment checks failed![/]");
+            AnsiConsole.MarkupLine("[red]Some environment checks failed![/]");
             return false;
         }
 
-        AnsiConsole.Write("[green]All environment checks are good![/]");
+        AnsiConsole.MarkupLine("[green]All environment checks are good![/]");
         return true;
     }
 }
