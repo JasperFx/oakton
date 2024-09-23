@@ -18,8 +18,12 @@ internal class DependencyInjectionCommandCreator : ICommandCreator
 
     public IOaktonCommand CreateCommand(Type commandType)
     {
+        if (commandType.GetProperties().Any(x => x.HasAttribute<InjectServiceAttribute>()))
+        {
+            return new WrappedOaktonCommand(_serviceProvider, commandType);
+        }
+        
         return ActivatorUtilities.CreateInstance(_serviceProvider, commandType) as IOaktonCommand;
-        //return new WrappedOaktonCommand(_serviceProvider, commandType);
     }
 
     public object CreateModel(Type modelType)
