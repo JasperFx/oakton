@@ -54,7 +54,8 @@ function tableOfContents() {
           {text: "Environment Checks", link: '/guide/host/environment'},
           {text: "Writing Extension Commands", link: '/guide/host/extensions'},
           {text: "The \"describe\" command", link: '/guide/host/describe'},
-          {text: "Stateful Resources", link: '/guide/host/resources'}
+          {text: "Stateful Resources", link: '/guide/host/resources'},
+          {text: "Using IoC Services", link: '/guide/host/ioc.md'}
         ]
       },
       {text: "Bootstrapping with CommandExecutor", link: '/guide/bootstrapping'},

@@ -92,7 +92,6 @@ public class CommandFactory : ICommandFactory
             return buildRun(queue, CommandNameFor(DefaultCommand));
         }
 
-
         var firstArg = queue.Peek().ToLowerInvariant();
 
         if (_helpCommands.Contains(firstArg))
@@ -209,7 +208,6 @@ public class CommandFactory : ICommandFactory
             var command = Build(commandName);
 
             input ??= command.Usages.BuildInput(queue, _commandCreator);
-
             var run = new CommandRun
             {
                 Command = command,

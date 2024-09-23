@@ -113,3 +113,4 @@ There are just a couple things to note:
 ## Combining Serilog with Oakton
 
 If you're having any issues with Serilog logging while using Oakton, please see this [StackOverflow issue](https://stackoverflow.com/questions/55422528/logging-with-serilog-net-core-not-outputting).
+
