@@ -41,14 +41,14 @@ public class CommandExecutor
         }
         catch (CommandFailureException e)
         {
-            AnsiConsole.Write("[red]ERROR:[/]");
+            AnsiConsole.MarkupLine("[red]ERROR:[/]");
             AnsiConsole.WriteException(e);
 
             return 1;
         }
         catch (Exception ex)
         {
-            AnsiConsole.Write("[red]ERROR:[/]");
+            AnsiConsole.MarkupLine("[red]ERROR:[/]");
             AnsiConsole.WriteException(ex);
 
             return 1;

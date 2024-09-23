@@ -144,7 +144,7 @@ namespace Tests.Descriptions
 
         public Task WriteToConsole()
         {
-            AnsiConsole.Write("[darkblue]Second part writing in blue[/]");
+            AnsiConsole.MarkupLine("[darkblue]Second part writing in blue[/]");
             return Task.CompletedTask;
         }
     }

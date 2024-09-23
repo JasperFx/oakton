@@ -50,7 +50,7 @@ namespace quickstart
                 text = input.TitleFlag + " " + text;
             }
 
-            AnsiConsole.Write($"[{input.Color}]{text}[/]");
+            AnsiConsole.MarkupLine($"[{input.Color}]{text}[/]");
 
             // Just telling the OS that the command
             // finished up okay
@@ -100,10 +100,10 @@ namespace quickstart
     {
         public override async Task<bool> Execute(NameInput input)
         {
-            AnsiConsole.Write($"[{input.Color}]Starting...[/]");
+            AnsiConsole.MarkupLine($"[{input.Color}]Starting...[/]");
             await Task.Delay(TimeSpan.FromSeconds(3));
 
-            AnsiConsole.Write($"[{input.Color}]Done! Hello {input.Name}[/]");
+            AnsiConsole.MarkupLine($"[{input.Color}]Done! Hello {input.Name}[/]");
             return true;
         }
     }
