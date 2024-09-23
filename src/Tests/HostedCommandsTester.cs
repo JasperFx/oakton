@@ -14,7 +14,7 @@ public class HostedCommandsTester
         var builder = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
-                services.AddSingleton<TestDependency>();
+                services.AddScoped<TestDependency>();
                 services.AddOakton(options =>
                 {
                     options.Factory = factory =>
@@ -36,9 +36,23 @@ public class HostedCommandsTester
     {
     }
 
-    public record TestDependency(int Value = 1);
+    public class TestDependency : IDisposable
+    {
+        public int Value { get; private set; }
 
-    public class TestDICommand : OaktonCommand<TestInput>, IDisposable
+        public TestDependency()
+        {
+            Value = 1;
+        }
+
+        public void Dispose()
+        {
+            Value = 0;
+            GC.SuppressFinalize(this);
+        }
+    }
+
+    public class TestDICommand : OaktonCommand<TestInput>
     {
         public static int Value { get; set; } = 0;
         private readonly TestDependency _dep;
@@ -51,12 +65,6 @@ public class HostedCommandsTester
         {
             Value = _dep.Value;
             return true;
-        }
-
-        public void Dispose()
-        {
-            Value = 0;
-            GC.SuppressFinalize(this);
         }
     }
 }

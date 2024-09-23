@@ -23,9 +23,9 @@ public static class HostedCommandExtensions
     {
         services.Configure(options);
 
-        services.TryAddSingleton<ICommandCreator, DependencyInjectionCommandCreator>();
+        services.TryAddScoped<ICommandCreator, DependencyInjectionCommandCreator>();
 
-        services.TryAddSingleton<ICommandFactory>((ctx) =>
+        services.TryAddScoped<ICommandFactory>((ctx) =>
         {
             var creator = ctx.GetRequiredService<ICommandCreator>();
             var oaktonOptions = ctx.GetRequiredService<IOptions<OaktonOptions>>().Value;
@@ -36,7 +36,7 @@ public static class HostedCommandExtensions
             return factory;
         });
 
-        services.TryAddSingleton<CommandExecutor>();
+        services.TryAddScoped<CommandExecutor>();
     }
 
     /// <summary>
@@ -59,14 +59,14 @@ public static class HostedCommandExtensions
     /// </summary>
     /// <param name="host">An already built IHost</param>
     /// <param name="args"></param>
-    /// <param name="builder">Optionally configure additional command options</param>
     /// <returns></returns>
     public static Task<int> RunHostedOaktonCommandsAsync(this IHost host, string[] args)
     {
-        var options = host.Services.GetRequiredService<IOptions<OaktonOptions>>().Value;
+        using var scope = host.Services.CreateScope();
+        var options = scope.ServiceProvider.GetRequiredService<IOptions<OaktonOptions>>().Value;
         args = ApplyArgumentDefaults(args, options);
 
-        var executor = host.Services.GetRequiredService<CommandExecutor>();
+        var executor = scope.ServiceProvider.GetRequiredService<CommandExecutor>();
 
         if (executor.Factory is CommandFactory factory)
         {
