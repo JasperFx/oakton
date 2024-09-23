@@ -202,7 +202,15 @@ public static async Task usages_for_testing(IHost host)
 <sup><a href='https://github.com/JasperFx/oakton/blob/master/src/Tests/Resources/ResourceHostExtensionsTests.cs#L62-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-sample_programmatically_control_resources' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
+## Dependencies between Resources
 
+Sometimes you'd like to enforce some ordering between your resources because there might be some
+dependency from one resource to another -- with the original scenario being the need to run one set of database migrations before running a resource that depends on that original database setup. 
+That can be done by implementing this interface for your
+stateful resources:
+
+snippet: sample_IStatefulResourceWithDependencies
+~~~~
 ## "resources" Command
 
 ::: tip

@@ -1,8 +1,23 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Spectre.Console.Rendering;
 
 namespace Oakton.Resources;
+
+#region sample_IStatefulResourceWithDependencies
+
+/// <summary>
+/// Use to create dependencies between 
+/// </summary>
+public interface IStatefulResourceWithDependencies : IStatefulResource
+{
+    // Given all the known stateful resources in your system -- including the current resource!
+    // tell Oakton which resources are dependencies of this resource that should be setup first
+    IEnumerable<IStatefulResource> FindDependencies(IReadOnlyList<IStatefulResource> others);
+}
+
+#endregion
 
 #region sample_IStatefulResource
 

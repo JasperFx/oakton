@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using NSubstitute;
 using Oakton.Resources;
 using Shouldly;
+using Spectre.Console.Rendering;
 
 namespace Tests.Resources
 {
@@ -77,6 +80,18 @@ namespace Tests.Resources
             _services.AddSingleton<IStatefulResource>(resource);
             return resource;
         }
+        
+        internal IStatefulResource AddResourceWithDependencies(string name, string type, params string[] dependencyNames)
+        {
+            var resource = new ResourceWithDependencies
+            {
+                Name = name,
+                Type = type,
+                DependencyNames = dependencyNames
+            };
+            _services.AddSingleton<IStatefulResource>(resource);
+            return resource;
+        }
 
         public class ResourceCollection : IStatefulResourceSource
         {
@@ -101,5 +116,42 @@ namespace Tests.Resources
                 return _resources;
             }
         }
+    }
+}
+
+public class ResourceWithDependencies : IStatefulResourceWithDependencies
+{
+    public string Type { get; set; }
+    public string Name { get; set; }
+    public string[] DependencyNames { get; set; }
+
+    public Task Check(CancellationToken token)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task ClearState(CancellationToken token)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task Teardown(CancellationToken token)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task Setup(CancellationToken token)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task<IRenderable> DetermineStatus(CancellationToken token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IStatefulResource> FindDependencies(IReadOnlyList<IStatefulResource> others)
+    {
+        return others.Where(x => DependencyNames.Contains(x.Name));
     }
 }
