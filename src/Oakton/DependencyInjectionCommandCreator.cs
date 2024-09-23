@@ -49,10 +49,12 @@ internal class WrappedOaktonCommand : IOaktonCommand
     {
         try
         {
+            // Execute your actual command
             return await _inner.Execute(input);
         }
         finally
         {
+            // Make sure the entire scope is disposed
             _scope.SafeDispose();
         }
     }

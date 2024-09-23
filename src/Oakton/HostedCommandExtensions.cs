@@ -60,29 +60,36 @@ public static class HostedCommandExtensions
     /// <param name="host">An already built IHost</param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public static Task<int> RunHostedOaktonCommandsAsync(this IHost host, string[] args)
+    public static async Task<int> RunHostedOaktonCommandsAsync(this IHost host, string[] args)
     {
-        using var scope = host.Services.CreateScope();
-        var options = scope.ServiceProvider.GetRequiredService<IOptions<OaktonOptions>>().Value;
-        args = ApplyArgumentDefaults(args, options);
-
-        var executor = scope.ServiceProvider.GetRequiredService<CommandExecutor>();
-
-        if (executor.Factory is CommandFactory factory)
+        try
         {
-            var originalConfigureRun = factory.ConfigureRun;
-            factory.ConfigureRun = cmd =>
+            using var scope = host.Services.CreateScope();
+            var options = scope.ServiceProvider.GetRequiredService<IOptions<OaktonOptions>>().Value;
+            args = ApplyArgumentDefaults(args, options);
+
+            var executor = scope.ServiceProvider.GetRequiredService<CommandExecutor>();
+
+            if (executor.Factory is CommandFactory factory)
             {
-                if (cmd.Input is IHostBuilderInput i)
+                var originalConfigureRun = factory.ConfigureRun;
+                factory.ConfigureRun = cmd =>
                 {
-                    i.HostBuilder = new PreBuiltHostBuilder(host);
-                }
+                    if (cmd.Input is IHostBuilderInput i)
+                    {
+                        i.HostBuilder = new PreBuiltHostBuilder(host);
+                    }
 
-                originalConfigureRun?.Invoke(cmd);
-            };
+                    originalConfigureRun?.Invoke(cmd);
+                };
+            }
+
+            return await executor.ExecuteAsync(args);
         }
-
-        return executor.ExecuteAsync(args);
+        finally
+        {
+            host.SafeDispose();
+        }
     }
 
     private static string[] ApplyArgumentDefaults(string[] args, OaktonOptions options)
