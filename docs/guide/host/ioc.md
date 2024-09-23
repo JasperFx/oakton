@@ -5,7 +5,7 @@ have Oakton resolve the command objects from the application's DI container. New
 
 ## Injecting Services into Commands
 
-If you are using [Oakton's IHost integration](/oakton/guide/host/integration_with_i_host), you can write commands that
+If you are using [Oakton's IHost integration](/guide/host/integration_with_i_host), you can write commands that
 use IoC services by simply decorating a publicly settable property on your Oakton command classes with the
 new `[InjectService]` attribute. 
 
