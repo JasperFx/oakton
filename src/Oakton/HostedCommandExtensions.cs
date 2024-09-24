@@ -21,7 +21,10 @@ public static class HostedCommandExtensions
     /// <param name="services"></param>
     public static void AddOakton(this IServiceCollection services, Action<OaktonOptions>? options = null)
     {
-        services.Configure(options);
+        if (options is not null)
+        {
+            services.Configure(options);
+        }
 
         services.TryAddScoped<ICommandCreator, DependencyInjectionCommandCreator>();
 
