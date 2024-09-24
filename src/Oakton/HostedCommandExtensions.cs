@@ -67,7 +67,7 @@ public static class HostedCommandExtensions
     {
         try
         {
-            using var scope = host.Services.CreateScope();
+            await using var scope = host.Services.CreateAsyncScope();
             var options = scope.ServiceProvider.GetRequiredService<IOptions<OaktonOptions>>().Value;
             args = ApplyArgumentDefaults(args, options);
 
@@ -91,7 +91,14 @@ public static class HostedCommandExtensions
         }
         finally
         {
-            host.SafeDispose();
+            if (host is IAsyncDisposable ad)
+            {
+                await ad.DisposeAsync();
+            }
+            else
+            {
+                host.Dispose();
+            }
         }
     }
 
