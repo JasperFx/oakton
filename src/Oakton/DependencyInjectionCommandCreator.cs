@@ -34,12 +34,12 @@ internal class DependencyInjectionCommandCreator : ICommandCreator
 
 internal class WrappedOaktonCommand : IOaktonCommand
 {
-    private readonly IServiceScope _scope;
+    private readonly AsyncServiceScope _scope;
     private readonly IOaktonCommand _inner;
 
     public WrappedOaktonCommand(IServiceProvider provider, Type commandType)
     {
-        _scope = provider.CreateScope();
+        _scope = provider.CreateAsyncScope();
         _inner = (IOaktonCommand)_scope.ServiceProvider.GetRequiredService(commandType);
     }
 
@@ -47,15 +47,10 @@ internal class WrappedOaktonCommand : IOaktonCommand
     public UsageGraph Usages => _inner.Usages;
     public async Task<bool> Execute(object input)
     {
-        try
+        await using (_scope)
         {
             // Execute your actual command
             return await _inner.Execute(input);
-        }
-        finally
-        {
-            // Make sure the entire scope is disposed
-            _scope.SafeDispose();
         }
     }
 }

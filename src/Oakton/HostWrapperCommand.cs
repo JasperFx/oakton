@@ -24,15 +24,29 @@ internal class HostWrapperCommand : IOaktonCommand
     public UsageGraph Usages => _inner.Usages;
     public async Task<bool> Execute(object input)
     {
-        using var host = _hostSource();
-        using var scope = host.Services.CreateScope();
-        foreach (var prop in _props)
+        var host = _hostSource();
+        try
         {
-            var serviceType = prop.PropertyType;
-            var service = scope.ServiceProvider.GetRequiredService(serviceType);
-            prop.SetValue(_inner, service);
-        }
+            await using var scope = host.Services.CreateAsyncScope();
+            foreach (var prop in _props)
+            {
+                var serviceType = prop.PropertyType;
+                var service = scope.ServiceProvider.GetRequiredService(serviceType);
+                prop.SetValue(_inner, service);
+            }
 
-        return await _inner.Execute(input);
+            return await _inner.Execute(input);
+        }
+        finally
+        {
+            if (host is IAsyncDisposable ad)
+            {
+                await ad.DisposeAsync();
+            }
+            else
+            {
+                host.Dispose();
+            }
+        }
     }
 }
