@@ -1,13 +1,16 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Lamar;
+﻿using Lamar;
 using Lamar.Microsoft.DependencyInjection;
+#if NET8_0_OR_GREATER
+using Microsoft.Extensions.DependencyInjection;
+#endif
 using Microsoft.Extensions.Hosting;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
 using Oakton.Resources;
 using Shouldly;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Tests.Resources
@@ -28,7 +31,7 @@ namespace Tests.Resources
 
             #endregion
         }
-        
+
         public static async Task sample2()
         {
             #region sample_using_AddResourceSetupOnStartup2
@@ -43,7 +46,7 @@ namespace Tests.Resources
 
             #endregion
         }
-        
+
         public static async Task sample3()
         {
             #region sample_using_AddResourceSetupOnStartup3
@@ -65,9 +68,9 @@ namespace Tests.Resources
         {
             // Programmatically call Setup() on all resources
             await host.SetupResources();
-            
+
             // Maybe between integration tests, clear any
-            // persisted state. For example, I've used this to 
+            // persisted state. For example, I've used this to
             // purge Rabbit MQ queues between tests
             await host.ResetResourceState();
 
@@ -76,27 +79,52 @@ namespace Tests.Resources
         }
 
         #endregion
-        
+
         [Fact]
         public void add_resource_startup()
         {
             using var container = Container.For(services =>
             {
                 services.AddResourceSetupOnStartup();
-                
+
                 // Only does it once!
                 services.AddResourceSetupOnStartup();
                 services.AddResourceSetupOnStartup();
                 services.AddResourceSetupOnStartup();
                 services.AddResourceSetupOnStartup();
             });
-            
+
             container.Model.For<IHostedService>()
                 .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
 
             container.GetInstance<IHostedService>()
                 .ShouldBeOfType<ResourceSetupHostService>();
         }
+
+#if NET8_0_OR_GREATER
+        [Fact]
+        public void add_resource_startup_can_handle_keyed_services()
+        {
+            using var container = Container.For(services =>
+            {
+
+                // Add a keyed service.
+                services.AddKeyedSingleton<ResourceHostExtensionsTests>("test", this);
+
+                // This should not throw.
+                services.AddResourceSetupOnStartup();
+
+                // Verify the number of services added by AddTokenAcquisition (ignoring the service we added here).
+                services.Count(t => t.ServiceType != typeof(ResourceHostExtensionsTests)).ShouldBe(10);
+            });
+
+            container.Model.For<IHostedService>()
+                .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
+
+            container.GetInstance<IHostedService>()
+                .ShouldBeOfType<ResourceSetupHostService>();
+        }
+#endif
 
         [Fact]
         public void use_resource_setup()
@@ -107,7 +135,7 @@ namespace Tests.Resources
                 .Build();
 
             var container = (IContainer)host.Services;
-            
+
             container.Model.For<IHostedService>()
                 .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
 
@@ -125,14 +153,14 @@ namespace Tests.Resources
                 .Build();
 
             var container = (IContainer)host.Services;
-            
+
             container.Model.For<IHostedService>()
                 .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
 
             container.GetInstance<IHostedService>()
                 .ShouldBeOfType<ResourceSetupHostService>();
         }
-        
+
         [Fact]
         public void use_conditional_resource_setup_only_in_development_does_nothing_in_prod()
         {
@@ -143,7 +171,7 @@ namespace Tests.Resources
                 .Build();
 
             var container = (IContainer)host.Services;
-            
+
             container.Model.For<IHostedService>()
                 .Instances.Any().ShouldBeFalse();
         }
@@ -159,7 +187,7 @@ namespace Tests.Resources
                 col.Add("purple", "color");
                 col.Add("orange", "color");
             });
-            
+
             AddSource(col =>
             {
                 col.Add("green", "color");
@@ -182,8 +210,8 @@ namespace Tests.Resources
             }
 
         }
-        
-        
+
+
         [Fact]
         public async Task runs_all_resources_and_resets()
         {
@@ -195,7 +223,7 @@ namespace Tests.Resources
                 col.Add("purple", "color");
                 col.Add("orange", "color");
             });
-            
+
             AddSource(col =>
             {
                 col.Add("green", "color");
@@ -230,7 +258,7 @@ namespace Tests.Resources
                 col.Add("purple", "color");
                 col.Add("orange", "color");
             });
-            
+
             AddSource(col =>
             {
                 col.Add("green", "color");
@@ -244,10 +272,10 @@ namespace Tests.Resources
             {
                 await resource.Received().Setup(Arg.Any<CancellationToken>());
             }
-            
-            
+
+
         }
-        
+
         [Fact]
         public async Task reset_all()
         {
@@ -259,7 +287,7 @@ namespace Tests.Resources
                 col.Add("purple", "color");
                 col.Add("orange", "color");
             });
-            
+
             AddSource(col =>
             {
                 col.Add("green", "color");
@@ -274,10 +302,10 @@ namespace Tests.Resources
                 await resource.Received().Setup(Arg.Any<CancellationToken>());
                 await resource.Received().ClearState(Arg.Any<CancellationToken>());
             }
-            
-            
+
+
         }
-        
+
         [Fact]
         public async Task teardown_all()
         {
@@ -289,7 +317,7 @@ namespace Tests.Resources
                 col.Add("purple", "color");
                 col.Add("orange", "color");
             });
-            
+
             AddSource(col =>
             {
                 col.Add("green", "color");
@@ -303,8 +331,8 @@ namespace Tests.Resources
             {
                 await resource.Received().Teardown(Arg.Any<CancellationToken>());
             }
-            
-            
+
+
         }
     }
 }
