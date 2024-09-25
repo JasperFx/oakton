@@ -168,6 +168,8 @@ public class CommandFactory : ICommandFactory
 
     public void ApplyExtensions(IHostBuilder builder)
     {
+        if (builder is PreBuiltHostBuilder) return;
+        
         if (_extensionTypes.Any())
         {
             builder.ConfigureServices(ApplyExtensions);

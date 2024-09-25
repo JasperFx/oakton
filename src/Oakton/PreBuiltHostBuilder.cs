@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Spectre.Console;
 
 namespace Oakton;
 
@@ -21,17 +22,20 @@ internal class PreBuiltHostBuilder : IHostBuilder
 
     public IHostBuilder ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
     {
-        throw new NotSupportedException(_notSupportedMessage);
+        AnsiConsole.MarkupLine("[yellow]Cannot override host configuration when the IHost is already constructed[/]");
+        return this;
     }
 
     public IHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
     {
-        throw new NotSupportedException(_notSupportedMessage);
+        AnsiConsole.MarkupLine("[yellow]Cannot override app configuration when the IHost is already constructed[/]");
+        return this;
     }
 
     public IHostBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
     {
-        throw new NotSupportedException(_notSupportedMessage);
+        AnsiConsole.MarkupLine("[yellow]Cannot override services when the IHost is already constructed[/]");
+        return this;
     }
 
     public IHostBuilder UseServiceProviderFactory<TContainerBuilder>(IServiceProviderFactory<TContainerBuilder> factory)
