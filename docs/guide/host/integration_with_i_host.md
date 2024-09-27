@@ -114,3 +114,12 @@ There are just a couple things to note:
 
 If you're having any issues with Serilog logging while using Oakton, please see this [StackOverflow issue](https://stackoverflow.com/questions/55422528/logging-with-serilog-net-core-not-outputting).
 
+
+## Using Oakton with WebApplicationFactory or Alba
+
+When running integration tests against a `WebApplication` using `WebApplicationFactory` or `Alba`, you may encounter an issue where the server does not start. To fix this, set the following property before creating the `WebApplicationFactory`.
+
+```cs
+OaktonEnvironment.AutoStart = true;
+```
+
