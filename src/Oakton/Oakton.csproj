@@ -8,6 +8,7 @@
         <DebugType>portable</DebugType>
         <AssemblyName>Oakton</AssemblyName>
         <LangVersion>11.0</LangVersion>
+        <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
         <PackageId>Oakton</PackageId>
         <PackageTags>Command Line Parsing</PackageTags>
