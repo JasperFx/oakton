@@ -1,5 +1,7 @@
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 public class DescribeInput : NetCoreInput
 {
     [Description("Optionally write the description to the given file location")]

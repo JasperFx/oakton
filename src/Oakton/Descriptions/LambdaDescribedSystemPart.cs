@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 internal class LambdaDescribedSystemPart<T> : IDescribedSystemPart, IRequiresServices
 {
     private readonly Func<T, TextWriter, Task> _write;

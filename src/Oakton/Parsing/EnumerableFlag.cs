@@ -6,6 +6,8 @@ using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class EnumerableFlag : Flag
 {
     private readonly MemberInfo _member;

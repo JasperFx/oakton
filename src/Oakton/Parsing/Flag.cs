@@ -7,6 +7,8 @@ using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class Flag : TokenHandlerBase
 {
     private readonly MemberInfo _member;

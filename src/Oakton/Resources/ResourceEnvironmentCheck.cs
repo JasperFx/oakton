@@ -5,6 +5,8 @@ using Oakton.Environment;
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 internal class ResourceEnvironmentCheck : IEnvironmentCheck
 {
     private readonly IStatefulResource _resource;

@@ -2,6 +2,8 @@
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 public class CommandRun
 {
     public IOaktonCommand Command { get; set; }

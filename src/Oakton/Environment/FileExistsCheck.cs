@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace Oakton.Environment;
 
+#nullable disable annotations // FIXME
+
 public class FileExistsCheck : IEnvironmentCheck
 {
     private readonly string _file;

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace Oakton.Environment;
 
+#nullable disable annotations // FIXME
+
 #region sample_IEnvironmentCheck
 
 /// <summary>

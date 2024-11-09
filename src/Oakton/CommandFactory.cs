@@ -14,6 +14,8 @@ using System.Text.RegularExpressions;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 public class CommandFactory : ICommandFactory
 {
     private static readonly string[] _helpCommands = { "help", "?" };

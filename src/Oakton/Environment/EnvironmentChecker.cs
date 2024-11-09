@@ -9,6 +9,8 @@ using Spectre.Console;
 
 namespace Oakton.Environment;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Executes the environment checks registered in an IoC container
 /// </summary>

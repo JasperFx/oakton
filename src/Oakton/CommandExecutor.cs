@@ -9,6 +9,8 @@ using Spectre.Console;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     The main entry class for Oakton command line applications
 /// </summary>

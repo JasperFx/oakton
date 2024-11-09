@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Oakton.Environment;
 
+#nullable disable annotations // FIXME
+
 public static class EnvironmentCheckExtensions
 {
     /// <summary>

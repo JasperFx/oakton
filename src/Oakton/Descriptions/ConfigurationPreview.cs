@@ -6,6 +6,8 @@ using Spectre.Console;
 
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 internal class ConfigurationPreview : IDescribedSystemPart, IWriteToConsole
 {
     private const string PreviewErrorMessage = "Unable to show a preview of the configuration.";

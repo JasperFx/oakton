@@ -3,6 +3,8 @@ using System.Reflection;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public static class QueueExtensions
 {
     public static bool NextIsFlag(this Queue<string> queue)

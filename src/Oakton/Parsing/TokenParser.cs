@@ -2,6 +2,8 @@
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class TokenParser
 {
     private readonly List<string> _tokens = new();

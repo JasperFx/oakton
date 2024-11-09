@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace Oakton.Environment;
 
+#nullable disable annotations // FIXME
+
 public class LambdaCheck : IEnvironmentCheck
 {
     private readonly Func<IServiceProvider, CancellationToken, Task> _action;

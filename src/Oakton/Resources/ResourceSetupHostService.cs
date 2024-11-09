@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 internal class ResourceSetupOptions
 {
     public StartupAction Action { get; set; } = StartupAction.SetupOnly;

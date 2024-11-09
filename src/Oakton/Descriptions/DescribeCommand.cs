@@ -11,6 +11,8 @@ using Spectre.Console;
 
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 [Description("Writes out a description of your running application to either the console or a file")]
 public class DescribeCommand : OaktonAsyncCommand<DescribeInput>
 {

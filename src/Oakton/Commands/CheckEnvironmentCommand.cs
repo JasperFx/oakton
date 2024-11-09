@@ -7,6 +7,8 @@ using Spectre.Console;
 
 namespace Oakton.Commands;
 
+#nullable disable annotations // FIXME
+
 public class CheckEnvironmentInput : NetCoreInput
 {
     [Description("Use to optionally write the results of the environment checks to a file")]

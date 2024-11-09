@@ -1,5 +1,7 @@
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 public enum ResourceAction
 {
     clear,

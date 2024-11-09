@@ -5,6 +5,8 @@ using Spectre.Console.Rendering;
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 #region sample_IStatefulResourceWithDependencies
 
 /// <summary>

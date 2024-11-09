@@ -3,6 +3,8 @@ using JasperFx.Core.Reflection;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     If the CommandExecutor is configured to discover assemblies,
 ///     this attribute on an assembly will cause Oakton to search for

@@ -10,6 +10,8 @@ using Spectre.Console;
 
 namespace Oakton.Help;
 
+#nullable disable annotations // FIXME
+
 public class UsageGraph
 {
     private readonly List<ITokenHandler> _handlers;

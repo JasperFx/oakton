@@ -6,6 +6,8 @@ using JasperFx.Core;
 
 namespace Oakton.Environment;
 
+#nullable disable annotations // FIXME
+
 public class EnvironmentCheckResults
 {
     private readonly IList<EnvironmentFailure> _failures = new List<EnvironmentFailure>();

@@ -1,5 +1,7 @@
 ﻿namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class FlagAliases
 {
     public string LongForm { get; set; }

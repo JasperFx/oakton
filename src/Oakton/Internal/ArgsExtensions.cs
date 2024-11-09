@@ -2,6 +2,8 @@ using System.Linq;
 
 namespace Oakton.Internal;
 
+#nullable disable annotations // FIXME
+
 public static class ArgsExtensions
 {
     public static string[] FilterLauncherArgs(this string[] args)

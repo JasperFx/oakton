@@ -11,6 +11,8 @@ using Spectre.Console.Rendering;
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 [Description("Check, setup, or teardown stateful resources of this system")]
 public class ResourcesCommand : OaktonAsyncCommand<ResourceInput>
 {

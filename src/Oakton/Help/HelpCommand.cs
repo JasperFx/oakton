@@ -4,6 +4,8 @@ using Spectre.Console;
 
 namespace Oakton.Help;
 
+#nullable disable annotations // FIXME
+
 [Description("List all the available commands", Name = "help")]
 public class HelpCommand : OaktonCommand<HelpInput>
 {

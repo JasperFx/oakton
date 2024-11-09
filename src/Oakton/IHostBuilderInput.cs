@@ -2,6 +2,8 @@
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Interface used to get access to the HostBuilder from command inputs.
 /// </summary>

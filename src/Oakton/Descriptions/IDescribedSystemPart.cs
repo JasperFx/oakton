@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 #region sample_IDescribedSystemPart
 
 /// <summary>

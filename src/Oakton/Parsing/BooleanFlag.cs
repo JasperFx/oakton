@@ -3,6 +3,8 @@ using System.Reflection;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class BooleanFlag : TokenHandlerBase
 {
     private readonly MemberInfo _member;
