@@ -1,7 +1,5 @@
 ﻿namespace Oakton;
 
-#nullable disable annotations // FIXME
-
 public static class OaktonEnvironment
 {
     /// <summary>
