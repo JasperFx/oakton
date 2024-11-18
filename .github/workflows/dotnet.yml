@@ -43,4 +43,4 @@ jobs:
         dotnet-version: 9.0.x
 
     - name: Build Script
-      run: dotnet run -p build/build.csproj -- ci
+      run: dotnet run --project build/build.csproj -- ci
