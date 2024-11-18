@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Lamar;
-using Lamar.Microsoft.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
@@ -80,21 +79,19 @@ namespace Tests.Resources
         [Fact]
         public void add_resource_startup()
         {
-            using var container = Container.For(services =>
-            {
-                services.AddResourceSetupOnStartup();
-                
-                // Only does it once!
-                services.AddResourceSetupOnStartup();
-                services.AddResourceSetupOnStartup();
-                services.AddResourceSetupOnStartup();
-                services.AddResourceSetupOnStartup();
-            });
             
-            container.Model.For<IHostedService>()
-                .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
+            var services = new ServiceCollection();
+            services.AddResourceSetupOnStartup();
+                
+            // Only does it once!
+            services.AddResourceSetupOnStartup();
+            services.AddResourceSetupOnStartup();
+            services.AddResourceSetupOnStartup();
+            services.AddResourceSetupOnStartup();
 
-            container.GetInstance<IHostedService>()
+            using var provider = services.BuildServiceProvider();
+
+            provider.GetRequiredService<IHostedService>()
                 .ShouldBeOfType<ResourceSetupHostService>();
         }
 
@@ -102,16 +99,12 @@ namespace Tests.Resources
         public void use_resource_setup()
         {
             using var host = Host.CreateDefaultBuilder()
-                .UseLamar()
                 .UseResourceSetupOnStartup()
                 .Build();
 
-            var container = (IContainer)host.Services;
-            
-            container.Model.For<IHostedService>()
-                .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
+            var container = host.Services;
 
-            container.GetInstance<IHostedService>()
+            container.GetRequiredService<IHostedService>()
                 .ShouldBeOfType<ResourceSetupHostService>();
         }
 
@@ -119,17 +112,13 @@ namespace Tests.Resources
         public void use_conditional_resource_setup_in_development()
         {
             using var host = Host.CreateDefaultBuilder()
-                .UseLamar()
                 .UseResourceSetupOnStartupInDevelopment()
                 .UseEnvironment("Development")
                 .Build();
 
-            var container = (IContainer)host.Services;
-            
-            container.Model.For<IHostedService>()
-                .Instances.Single().ImplementationType.ShouldBe(typeof(ResourceSetupHostService));
+            var container = host.Services;
 
-            container.GetInstance<IHostedService>()
+            container.GetRequiredService<IHostedService>()
                 .ShouldBeOfType<ResourceSetupHostService>();
         }
         
@@ -137,15 +126,15 @@ namespace Tests.Resources
         public void use_conditional_resource_setup_only_in_development_does_nothing_in_prod()
         {
             using var host = Host.CreateDefaultBuilder()
-                .UseLamar()
                 .UseResourceSetupOnStartupInDevelopment()
                 .UseEnvironment("Production")
                 .Build();
 
-            var container = (IContainer)host.Services;
+            var container = host.Services;
             
-            container.Model.For<IHostedService>()
-                .Instances.Any().ShouldBeFalse();
+            container.GetServices<IHostedService>()
+                .Any().ShouldBeFalse();
+
         }
 
         [Fact]

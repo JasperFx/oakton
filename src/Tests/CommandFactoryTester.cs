@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using ExtensionCommands;
-using Lamar;
-using Lamar.Microsoft.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Oakton;
 using Oakton.Help;
@@ -385,16 +384,15 @@ namespace Tests
             // There's a marked extension type on this assembly
             factory.RegisterCommands(typeof(ExtensionInput).Assembly);
 
-            var builder = Host.CreateDefaultBuilder()
-                .UseLamar();
+            var builder = Host.CreateDefaultBuilder();
             
             factory.ApplyExtensions(builder);
 
             using var host = builder.Build();
-            var container = (IContainer)host.Services;
-            
-            container.Model.For<IExtensionService>().Default.ImplementationType
-                .ShouldBe(typeof(ExtensionService));
+            var container = host.Services;
+
+            container.GetRequiredService<IExtensionService>()
+                .ShouldBeOfType<ExtensionService>();
         }
     }
 
