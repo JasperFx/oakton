@@ -2,9 +2,9 @@
     <PropertyGroup>
         <Description>Command Line Parsing and Execution</Description>
         <AssemblyTitle>Oakton</AssemblyTitle>
-        <PackageVersion>6.2.1</PackageVersion>
+        <PackageVersion>6.3.0</PackageVersion>
         <Authors>Jeremy D. Miller</Authors>
-        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
         <DebugType>portable</DebugType>
         <AssemblyName>Oakton</AssemblyName>
         <OutputType>Library</OutputType>
@@ -19,7 +19,7 @@
     <ItemGroup>
         <PackageReference Include="JasperFx.Core" Version="1.5.1" />
         <PackageReference Include="Spectre.Console" Version="0.47.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,9.0.0)" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,10.0.0)" />
     </ItemGroup>
 
     <ItemGroup>

@@ -37,5 +37,10 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 9.0.x
+
     - name: Build Script
       run: dotnet run -p build/build.csproj -- ci
