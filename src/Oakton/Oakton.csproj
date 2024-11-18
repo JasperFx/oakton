@@ -18,7 +18,7 @@
         <PackageIconUrl>https://raw.githubusercontent.com/JasperFx/JasperFx.Core/main/jasperfx-logo.jpg?raw=true</PackageIconUrl>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="JasperFx.Core" Version="1.5.1" />
+        <PackageReference Include="JasperFx.Core" Version="1.9.0" />
         <PackageReference Include="Spectre.Console" Version="0.47.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,10.0.0)" />
     </ItemGroup>
