@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public static class StringTokenizer
 {
     public static IEnumerable<string> Tokenize(string content)

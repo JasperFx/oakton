@@ -7,6 +7,8 @@ using Spectre.Console;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 internal class PreBuiltHostBuilder : IHostBuilder
 {
     private readonly string _notSupportedMessage;

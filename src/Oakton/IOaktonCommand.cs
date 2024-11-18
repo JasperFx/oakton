@@ -4,6 +4,8 @@ using Oakton.Help;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 public interface IOaktonCommand
 {
     Type InputType { get; }

@@ -5,6 +5,8 @@ using Spectre.Console.Rendering;
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Base class with empty implementations for IStatefulResource.
 /// </summary>

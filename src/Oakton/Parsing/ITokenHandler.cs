@@ -2,6 +2,8 @@
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public interface ITokenHandler
 {
     string Description { get; }

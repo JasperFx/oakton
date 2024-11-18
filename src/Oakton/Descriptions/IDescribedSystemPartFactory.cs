@@ -1,5 +1,7 @@
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 #region sample_IDescribedSystemPartFactory
 
 /// <summary>

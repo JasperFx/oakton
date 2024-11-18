@@ -7,6 +7,8 @@ using Spectre.Console;
 
 namespace Oakton.Descriptions;
 
+#nullable disable annotations // FIXME
+
 public static class DescriptionExtensions
 {
     /// <summary>

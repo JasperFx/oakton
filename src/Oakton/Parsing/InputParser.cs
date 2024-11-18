@@ -9,6 +9,8 @@ using Oakton.Internal.Conversion;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public static class InputParser
 {
     private static readonly string LONG_FLAG_PREFIX = "--";

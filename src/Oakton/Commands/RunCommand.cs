@@ -10,6 +10,8 @@ using Oakton.Environment;
 
 namespace Oakton.Commands;
 
+#nullable disable annotations // FIXME
+
 public class RunInput : NetCoreInput
 {
     [Description("Run the environment checks before starting the host")]

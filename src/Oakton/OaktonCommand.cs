@@ -4,6 +4,8 @@ using Oakton.Help;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Base class for all Oakton commands
 /// </summary>

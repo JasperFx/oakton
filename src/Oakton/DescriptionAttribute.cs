@@ -2,6 +2,8 @@
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Adds a textual description to arguments or flags on input classes, or on a command class
 /// </summary>

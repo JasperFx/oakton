@@ -4,6 +4,8 @@ using JasperFx.Core.Reflection;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public abstract class TokenHandlerBase : ITokenHandler
 {
     protected TokenHandlerBase(MemberInfo member)

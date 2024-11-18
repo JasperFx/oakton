@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 
 namespace Oakton.Internal.Conversion;
 
+#nullable disable annotations // FIXME
+
 public class DateTimeConverter
 {
     public const string TODAY = "TODAY";
