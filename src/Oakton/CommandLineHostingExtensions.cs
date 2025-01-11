@@ -93,7 +93,7 @@ public static class CommandLineHostingExtensions
         // Workaround for IISExpress / VS2019 erroneously putting crap arguments
         args = args.FilterLauncherArgs();
 
-        // Gotta apply the options file here before the magic "run" gets in
+        // I've to apply the options file here before the magic "run" gets in
         if (optionsFile.IsNotEmpty())
         {
             args = CommandExecutor.ReadOptions(optionsFile).Concat(args).ToArray();
