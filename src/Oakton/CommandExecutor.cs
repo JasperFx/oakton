@@ -46,13 +46,6 @@ public class CommandExecutor
 
             return 1;
         }
-        catch (Exception ex)
-        {
-            AnsiConsole.MarkupLine("[red]ERROR:[/]");
-            AnsiConsole.WriteException(ex);
-
-            return 1;
-        }
 
         return success ? 0 : 1;
     }
