@@ -19,8 +19,8 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="JasperFx.Core" Version="1.9.0" />
-        <PackageReference Include="Spectre.Console" Version="0.47.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="[6.0.0,10.0.0)" />
+        <PackageReference Include="Spectre.Console" Version="0.49.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="[8.0.1,10.0.0)" />
     </ItemGroup>
 
     <ItemGroup>
