@@ -7,9 +7,10 @@ namespace Oakton.Internal.Conversion;
 
 public class Conversions
 {
+#nullable disable annotations // FIXME
     private readonly LightweightCache<Type, Func<string, object>> _convertors;
     private readonly IList<IConversionProvider> _providers = new List<IConversionProvider>();
-
+#nullable restore
 
     public Conversions()
     {

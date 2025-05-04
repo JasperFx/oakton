@@ -4,6 +4,8 @@ using System.Text.RegularExpressions;
 
 namespace Oakton.Internal.Conversion;
 
+#nullable disable annotations // FIXME
+
 public class TimeSpanConverter
 {
     private const string TimespanPattern =

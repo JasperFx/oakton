@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 public enum StartupAction
 {
     /// <summary>

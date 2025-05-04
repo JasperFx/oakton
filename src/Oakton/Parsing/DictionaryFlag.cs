@@ -6,6 +6,8 @@ using JasperFx.Core.Reflection;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class DictionaryFlag : TokenHandlerBase
 {
     private readonly string _prefix;

@@ -1,5 +1,3 @@
-#nullable enable
-
 using JasperFx.Core;
 using Microsoft.Extensions.Hosting;
 using Oakton.Commands;

@@ -11,6 +11,8 @@ using Spectre.Console;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 public class NetCoreInput : IHostBuilderInput
 {
     [Description("Overwrite individual configuration items")]

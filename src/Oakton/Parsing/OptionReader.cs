@@ -4,6 +4,8 @@ using JasperFx.Core;
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public static class OptionReader
 {
     public static string Read(string file)

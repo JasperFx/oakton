@@ -2,6 +2,8 @@
 
 namespace Oakton.Parsing;
 
+#nullable disable annotations // FIXME
+
 public class ArgPreprocessor
 {
     public static IEnumerable<string> Process(IEnumerable<string> incomingArgs)

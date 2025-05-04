@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Interface that Oakton uses to build command runs during execution. Can be used for custom
 ///     command activation

@@ -2,6 +2,8 @@
 
 namespace Oakton.Resources;
 
+#nullable disable annotations // FIXME
+
 public class ResourceSetupException : Exception
 {
     public ResourceSetupException(IStatefulResource resource, Exception ex) : base(

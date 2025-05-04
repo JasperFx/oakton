@@ -2,6 +2,8 @@
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 public class ActivatorCommandCreator : ICommandCreator
 {
     public IOaktonCommand CreateCommand(Type commandType)

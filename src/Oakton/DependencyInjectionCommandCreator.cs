@@ -8,6 +8,8 @@ using Oakton.Help;
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 internal class DependencyInjectionCommandCreator : ICommandCreator
 {
     private readonly IServiceProvider _serviceProvider;

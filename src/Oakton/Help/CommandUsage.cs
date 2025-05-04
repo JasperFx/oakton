@@ -6,6 +6,8 @@ using Spectre.Console;
 
 namespace Oakton.Help;
 
+#nullable disable annotations // FIXME
+
 public class CommandUsage
 {
     public string Description { get; set; }

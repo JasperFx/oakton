@@ -2,6 +2,8 @@
 
 namespace Oakton;
 
+#nullable disable annotations // FIXME
+
 /// <summary>
 ///     Use to override the long and/or short flag keys of a property or field
 /// </summary>
