@@ -1,4 +1,4 @@
-# Oakton is being folded into the larger [JasperFx](https://github.com/jasperfx/jasperfx) project
+# Oakton has been folded into the larger [JasperFx](https://github.com/jasperfx/jasperfx) project and is now part of the `JasperFx` Nuget package.
 
 # Oakton
 
