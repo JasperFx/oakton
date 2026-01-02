@@ -1,4 +1,4 @@
-# Oakton has been folded into the larger [JasperFx](https://github.com/jasperfx/jasperfx) project and is now part of the `JasperFx` Nuget package.
+# Oakton has been folded into the larger [JasperFx](https://github.com/jasperfx/jasperfx) project and is now part of the `JasperFx` Nuget package. For consumers of Marten/Wolverine, please update to the latest respective releases for .NET 10+ support and remove any Oakton packages.
 
 # Oakton
 
